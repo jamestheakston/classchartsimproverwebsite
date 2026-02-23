@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firefox Support Ended - ClassCharts Improver</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+
+    <div class="max-w-3xl mx-auto px-6 py-12 md:py-20">
+        <div class="mb-8 flex items-center gap-3 text-red-600">
+            <i data-feather="alert-circle" class="w-8 h-8"></i>
+            <h1 class="text-3xl font-bold tracking-tight">Support for Firefox has ended</h1>
+        </div>
+
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-8 mb-10">
+            <p class="text-lg leading-relaxed mb-6">
+                Effective immediately, <strong>ClassCharts Improver</strong> will no longer be maintained or updated for the Firefox browser. 
+            </p>
+
+            <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                <i data-feather="tool" class="w-5 h-5 text-blue-500"></i>
+                Why this change?
+            </h2>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Maintaining an extension across two different browser engines has become a significant hurdle. Firefox and Chrome use different technical standards (Gecko vs. Chromium), which effectively doubles the development workload. 
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                    <h3 class="font-bold mb-2">Double the Testing</h3>
+                    <p class="text-sm text-gray-500">Every single bug fix requires separate testing and debugging for Firefox-specific quirks.</p>
+                </div>
+                <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                    <h3 class="font-bold mb-2">Slower Updates</h3>
+                    <p class="text-sm text-gray-500">Managing two codebases slows down the release of new features for everyone.</p>
+                </div>
+            </div>
+
+            <p class="text-gray-600 leading-relaxed mb-8">
+                To ensure ClassCharts Improver remains a high-quality tool, I have decided to focus 100% of my efforts on the <strong>Chromium version</strong>. This allows for faster updates and a more stable experience.
+            </p>
+
+            <div class="border-t border-gray-100 pt-8">
+                <h2 class="text-xl font-semibold mb-4">How to stay updated</h2>
+                <p class="text-gray-600 mb-6">The extension is still actively maintained and improved on the Chrome Web Store. You can continue using it by switching to a Chromium-based browser:</p>
+                
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="https://chromewebstore.google.com/detail/classcharts-improver/kalmdpfngeebamgaeegkieojhbkbghoe" 
+                       class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-blue-200">
+                        <i data-feather="download"></i>
+                        Get the Chrome Extension
+                    </a>
+                    <div class="flex items-center gap-2 text-sm text-gray-400 px-2 italic">
+                        Works on Chrome, Edge, Brave, and Opera.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center text-gray-400 text-sm">
+            <p>&copy; 2026 ClassCharts Improver. Not affiliated with ClassCharts or Edukey Education Ltd.</p>
+        </footer>
+    </div>
+
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
