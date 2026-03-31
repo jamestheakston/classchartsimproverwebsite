@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy | ClassCharts Improver</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -14,99 +14,97 @@
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen">
-
     <nav class="bg-white border-b border-slate-200 py-4 px-6 sticky top-0 z-50">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <div class="bg-blue-600 p-1.5 rounded">
-                    <i data-feather="bar-chart-2" class="w-4 h-4 text-white"></i>
+                    <i class="fas fa-chart-bar text-white text-xs"></i>
                 </div>
                 <span class="font-bold text-slate-900">CC Improver</span>
             </div>
             <a href="index.html" class="text-sm font-medium text-slate-500 hover:text-blue-600 flex items-center">
-                <i data-feather="arrow-left" class="w-4 h-4 mr-1"></i> Back to Home
+                <i class="fas fa-arrow-left mr-2"></i> Back to Home
             </a>
         </div>
     </nav>
-
     <main class="max-w-3xl mx-auto py-16 px-6">
         <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-200">
             <h1 class="text-4xl font-extrabold text-slate-900 mb-2">Privacy Policy</h1>
             <p class="text-slate-500 text-sm mb-8 font-medium">Effective Date: January 18, 2026</p>
-
             <div class="prose prose-slate max-w-none space-y-8">
                 <p class="text-lg leading-relaxed text-slate-600">
-                    At ClassCharts Improver, we believe that your privacy is paramount. This Privacy Policy explains how we handle information when you use our browser extension.
+                    At ClassCharts Improver, we believe that your privacy is paramount. This Privacy Policy explains how we handle information when you use our browser extension and associated services.
                 </p>
-
                 <section>
                     <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                        <i data-feather="database" class="w-5 h-5 mr-2 text-blue-600"></i> 1. Data Collection and Usage
+                        <i class="fas fa-server mr-2 text-blue-600"></i> 1. Data Storage and Location
+                    </h2>
+                    <div class="space-y-4 ml-7">
+                        <p class="text-slate-600">We utilize two tiers of data storage depending on your account status:</p>
+                        <div class="flex items-start">
+                            <div class="mt-1.5 h-1.5 w-1.5 rounded-full bg-blue-600 shrink-0 mr-3"></div>
+                            <p><span class="font-semibold text-slate-900">Local Storage:</span> By default, all preferences and data are stored locally on your device using <code class="bg-slate-100 px-1 py-0.5 rounded text-xs">localStorage</code>. This data never leaves your browser unless you choose to sync it.</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="mt-1.5 h-1.5 w-1.5 rounded-full bg-blue-600 shrink-0 mr-3"></div>
+                            <p><span class="font-semibold text-slate-900">Cloud Storage:</span> If you create an account, your data (profile photo, accent colour, goals, and notes) is moved to our cloud server located in <span class="font-semibold text-slate-900">Stockholm, Sweden</span> to enable cross-device syncing.</p>
+                        </div>
+                        <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-exclamation-triangle text-amber-600 mr-2"></i>
+                                <span class="font-bold text-amber-900">Security Warning</span>
+                            </div>
+                            <p class="text-amber-800 text-sm">
+                                Please be aware that your profile photo, accent colour, goals, and notes are currently <span class="font-bold">stored in plain text</span> on our servers. While we take measures to protect our infrastructure, these specific data points are not encrypted at rest and may not be fully secure. We advise against storing sensitive personal information or passwords within the notes or goals sections.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
+                        <i class="fas fa-database mr-2 text-blue-600"></i> 2. Data Collection and Usage
                     </h2>
                     <div class="space-y-4 ml-7">
                         <div class="flex items-start">
                             <div class="mt-1.5 h-1.5 w-1.5 rounded-full bg-blue-600 shrink-0 mr-3"></div>
-                            <p><span class="font-semibold text-slate-900">No Personal Data Collection:</span> We do not collect, store, or transmit any personal information, including names, email addresses, or school credentials.</p>
+                            <p><span class="font-semibold text-slate-900">No School Credential Collection:</span> We do not collect, store, or transmit your ClassCharts passwords or official school credentials.</p>
                         </div>
                         <div class="flex items-start">
                             <div class="mt-1.5 h-1.5 w-1.5 rounded-full bg-blue-600 shrink-0 mr-3"></div>
-                            <p><span class="font-semibold text-slate-900">No Tracking:</span> We do not use cookies, tracking pixels, or any other analytical tools to monitor your browsing habits or extension usage.</p>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="mt-1.5 h-1.5 w-1.5 rounded-full bg-blue-600 shrink-0 mr-3"></div>
-                            <p><span class="font-semibold text-slate-900">Local Processing:</span> All modifications to the ClassCharts interface happen locally on your device within your browser. No data is sent to external servers.</p>
+                            <p><span class="font-semibold text-slate-900">No Tracking:</span> We do not use cookies or tracking pixels to monitor your browsing habits outside of the extension's specific functionality.</p>
                         </div>
                     </div>
                 </section>
-
                 <section>
                     <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                        <i data-feather="refresh-cw" class="w-5 h-5 mr-2 text-blue-600"></i> 2. Interaction with ClassCharts
+                        <i class="fas fa-sync mr-2 text-blue-600"></i> 3. Interaction with ClassCharts
                     </h2>
                     <div class="space-y-4 ml-7">
-                        <p class="text-slate-600">The extension works by injecting CSS and JavaScript into the official ClassCharts website to improve your user experience.</p>
+                        <p class="text-slate-600">The extension works by injecting CSS and JavaScript into the official ClassCharts website to improve your user experience locally.</p>
                         <div class="flex items-start">
                             <div class="mt-1.5 h-1.5 w-1.5 rounded-full bg-blue-600 shrink-0 mr-3"></div>
-                            <p>The extension does not have access to your ClassCharts password.</p>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="mt-1.5 h-1.5 w-1.5 rounded-full bg-blue-600 shrink-0 mr-3"></div>
-                            <p>Any data displayed (such as homework tasks or points) is fetched directly from ClassCharts by your browser and is never intercepted or stored by this extension.</p>
+                            <p>Any data displayed (such as homework tasks or points) is fetched directly from ClassCharts by your browser and is never intercepted or stored on our Stockholm server.</p>
                         </div>
                     </div>
                 </section>
-
                 <section>
                     <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                        <i data-feather="external-link" class="w-5 h-5 mr-2 text-blue-600"></i> 3. Third-Party Services
-                    </h2>
-                    <p class="ml-7 text-slate-600 leading-relaxed">
-                        ClassCharts Improver does not share data with third-party services. The extension is independent and is not affiliated with, endorsed by, or associated with Edukey Education Ltd (the creators of ClassCharts).
-                    </p>
-                </section>
-
-                <section>
-                    <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                        <i data-feather="lock" class="w-5 h-5 mr-2 text-blue-600"></i> 4. Permissions
+                        <i class="fas fa-key mr-2 text-blue-600"></i> 4. Permissions
                     </h2>
                     <div class="space-y-4 ml-7">
                         <p class="text-slate-600 font-medium">The extension requires the following permissions to function:</p>
                         <ul class="list-disc ml-5 space-y-2 text-slate-600">
-                            <li><code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono tracking-tight">storage</code>: To save your UI preferences (like chosen themes or layout settings) locally on your device.</li>
-                            <li><code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono tracking-tight">host permissions</code>: To allow the extension to run its visual improvements specifically on ClassCharts domains.</li>
+                            <li><code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono tracking-tight">storage</code>: To save your UI preferences and sync them with our Stockholm server.</li>
+                            <li><code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono tracking-tight">identity</code>: To securely manage your user account and authenticate cloud-syncing features.</li>
+                            <li><code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono tracking-tight">host permissions</code>: To allow visual improvements specifically on ClassCharts domains.</li>
                         </ul>
                     </div>
                 </section>
             </div>
         </div>
-
         <footer class="mt-12 text-center text-slate-400 text-sm">
             <p>&copy; James Theakston 2026. Not affiliated with ClassCharts or Edukey.</p>
         </footer>
     </main>
-
-    <script>
-        feather.replace();
-    </script>
 </body>
 </html>
