@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy | ClassCharts Improver</title>
-    <meta name="description" content="Official Privacy Policy for ClassCharts Improver. Learn how we handle your data, our commitment to GDPR compliance, and our zero-data-sharing policy for students.">
-    <meta name="keywords" content="Privacy Policy, ClassCharts Improver, ClassCharts Improver Privacy, ClassCharts Extension Data, Student Data Protection, GDPR Compliance, School Portal Privacy, James Theakston">
-    <link rel="canonical" href="https://classchartsimprover.pages.dev/privacy">
-    
+    <title>Privacy Policy | ClassCharts Improver Extension</title>
+    <meta name="description" content="Official Privacy Policy for ClassCharts Improver. Learn how we handle your data, our commitment to GDPR compliance, and our secure authentication protocols.">
+    <meta name="keywords" content="ClassCharts Improver Privacy, ClassCharts Extension Data, Student Data Protection, GDPR Compliance, School Portal Privacy, James Theakston">
+    <link rel="canonical" href="https://jamestheakston.github.io/classchartsimprover/privacy.html">
     <meta property="og:title" content="Privacy Policy | ClassCharts Improver">
     <meta property="og:description" content="Transparency is our priority. Read how ClassCharts Improver keeps your school data safe and private.">
     <meta property="og:type" content="website">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -58,70 +56,74 @@
                     </p>
                     <ul class="mt-4 space-y-3 list-disc pl-5 text-slate-600">
                         <li>
-                            <strong>ClassCharts Website Content (DOM Data):</strong> The extension reads the Document Object Model (DOM) of the ClassCharts student portal to identify homework tasks, behaviour points, and dashboard elements. This data is processed entirely locally on your device and is never transmitted to our servers or any third party.
+                            <strong>ClassCharts Website Content (DOM Data):</strong> The extension reads the Document Object Model (DOM) of the ClassCharts student portal. This data is processed entirely locally on your device and is never transmitted to our servers or any third party.
                         </li>
                         <li>
-                            <strong>Account Identifiers:</strong> If you choose to create a CC Improver account, we collect your email address and a system-generated unique user ID for the purposes of authentication and account management.
+                            <strong>Account Credentials & Identifiers:</strong> When you create an account or sign in, we collect your <strong>email address</strong> and <strong>password</strong>. This information is transmitted securely via encrypted <strong>HTTPS POST requests</strong> directly to our authentication provider.
                         </li>
                         <li>
-                            <strong>User Preferences & Settings:</strong> Custom configuration choices such as theme selections, layout preferences, and notification settings.
+                            <strong>User Preferences & Settings:</strong> Custom configuration choices such as theme selections and layout preferences.
                         </li>
                         <li>
                             <strong>Custom Profile Photos:</strong> If you choose to upload a custom profile photo, that image is stored as a direct asset linked to your account.
                         </li>
                     </ul>
-                    <p class="mt-4 text-slate-600 font-medium italic">
-                        We do not collect passwords, ClassCharts login credentials, browsing history outside of ClassCharts, or precise location data.
-                    </p>
                 </section>
 
                 <section>
                     <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                        <i class="fas fa-cog text-blue-600 mr-3"></i> 2. How We Use Your Data
+                        <i class="fas fa-shield-halved text-blue-600 mr-3"></i> 2. Secure Data Transmission & POST Calls
+                    </h2>
+                    <div class="p-6 bg-blue-50 rounded-2xl border border-blue-200">
+                        <p class="text-slate-700 leading-relaxed mb-4">
+                            For users who opt to use our account synchronization features, the extension performs network communication (POST requests) to interact with our backend services:
+                        </p>
+                        <ul class="space-y-3 list-disc pl-5 text-slate-700 text-sm">
+                            <li><strong>Encrypted Transmission:</strong> All login credentials (email and password) are sent using <strong>TLS/SSL encryption (HTTPS)</strong>. This ensures your data cannot be intercepted in transit between your browser and our servers.</li>
+                            <li><strong>Direct Authentication:</strong> POST calls containing credentials are sent directly to the Supabase Auth API. ClassCharts Improver does not log or store your password locally in plain text.</li>
+                            <li><strong>Token-Based Access:</strong> After a successful login POST request, the extension uses secure session tokens to authenticate subsequent requests, rather than resending your password.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
+                        <i class="fas fa-cog text-blue-600 mr-3"></i> 3. How We Use Your Data
                     </h2>
                     <p class="text-slate-600 leading-relaxed">
                         Your data is used solely for the following purposes:
                     </p>
                     <ul class="mt-4 space-y-3 list-disc pl-5 text-slate-600">
-                        <li><strong>UI Customisation:</strong> Applying visual styles and reorganising homework layouts based on your preferences.</li>
-                        <li><strong>Account Management:</strong> Authenticating your identity when you log in and managing your account settings.</li>
-                        <li><strong>Cross-Device Sync:</strong> Allowing users with accounts to maintain a consistent experience across multiple browsers or devices.</li>
-                        <li><strong>Feature Functionality:</strong> Mapping school-provided icons to our high-quality replacement set, and enabling all other extension features.</li>
+                        <li><strong>UI Customisation:</strong> Applying visual styles based on your preferences.</li>
+                        <li><strong>Account Management:</strong> Authenticating your identity and managing your account settings.</li>
+                        <li><strong>Cross-Device Sync:</strong> Maintaining a consistent experience across multiple browsers.</li>
+                        <li><strong>Security:</strong> Protecting your account from unauthorized access through secure login protocols.</li>
                     </ul>
-                    <p class="mt-4 text-slate-600 leading-relaxed">
-                        We do not use your data for advertising, profiling, or any purpose beyond delivering the extension's core functionality.
-                    </p>
                 </section>
 
                 <section>
                     <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                        <i class="fas fa-scale-balanced text-blue-600 mr-3"></i> 3. Legal Basis for Processing (UK & EU GDPR)
+                        <i class="fas fa-scale-balanced text-blue-600 mr-3"></i> 4. Legal Basis for Processing
                     </h2>
-                    <p class="text-slate-600 leading-relaxed">
-                        Where the UK General Data Protection Regulation (UK GDPR) or EU GDPR applies, we rely on the following legal bases for processing your personal data:
-                    </p>
                     <ul class="mt-4 space-y-3 list-disc pl-5 text-slate-600">
-                        <li><strong>Contractual Necessity:</strong> Processing your email address and account data is necessary to provide the account and cross-device sync features you have requested.</li>
-                        <li><strong>Legitimate Interests:</strong> Local processing of ClassCharts DOM content is carried out in our legitimate interest of providing the extension's core functionality, and is done entirely on-device without any data leaving your browser.</li>
-                        <li><strong>Consent:</strong> The upload of a custom profile photo is based on your explicit consent at the point of upload. You may withdraw this at any time by removing your photo or deleting your account.</li>
+                        <li><strong>Contractual Necessity:</strong> Processing your email and password is necessary to provide the account and sync features you have requested.</li>
+                        <li><strong>Legitimate Interests:</strong> Local processing of ClassCharts content is carried out to provide the extension's core functionality.</li>
+                        <li><strong>Consent:</strong> The upload of profile photos is based on your explicit consent.</li>
                     </ul>
                 </section>
 
                 <section>
                     <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                        <i class="fas fa-server text-blue-600 mr-3"></i> 4. Data Storage
+                        <i class="fas fa-server text-blue-600 mr-3"></i> 5. Data Storage & Infrastructure
                     </h2>
-                    <p class="text-slate-600 mb-4 leading-relaxed">
-                        Data storage varies based on your usage:
-                    </p>
                     <div class="space-y-4">
                         <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200">
-                            <p class="text-slate-900 font-bold mb-1">Local Storage (No Account)</p>
-                            <p class="text-slate-600 text-sm">By default, all settings are stored within your browser's local storage. No data leaves your device. Uninstalling the extension removes all locally stored data immediately.</p>
+                            <p class="text-slate-900 font-bold mb-1">Local Storage</p>
+                            <p class="text-slate-600 text-sm">Non-account users have all settings stored within the browser's local storage only.</p>
                         </div>
                         <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200">
-                            <p class="text-slate-900 font-bold mb-1">Cloud Infrastructure — Supabase (Account Holders Only)</p>
-                            <p class="text-slate-600 text-sm">For users who create an account, preference data and profile photos are synced to our cloud infrastructure, hosted by <strong>Supabase</strong>. The database instance is located in <strong>Stockholm, Sweden (EU-North-1 region)</strong>, within the European Economic Area.</p>
+                            <p class="text-slate-900 font-bold mb-1">Supabase (Account Holders Only)</p>
+                            <p class="text-slate-600 text-sm">Account data, including email and hashed passwords, is managed by <strong>Supabase</strong>. The data is stored in <strong>Stockholm, Sweden (EU-North-1)</strong>. Supabase handles authentication security following industry standards.</p>
                         </div>
                     </div>
                 </section>
@@ -129,98 +131,52 @@
                 <section>
                     <div class="p-6 bg-amber-50 rounded-2xl border border-amber-200">
                         <h2 class="text-lg font-bold text-amber-900 mb-3 flex items-center">
-                            <i class="fas fa-exclamation-triangle mr-3"></i> 5. Security & Handling Disclosure
+                            <i class="fas fa-exclamation-triangle mr-3"></i> 6. Security Disclosure
                         </h2>
                         <p class="text-amber-800 text-sm leading-relaxed">
-                            <strong>Plain Text Storage:</strong> Please be aware that synchronised preference data and profile photo links are stored in <strong>plain text</strong> within our Supabase database. They are not encrypted at the application level, though Supabase provides encryption at rest at the infrastructure level.
+                            <strong>Password Security:</strong> While passwords are transmitted via POST requests, they are <strong>hashed</strong> by our infrastructure provider before being stored. We never have access to your plain-text password in the database.
                         </p>
                         <p class="text-amber-800 text-sm mt-3 leading-relaxed">
-                            <strong>Unencrypted Media:</strong> Custom profile photos are stored as direct image assets and are not encrypted at the application layer. Users are advised not to upload sensitive or private imagery.
+                            <strong>Sync Data:</strong> Preference data and profile photo links are stored in plain text (encrypted at rest by the provider). Users are advised not to store sensitive information in custom settings.
                         </p>
                     </div>
                 </section>
 
                 <section>
                     <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                        <i class="fas fa-share-nodes text-blue-600 mr-3"></i> 6. All Parties With Access to Your Data
+                        <i class="fas fa-share-nodes text-blue-600 mr-3"></i> 7. Parties With Access to Your Data
                     </h2>
-                    <p class="text-slate-600 leading-relaxed mb-4">
-                        The following is a complete list of all parties that may have access to your data. We do not share, sell, or trade your data with any party not listed here.
-                    </p>
                     <div class="space-y-4">
                         <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200">
                             <p class="text-slate-900 font-bold mb-1">James Theakston (Developer)</p>
-                            <p class="text-slate-600 text-sm">The sole developer and data controller of ClassCharts Improver. Has administrative access to the Supabase project for maintenance and support purposes.</p>
+                            <p class="text-slate-600 text-sm">Sole developer with administrative access for support and maintenance.</p>
                         </div>
                         <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200">
-                            <p class="text-slate-900 font-bold mb-1">Supabase, Inc. (Infrastructure Sub-Processor)</p>
-                            <p class="text-slate-600 text-sm">Our cloud database and authentication provider. Supabase hosts the account data for users who opt in to the sync feature. Data is stored in their <strong>EU-North-1 (Stockholm, Sweden)</strong> region. Supabase acts as a data processor on our behalf and is subject to their own privacy and security commitments. See: <a href="https://supabase.com/privacy" target="_blank" class="text-blue-600 hover:underline">supabase.com/privacy</a>.</p>
-                        </div>
-                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200">
-                            <p class="text-slate-900 font-bold mb-1">Google LLC (Browser Platform Provider)</p>
-                            <p class="text-slate-600 text-sm">ClassCharts Improver is distributed via the Chrome Web Store, operated by Google LLC. Google may collect data related to your use of the Chrome Web Store (such as install/uninstall events) in accordance with their own privacy policy. We do not share any user data with Google directly. See: <a href="https://policies.google.com/privacy" target="_blank" class="text-blue-600 hover:underline">Google Privacy Policy</a>.</p>
-                        </div>
-                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200">
-                            <p class="text-slate-900 font-bold mb-1">Law Enforcement / Regulatory Authorities</p>
-                            <p class="text-slate-600 text-sm">We will only disclose personal data if required to do so under applicable law (UK or Swedish/EU jurisdiction) in response to a valid, verified legal request such as a court order or statutory obligation. We will notify affected users where legally permitted to do so.</p>
+                            <p class="text-slate-900 font-bold mb-1">Supabase, Inc. (Data Processor)</p>
+                            <p class="text-slate-600 text-sm">Infrastructure provider for authentication and database services. See: <a href="https://supabase.com/privacy" target="_blank" class="text-blue-600 hover:underline">supabase.com/privacy</a>.</p>
                         </div>
                         <div class="p-5 bg-green-50 rounded-2xl border border-green-200">
-                            <p class="text-green-900 font-bold mb-1">No Other Parties</p>
-                            <p class="text-green-800 text-sm">We do not share data with advertisers, analytics networks, data brokers, or any other third parties not listed above. Zero data is shared with advertising or tracking networks of any kind.</p>
+                            <p class="text-green-900 font-bold mb-1">No Third-Party Selling</p>
+                            <p class="text-green-800 text-sm">We do not sell data to advertisers or brokers. All network calls are strictly for functional purposes.</p>
                         </div>
                     </div>
                 </section>
 
                 <section>
                     <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                        <i class="fas fa-clock text-blue-600 mr-3"></i> 7. Data Retention
-                    </h2>
-                    <p class="text-slate-600 leading-relaxed mb-4">
-                        We retain your data only for as long as necessary to provide the service or as required by law:
-                    </p>
-                    <ul class="mt-4 space-y-3 list-disc pl-5 text-slate-600">
-                        <li><strong>Local Storage Data:</strong> Retained indefinitely within your browser until you uninstall the extension or manually clear browser data, at which point it is deleted immediately.</li>
-                        <li><strong>Account & Cloud Sync Data:</strong> Retained for the lifetime of your account. Upon account deletion, all associated data (email, preferences, profile photo) is permanently deleted from our Supabase database within <strong>30 days</strong>.</li>
-                        <li><strong>ClassCharts DOM Data:</strong> Never stored or retained. This data is processed transiently in memory only, solely to render the improved UI, and is discarded immediately after use.</li>
-                        <li><strong>Inactive Accounts:</strong> Accounts with no login activity for more than <strong>24 months</strong> may be automatically deleted along with all associated data. We will attempt to notify you via email before doing so.</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                        <i class="fas fa-user-shield text-blue-600 mr-3"></i> 8. Your Rights & Data Control
+                        <i class="fas fa-user-shield text-blue-600 mr-3"></i> 8. Your Rights
                     </h2>
                     <p class="text-slate-600 leading-relaxed">
-                        Depending on your location, you may have the following rights regarding your personal data:
-                    </p>
-                    <ul class="mt-4 space-y-3 list-disc pl-5 text-slate-600">
-                        <li><strong>Right of Access:</strong> You may request a copy of the personal data we hold about you.</li>
-                        <li><strong>Right to Rectification:</strong> You may request correction of inaccurate data.</li>
-                        <li><strong>Right to Erasure:</strong> You may request deletion of your account and all associated cloud data at any time by contacting the developer.</li>
-                        <li><strong>Right to Data Portability:</strong> You may request an export of your data in a machine-readable format.</li>
-                        <li><strong>Right to Object:</strong> You may object to processing based on legitimate interests.</li>
-                        <li><strong>Right to Withdraw Consent:</strong> Where processing is based on consent (e.g. profile photo), you may withdraw consent at any time without affecting the lawfulness of prior processing.</li>
-                    </ul>
-                    <p class="mt-4 text-slate-600 leading-relaxed">
-                        To exercise any of these rights, please contact the developer using the details below. Uninstalling the extension removes all locally stored data immediately.
-                    </p>
-                </section>
-
-                <section>
-                    <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                        <i class="fas fa-rotate text-blue-600 mr-3"></i> 9. Changes to This Policy
-                    </h2>
-                    <p class="text-slate-600 leading-relaxed">
-                        We may update this Privacy Policy from time to time. When we do, the "Last Updated" date at the top of this page will be revised. For material changes, we will endeavour to notify account holders via email. Continued use of the extension after changes are posted constitutes acceptance of the updated policy.
+                        You have the right to access, rectify, or erase your data. You may delete your account at any time, which triggers the permanent removal of your email and preferences from our cloud database.
                     </p>
                 </section>
 
                 <section class="pt-6 border-t border-slate-100">
                     <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                        <i class="fas fa-envelope text-blue-600 mr-3"></i> Contact & Data Controller
+                        <i class="fas fa-envelope text-blue-600 mr-3"></i> Contact
                     </h2>
                     <p class="text-slate-600">
-                        ClassCharts Improver is operated by <strong>James Theakston</strong> (sole developer and data controller). For data access requests, deletion requests, or any privacy concerns:
+                        For any privacy concerns or data requests, contact:
                         <a href="https://jamestheakston.pages.dev" target="_blank" class="text-blue-600 font-bold hover:underline block mt-2">jamestheakston.pages.dev</a>
                     </p>
                 </section>
@@ -230,8 +186,9 @@
 
     <footer class="py-12 px-6 border-t border-slate-100 bg-white text-center">
         <p class="text-slate-400 text-xs">
-            &copy; James Theakston 2026. This project is built with user privacy as its core principle.
+            &copy; James Theakston 2026. Built with security and transparency at the core.
         </p>
     </footer>
 </body>
 </html>
+
