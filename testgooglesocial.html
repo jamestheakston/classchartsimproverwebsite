@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Google Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+    <div class="bg-white p-8 rounded-lg shadow-md w-96 text-center">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800">Welcome Back</h1>
+        
+        <button id="google-login-btn" class="flex items-center justify-center w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">
+            <i class="fab fa-google text-red-500 mr-2"></i>
+            Sign in with Google
+        </button>
+
+        <div id="user-info" class="mt-6 hidden">
+            <p class="text-green-600">Successfully signed in!</p>
+            <button id="logout-btn" class="mt-4 text-sm text-blue-600 hover:underline">Sign Out</button>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://izcixahquohigrzghyqv.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_a7GOW5zpj5YQp-nXJ6KyQA_NGkNyWFh';
+
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function signInWithGoogle() {
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.origin,
+                    queryParams: {
+                        access_type: 'offline',
+                        prompt: 'select_account',
+                    },
+                },
+            });
+
+            if (error) {
+                console.error('Error logging in:', error.message);
+            }
+        }
+
+        async function signOut() {
+            const { error } = await supabase.auth.signOut();
+            if (error) console.error('Error logging out:', error.message);
+            window.location.reload();
+        }
+
+        document.getElementById('google-login-btn').addEventListener('click', signInWithGoogle);
+        document.getElementById('logout-btn').addEventListener('click', signOut);
+
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (session) {
+                document.getElementById('google-login-btn').classList.add('hidden');
+                document.getElementById('user-info').classList.remove('hidden');
+                console.log('User data:', session.user);
+            }
+        });
+    </script>
+</body>
+</html>
