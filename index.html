@@ -316,73 +316,13 @@
         </div>
     </section>
 
-    <section class="py-24 px-6 bg-slate-50 border-y border-slate-100 overflow-hidden">
+    <section class="py-24 px-6 bg-slate-50 border-y border-slate-100 overflow-hidden" id="review-section">
         <div class="max-w-4xl mx-auto text-center relative">
             <h2 class="text-3xl font-bold text-slate-900 mb-12">What Students Say</h2>
             
-            <div class="relative group">
+            <div id="review-container" class="relative group">
                 <div class="overflow-hidden">
-                    <div id="review-slider">
-                        <div class="review-slide px-4">
-                            <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative">
-                                <i class="fas fa-quote-left text-blue-100 text-6xl absolute top-6 left-6"></i>
-                                <div class="relative z-10">
-                                    <div class="flex justify-center mb-6 space-x-1">
-                                        <i class="fas fa-star text-amber-400"></i>
-                                        <i class="fas fa-star text-amber-400"></i>
-                                        <i class="fas fa-star text-amber-400"></i>
-                                        <i class="fas fa-star text-amber-400"></i>
-                                        <i class="far fa-star text-slate-200"></i>
-                                    </div>
-                                    <p class="text-xl md:text-2xl font-medium text-slate-800 italic leading-relaxed mb-4">
-                                        "Very good app that makes the harsh UI bearable"
-                                    </p>
-                                    <div class="mb-10">
-                                        <a href="https://chromewebstore.google.com/reviews/d9193341-8e2d-4474-b274-9c79a722bb99" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center justify-center transition group">
-                                            View full review <i class="fas fa-external-link-alt ml-2 text-[10px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
-                                        </a>
-                                    </div>
-                                    <div class="flex items-center justify-center space-x-3">
-                                        <img src="https://lh3.googleusercontent.com/a-/ALV-UjUy-Yvxjm2bSrjbsv1iXTsdX4MeZU4xxlbISFN9EXmmyLn4tu8=s96-w96-h96" alt="James M." class="h-12 w-12 rounded-full border-2 border-white shadow-md">
-                                        <div class="text-left">
-                                            <p class="font-bold text-slate-900">James M.</p>
-                                            <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Via Chrome Web Store</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="review-slide px-4">
-                            <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative">
-                                <i class="fas fa-quote-left text-blue-100 text-6xl absolute top-6 left-6"></i>
-                                <div class="relative z-10">
-                                    <div class="flex justify-center mb-6 space-x-1">
-                                        <i class="fas fa-star text-amber-400"></i>
-                                        <i class="fas fa-star text-amber-400"></i>
-                                        <i class="fas fa-star text-amber-400"></i>
-                                        <i class="fas fa-star text-amber-400"></i>
-                                        <i class="fas fa-star text-amber-400"></i>
-                                    </div>
-                                    <p class="text-xl md:text-2xl font-medium text-slate-800 italic leading-relaxed mb-4">
-                                        "Amazing extension that makes the Classcharts UI look much nicer."
-                                    </p>
-                                    <div class="mb-10">
-                                        <a href="https://chromewebstore.google.com/reviews/3e73ecd7-ef91-4286-9cd8-906242bd0e8f" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center justify-center transition group">
-                                            View full review <i class="fas fa-external-link-alt ml-2 text-[10px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
-                                        </a>
-                                    </div>
-                                    <div class="flex items-center justify-center space-x-3">
-                                        <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold border-2 border-white shadow-md">K</div>
-                                        <div class="text-left">
-                                            <a href="https://chromewebstore.google.com/reviews/3e73ecd7-ef91-4286-9cd8-906242bd0e8f" target="_blank" class="font-bold text-slate-900 hover:text-blue-600 transition">Kai</a>
-                                            <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Via Chrome Web Store</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="review-slider"></div>
                 </div>
 
                 <button onclick="prevReview()" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 bg-white p-3 rounded-full shadow-lg border border-slate-100 text-slate-400 hover:text-blue-600 transition z-20">
@@ -477,7 +417,7 @@
                     </a>
                 </div>
                 <div class="mt-6 md:mt-0 text-slate-400 text-xs">
-                    &copy; James Theakston 2026. Not affiliated with ClassCharts or Edukey.
+                    © James Theakston 2026. Not affiliated with ClassCharts or Edukey.
                 </div>
             </div>
             <div class="mt-8 pt-8 border-t border-slate-200/50 text-center">
@@ -491,30 +431,109 @@
     <script>
         const slider = document.getElementById('review-slider');
         const dotsContainer = document.getElementById('review-dots');
-        let originalSlides = document.querySelectorAll('.review-slide');
-        const totalOriginal = originalSlides.length;
-        
-        const firstClone = originalSlides[0].cloneNode(true);
-        const lastClone = originalSlides[totalOriginal - 1].cloneNode(true);
-        
-        slider.appendChild(firstClone);
-        slider.insertBefore(lastClone, originalSlides[0]);
-        
-        let allSlides = document.querySelectorAll('.review-slide');
         let currentIdx = 1;
+        let totalOriginal = 0;
         let isTransitioning = false;
         let autoPlayInterval;
 
-        slider.style.transform = `translateX(-100%)`;
+        async function initReviews() {
+            try {
+                const response = await fetch('reviews.json');
+                if (!response.ok) throw new Error('Failed to load');
+                const reviews = await response.json();
+                
+                if (!reviews || reviews.length === 0) throw new Error('No reviews found');
+                
+                totalOriginal = reviews.length;
+                
+                reviews.forEach(review => {
+                    const slide = createReviewSlide(review);
+                    slider.appendChild(slide);
+                });
 
-        for (let i = 0; i < totalOriginal; i++) {
-            const dot = document.createElement('button');
-            dot.className = `h-2 w-2 rounded-full transition-all duration-300 ${i === 0 ? 'bg-blue-600 w-4' : 'bg-slate-200'}`;
-            dot.onclick = () => {
-                if (isTransitioning) return;
-                showReview(i + 1);
-            };
-            dotsContainer.appendChild(dot);
+                const allSlides = Array.from(slider.children);
+                const firstClone = allSlides[0].cloneNode(true);
+                const lastClone = allSlides[totalOriginal - 1].cloneNode(true);
+                
+                slider.appendChild(firstClone);
+                slider.insertBefore(lastClone, slider.firstChild);
+
+                slider.style.transform = `translateX(-100%)`;
+
+                for (let i = 0; i < totalOriginal; i++) {
+                    const dot = document.createElement('button');
+                    dot.className = `h-2 w-2 rounded-full transition-all duration-300 ${i === 0 ? 'bg-blue-600 w-4' : 'bg-slate-200'}`;
+                    dot.onclick = () => {
+                        if (isTransitioning) return;
+                        showReview(i + 1);
+                    };
+                    dotsContainer.appendChild(dot);
+                }
+
+                resetInterval();
+            } catch (error) {
+                showErrorState();
+            }
+        }
+
+        function createReviewSlide(review) {
+            const slide = document.createElement('div');
+            slide.className = 'review-slide px-4';
+            
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                starsHtml += `<i class="${i <= review.stars ? 'fas' : 'far'} fa-star text-amber-400"></i> `;
+            }
+
+            const profileContent = review.photo 
+                ? `<img src="${review.photo}" alt="${review.name}" class="h-12 w-12 rounded-full border-2 border-white shadow-md">`
+                : `<div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold border-2 border-white shadow-md">${review.name.charAt(0)}</div>`;
+
+            slide.innerHTML = `
+                <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative h-full">
+                    <i class="fas fa-quote-left text-blue-100 text-6xl absolute top-6 left-6"></i>
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div class="flex justify-center mb-6 space-x-1">
+                            ${starsHtml}
+                        </div>
+                        <p class="text-xl md:text-2xl font-medium text-slate-800 italic leading-relaxed mb-4">
+                            "${review.text}"
+                        </p>
+                        <div class="mb-10 mt-auto">
+                            <a href="${review.link}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center justify-center transition group">
+                                View full review <i class="fas fa-external-link-alt ml-2 text-[10px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                            </a>
+                        </div>
+                        <div class="flex items-center justify-center space-x-3">
+                            ${profileContent}
+                            <div class="text-left">
+                                <p class="font-bold text-slate-900">${review.name}</p>
+                                <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">${review.source || 'VIA CHROME WEB STORE'}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return slide;
+        }
+
+        function showErrorState() {
+            const container = document.getElementById('review-container');
+            container.innerHTML = `
+                <div class="bg-white p-12 rounded-3xl border border-slate-100 shadow-sm max-w-2xl mx-auto">
+                    <div class="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-amber-100">
+                        <i class="fas fa-exclamation-triangle text-amber-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">We're having trouble fetching reviews.</h3>
+                    <p class="text-slate-500 leading-relaxed mb-6">
+                        The reviews are taking a quick nap. While we wake them up, just know that students across the globe trust ClassCharts Improver to fix their school portal every day.
+                    </p>
+                    <a href="https://chromewebstore.google.com/detail/classcharts-improver/kalmdpfngeebamgaeegkieojhbkbghoe" target="_blank" class="inline-flex items-center text-blue-600 font-bold hover:text-blue-800 transition">
+                        Check them on the Chrome Web Store <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </div>
+            `;
+            dotsContainer.style.display = 'none';
         }
 
         function updateDots(index) {
@@ -555,21 +574,21 @@
         });
 
         function nextReview() {
-            if (isTransitioning) return;
+            if (isTransitioning || totalOriginal === 0) return;
             showReview(currentIdx + 1);
         }
 
         function prevReview() {
-            if (isTransitioning) return;
+            if (isTransitioning || totalOriginal === 0) return;
             showReview(currentIdx - 1);
         }
 
         function resetInterval() {
             clearInterval(autoPlayInterval);
-            autoPlayInterval = setInterval(nextReview, 6000);
+            if (totalOriginal > 0) {
+                autoPlayInterval = setInterval(nextReview, 6000);
+            }
         }
-
-        resetInterval();
 
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
@@ -616,6 +635,8 @@
         window.onclick = function(event) {
             if (event.target.id === 'compatibility-modal') toggleModal();
         }
+
+        initReviews();
     </script>
 </body>
 </html>
