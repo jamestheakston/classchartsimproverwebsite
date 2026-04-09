@@ -88,6 +88,13 @@
             height: 100%;
             border-radius: 1rem;
         }
+        #review-slider {
+            display: flex;
+        }
+        .review-slide {
+            min-width: 100%;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <script src="//code.tidio.co/sttyy4cu7mmp0m4gfctxaj8fowg6schk.js" async></script>
@@ -240,7 +247,8 @@
                             <div class="py-4 border-y border-slate-50 flex justify-around">
                                 <div class="text-center">
                                     <div class="text-blue-600 font-bold text-lg">42</div>
-                                    <div class="text-[10px] text-slate-400 uppercase">Points</div>                                </div>
+                                    <div class="text-[10px] text-slate-400 uppercase">Points</div>
+                                </div>
                                 <div class="text-center">
                                     <div class="text-indigo-600 font-bold text-lg">0</div>
                                     <div class="text-[10px] text-slate-400 uppercase">Alerts</div>
@@ -308,35 +316,83 @@
         </div>
     </section>
 
-    <section class="py-24 px-6 bg-slate-50 border-y border-slate-100">
-        <div class="max-w-4xl mx-auto text-center">
+    <section class="py-24 px-6 bg-slate-50 border-y border-slate-100 overflow-hidden">
+        <div class="max-w-4xl mx-auto text-center relative">
             <h2 class="text-3xl font-bold text-slate-900 mb-12">What Students Say</h2>
-            <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative">
-                <i class="fas fa-quote-left text-blue-100 text-6xl absolute top-6 left-6"></i>
-                <div class="relative z-10">
-                    <div class="flex justify-center mb-6 space-x-1">
-                        <i class="fas fa-star text-amber-400"></i>
-                        <i class="fas fa-star text-amber-400"></i>
-                        <i class="fas fa-star text-amber-400"></i>
-                        <i class="fas fa-star text-amber-400"></i>
-                        <i class="far fa-star text-slate-200"></i>
-                    </div>
-                    <p class="text-xl md:text-2xl font-medium text-slate-800 italic leading-relaxed mb-4">
-                        "Very good app that makes the harsh UI bearable"
-                    </p>
-                    <div class="mb-10">
-                        <a href="https://chromewebstore.google.com/reviews/d9193341-8e2d-4474-b274-9c79a722bb99" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center justify-center transition group">
-                            View full review <i class="fas fa-external-link-alt ml-2 text-[10px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
-                        </a>
-                    </div>
-                    <div class="flex items-center justify-center space-x-3">
-                        <img src="https://lh3.googleusercontent.com/a-/ALV-UjUy-Yvxjm2bSrjbsv1iXTsdX4MeZU4xxlbISFN9EXmmyLn4tu8=s96-w96-h96" alt="James M." class="h-12 w-12 rounded-full border-2 border-white shadow-md">
-                        <div class="text-left">
-                            <p class="font-bold text-slate-900">James M.</p>                            <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Via Chrome Web Store</p>
+            
+            <div class="relative group">
+                <div class="overflow-hidden">
+                    <div id="review-slider">
+                        <div class="review-slide px-4">
+                            <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative">
+                                <i class="fas fa-quote-left text-blue-100 text-6xl absolute top-6 left-6"></i>
+                                <div class="relative z-10">
+                                    <div class="flex justify-center mb-6 space-x-1">
+                                        <i class="fas fa-star text-amber-400"></i>
+                                        <i class="fas fa-star text-amber-400"></i>
+                                        <i class="fas fa-star text-amber-400"></i>
+                                        <i class="fas fa-star text-amber-400"></i>
+                                        <i class="far fa-star text-slate-200"></i>
+                                    </div>
+                                    <p class="text-xl md:text-2xl font-medium text-slate-800 italic leading-relaxed mb-4">
+                                        "Very good app that makes the harsh UI bearable"
+                                    </p>
+                                    <div class="mb-10">
+                                        <a href="https://chromewebstore.google.com/reviews/d9193341-8e2d-4474-b274-9c79a722bb99" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center justify-center transition group">
+                                            View full review <i class="fas fa-external-link-alt ml-2 text-[10px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center justify-center space-x-3">
+                                        <img src="https://lh3.googleusercontent.com/a-/ALV-UjUy-Yvxjm2bSrjbsv1iXTsdX4MeZU4xxlbISFN9EXmmyLn4tu8=s96-w96-h96" alt="James M." class="h-12 w-12 rounded-full border-2 border-white shadow-md">
+                                        <div class="text-left">
+                                            <p class="font-bold text-slate-900">James M.</p>
+                                            <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Via Chrome Web Store</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="review-slide px-4">
+                            <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative">
+                                <i class="fas fa-quote-left text-blue-100 text-6xl absolute top-6 left-6"></i>
+                                <div class="relative z-10">
+                                    <div class="flex justify-center mb-6 space-x-1">
+                                        <i class="fas fa-star text-amber-400"></i>
+                                        <i class="fas fa-star text-amber-400"></i>
+                                        <i class="fas fa-star text-amber-400"></i>
+                                        <i class="fas fa-star text-amber-400"></i>
+                                        <i class="fas fa-star text-amber-400"></i>
+                                    </div>
+                                    <p class="text-xl md:text-2xl font-medium text-slate-800 italic leading-relaxed mb-4">
+                                        "Amazing extension that makes the Classcharts UI look much nicer."
+                                    </p>
+                                    <div class="mb-10">
+                                        <a href="https://chromewebstore.google.com/reviews/3e73ecd7-ef91-4286-9cd8-906242bd0e8f" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center justify-center transition group">
+                                            View full review <i class="fas fa-external-link-alt ml-2 text-[10px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center justify-center space-x-3">
+                                        <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold border-2 border-white shadow-md">K</div>
+                                        <div class="text-left">
+                                            <a href="https://chromewebstore.google.com/reviews/3e73ecd7-ef91-4286-9cd8-906242bd0e8f" target="_blank" class="font-bold text-slate-900 hover:text-blue-600 transition">Kai</a>
+                                            <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Via Chrome Web Store</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <button onclick="prevReview()" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 bg-white p-3 rounded-full shadow-lg border border-slate-100 text-slate-400 hover:text-blue-600 transition z-20">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button onclick="nextReview()" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 bg-white p-3 rounded-full shadow-lg border border-slate-100 text-slate-400 hover:text-blue-600 transition z-20">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
+            <div class="flex justify-center mt-8 space-x-2" id="review-dots"></div>
         </div>
     </section>
 
@@ -413,6 +469,7 @@
                     <span class="text-lg font-bold text-slate-900">CC Improver</span>
                 </div>
                 <div class="flex space-x-6 text-sm font-medium">
+                    <a href="terms.html" class="text-slate-500 hover:text-blue-600 transition">Terms & Conditions</a>
                     <a href="privacy.html" class="text-slate-500 hover:text-blue-600 transition">Privacy Policy</a>
                     <a href="https://jamestheakston.pages.dev" target="_blank" class="text-slate-500 hover:text-blue-600 transition">Contact</a>
                     <a href="https://github.com/jamestheakston/classchartsimprover" target="_blank" class="text-slate-500 hover:text-blue-600 transition flex items-center">
@@ -432,6 +489,88 @@
     </footer>
 
     <script>
+        const slider = document.getElementById('review-slider');
+        const dotsContainer = document.getElementById('review-dots');
+        let originalSlides = document.querySelectorAll('.review-slide');
+        const totalOriginal = originalSlides.length;
+        
+        const firstClone = originalSlides[0].cloneNode(true);
+        const lastClone = originalSlides[totalOriginal - 1].cloneNode(true);
+        
+        slider.appendChild(firstClone);
+        slider.insertBefore(lastClone, originalSlides[0]);
+        
+        let allSlides = document.querySelectorAll('.review-slide');
+        let currentIdx = 1;
+        let isTransitioning = false;
+        let autoPlayInterval;
+
+        slider.style.transform = `translateX(-100%)`;
+
+        for (let i = 0; i < totalOriginal; i++) {
+            const dot = document.createElement('button');
+            dot.className = `h-2 w-2 rounded-full transition-all duration-300 ${i === 0 ? 'bg-blue-600 w-4' : 'bg-slate-200'}`;
+            dot.onclick = () => {
+                if (isTransitioning) return;
+                showReview(i + 1);
+            };
+            dotsContainer.appendChild(dot);
+        }
+
+        function updateDots(index) {
+            let activeDot = index - 1;
+            if (index === 0) activeDot = totalOriginal - 1;
+            if (index === totalOriginal + 1) activeDot = 0;
+            
+            Array.from(dotsContainer.children).forEach((dot, i) => {
+                if (i === activeDot) {
+                    dot.classList.remove('bg-slate-200');
+                    dot.classList.add('bg-blue-600', 'w-4');
+                } else {
+                    dot.classList.remove('bg-blue-600', 'w-4');
+                    dot.classList.add('bg-slate-200');
+                }
+            });
+        }
+
+        function showReview(n, instant = false) {
+            if (isTransitioning && !instant) return;
+            isTransitioning = true;
+            
+            currentIdx = n;
+            slider.style.transition = instant ? 'none' : 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            slider.style.transform = `translateX(-${currentIdx * 100}%)`;
+            
+            updateDots(currentIdx);
+            resetInterval();
+        }
+
+        slider.addEventListener('transitionend', () => {
+            isTransitioning = false;
+            if (currentIdx === 0) {
+                showReview(totalOriginal, true);
+            } else if (currentIdx === totalOriginal + 1) {
+                showReview(1, true);
+            }
+        });
+
+        function nextReview() {
+            if (isTransitioning) return;
+            showReview(currentIdx + 1);
+        }
+
+        function prevReview() {
+            if (isTransitioning) return;
+            showReview(currentIdx - 1);
+        }
+
+        function resetInterval() {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = setInterval(nextReview, 6000);
+        }
+
+        resetInterval();
+
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
