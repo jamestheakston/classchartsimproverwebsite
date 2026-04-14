@@ -1,0 +1,124 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure AD Authentication</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #0f172a;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+        <div class="bg-slate-50 p-8 border-b border-slate-100 text-center">
+            <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-lock text-white text-2xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-slate-800">Enterprise Login</h1>
+            <p class="text-slate-500 mt-2 text-sm">Please sign in with your corporate account to continue</p>
+        </div>
+
+        <div class="p-8">
+            <button id="loginBtn" class="w-full flex items-center justify-center gap-3 bg-[#0078d4] hover:bg-[#0062ad] text-white font-medium py-3.5 px-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-blue-500/20">
+                <i class="fa-brands fa-microsoft text-xl"></i>
+                Sign in with Microsoft
+            </button>
+
+            <div id="statusArea" class="mt-6 hidden">
+                <div id="statusBox" class="p-4 rounded-xl border flex items-start gap-3">
+                    <div id="statusIcon"></div>
+                    <div>
+                        <p id="statusHeading" class="font-semibold text-sm"></p>
+                        <p id="statusMessage" class="text-xs mt-1 opacity-80"></p>
+                    </div>
+                </div>
+                
+                <button id="logoutBtn" class="w-full mt-4 text-slate-500 hover:text-red-500 text-sm font-medium transition-colors hidden">
+                    Sign Out
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-slate-50 p-4 text-center border-t border-slate-100">
+            <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Powered by Supabase & Azure</p>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://izcixahquohigrzghyqv.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_a7GOW5zpj5YQp-nXJ6KyQA_NGkNyWFh';
+        const supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const statusArea = document.getElementById('statusArea');
+        const statusBox = document.getElementById('statusBox');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusHeading = document.getElementById('statusHeading');
+        const statusMessage = document.getElementById('statusMessage');
+
+        function updateUI(user) {
+            if (user) {
+                loginBtn.classList.add('hidden');
+                statusArea.classList.remove('hidden');
+                logoutBtn.classList.remove('hidden');
+                
+                statusBox.className = 'p-4 rounded-xl border flex items-start gap-3 bg-green-50 border-green-200 text-green-800';
+                statusIcon.innerHTML = '<i class="fa-solid fa-circle-check text-lg"></i>';
+                statusHeading.innerText = 'Authenticated Successfully';
+                statusMessage.innerText = user.email;
+            } else {
+                loginBtn.classList.remove('hidden');
+                statusArea.classList.add('hidden');
+                logoutBtn.classList.add('hidden');
+            }
+        }
+
+        async function handleLogin() {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'azure',
+                options: {
+                    scopes: 'email profile',
+                    redirectTo: window.location.href
+                }
+            });
+
+            if (error) {
+                statusArea.classList.remove('hidden');
+                statusBox.className = 'p-4 rounded-xl border flex items-start gap-3 bg-red-50 border-red-200 text-red-800';
+                statusIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-lg"></i>';
+                statusHeading.innerText = 'Authentication Error';
+                statusMessage.innerText = error.message;
+            }
+        }
+
+        async function handleLogout() {
+            await supabase.auth.signOut();
+            window.location.reload();
+        }
+
+        async function init() {
+            const { data: { session } } = await supabase.auth.getSession();
+            updateUI(session?.user);
+
+            supabase.auth.onAuthStateChange((event, session) => {
+                updateUI(session?.user);
+            });
+        }
+
+        loginBtn.addEventListener('click', handleLogin);
+        logoutBtn.addEventListener('click', handleLogout);
+        
+        init();
+    </script>
+</body>
+</html>
+
+```
