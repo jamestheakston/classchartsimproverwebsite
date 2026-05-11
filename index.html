@@ -997,18 +997,7 @@
         }
 
         function loadCookieScripts() {
-            // Load Cookiebot script
-            if (!document.getElementById('cookiebot-script')) {
-                const cookiebotScript = document.createElement('script');
-                cookiebotScript.id = 'cookiebot-script';
-                cookiebotScript.src = 'https://consent.cookiebot.com/uc.js';
-                cookiebotScript.setAttribute('data-cbid', '86a3fec8-8822-46cf-ace0-93173e7f791f');
-                cookiebotScript.setAttribute('data-blockingmode', 'auto');
-                cookiebotScript.type = 'text/javascript';
-                document.head.appendChild(cookiebotScript);
-            }
-
-            // Load Tidio chat script
+            // Load Tidio chat script only
             if (!document.getElementById('tidio-script')) {
                 const tidioScript = document.createElement('script');
                 tidioScript.id = 'tidio-script';
@@ -1070,16 +1059,14 @@
             // Reset video to error state
             showVideoError();
             
-            // Remove cookie scripts if they exist
-            const cookiebotScript = document.getElementById('cookiebot-script');
-            if (cookiebotScript) {
-                cookiebotScript.remove();
-            }
-            
+            // Remove Tidio script if it exists
             const tidioScript = document.getElementById('tidio-script');
             if (tidioScript) {
                 tidioScript.remove();
             }
+            
+            // Also remove any Tidio chat widgets
+            ensureTidioRemoved();
         }
 
         function showCookiePreferenceFeedback(preference) {
