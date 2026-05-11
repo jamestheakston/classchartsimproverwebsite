@@ -18,7 +18,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="86a3fec8-8822-46cf-ace0-93173e7f791f" data-blockingmode="auto" type="text/javascript"></script>
+    <!-- Chat widget and modal will be placed in body -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -37,20 +37,20 @@
             border-color: #3b82f6;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
-        #compatibility-modal {
+        #compatibility-modal, #announcement-modal, #cookie-modal, #chat-consent-modal {
             display: none;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        #compatibility-modal.active {
+        #compatibility-modal.active, #announcement-modal.active, #cookie-modal.active, #chat-consent-modal.active {
             display: flex;
             opacity: 1;
         }
-        #compatibility-modal .modal-content {
+        #compatibility-modal .modal-content, #announcement-modal .modal-content, #cookie-modal .modal-content, #chat-consent-modal .modal-content {
             transform: scale(0.9) translateY(20px);
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        #compatibility-modal.active .modal-content {
+        #compatibility-modal.active .modal-content, #announcement-modal.active .modal-content, #cookie-modal.active .modal-content, #chat-consent-modal.active .modal-content {
             transform: scale(1) translateY(0);
         }
         .custom-scrollbar::-webkit-scrollbar {
@@ -98,7 +98,6 @@
         }
     </style>
 </head>
-<script src="//code.tidio.co/sttyy4cu7mmp0m4gfctxaj8fowg6schk.js" async></script>
 <body class="bg-white text-slate-800 antialiased">
     <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -154,8 +153,11 @@
     <section id="showcase-video" class="pb-24 px-6 bg-white">
         <div class="max-w-4xl mx-auto">
             <div class="glass-card p-2 rounded-2xl shadow-2xl">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/3cAEsMirXqc?si=0FdqCG0WRoIk17KL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div class="video-container" id="video-container">
+                    <!-- Video will be loaded dynamically based on cookie consent -->
+                    <div id="video-placeholder" class="w-full h-full flex items-center justify-center rounded-xl">
+                        <!-- Content will be dynamically inserted based on cookie consent -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -400,6 +402,225 @@
         </div>
     </div>
 
+    <div id="announcement-modal" class="fixed inset-0 z-[100] items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+        <div class="modal-content bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-white shrink-0">
+                <h3 class="text-lg font-bold text-slate-900">📢 Important Announcement</h3>
+                <button onclick="toggleAnnouncementModal()" class="text-slate-400 hover:text-slate-600 transition">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto custom-scrollbar bg-slate-50/30">
+                <div class="space-y-4">
+                    <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-amber-100 p-2 rounded-lg flex-shrink-0">
+                                <i class="fas fa-pause text-amber-600 text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-amber-800 mb-2">Development Paused</h4>
+                                <p class="text-amber-700 text-sm leading-relaxed">
+                                    Development of ClassCharts Improver has been temporarily paused due to exam period. 
+                                    Updates will resume on June 6th. Thank you for your understanding!
+                                </p>
+                                <p class="text-amber-600 text-xs mt-2">We'll be back with more features and improvements on June 6th.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                        <h4 class="font-bold text-blue-800 mb-2">Current Status</h4>
+                        <ul class="text-blue-700 text-sm space-y-1">
+                            <li>• Extension continues to work normally</li>
+                            <li>• Bug fixes may be delayed</li>
+                            <li>• Support responses may be slower</li>
+                            <li>• New features coming after exams</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 bg-white border-t border-slate-100 shrink-0 space-y-3">
+                <button onclick="dontShowAgain()" class="w-full py-2.5 bg-slate-100 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-200 transition-all active:scale-[0.98]">
+                    Don't show again
+                </button>
+                <button onclick="toggleAnnouncementModal()" class="w-full py-2.5 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition-all active:scale-[0.98]">
+                    Got it
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="announcement-badge" class="fixed right-4 top-1/2 -translate-y-1/2 z-[90] hidden">
+        <button onclick="showAnnouncementFromBadge()" class="bg-amber-500 hover:bg-amber-600 text-white p-3 rounded-full shadow-lg transition-all hover:scale-110 group relative">
+            <i class="fas fa-bullhorn text-lg"></i>
+            <span class="absolute right-full mr-2 top-1/2 -translate-y-1/2 bg-slate-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                Development Update
+            </span>
+        </button>
+    </div>
+
+    <div id="chat-widget" class="fixed bottom-4 right-4 z-[90] hidden">
+        <button onclick="showChatConsentModal()" class="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-all hover:scale-110 group relative">
+            <i class="fas fa-comments text-xl"></i>
+            <span class="absolute right-full mr-2 top-1/2 -translate-y-1/2 bg-slate-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                Chat with us
+            </span>
+        </button>
+    </div>
+
+    <div id="chat-consent-modal" class="fixed inset-0 z-[100] items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+        <div class="modal-content bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-white shrink-0">
+                <h3 class="text-lg font-bold text-slate-900">💬 Chat Requires Cookies</h3>
+                <button onclick="toggleChatConsentModal()" class="text-slate-400 hover:text-slate-600 transition">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6 bg-slate-50/30">
+                <div class="space-y-4">
+                    <div class="text-center">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-comments text-blue-600 text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-2">Enable Chat Support</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            To use our chat support, you need to accept cookies. This allows us to provide you with real-time assistance and support.
+                        </p>
+                    </div>
+                    
+                    <div class="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-info-circle text-amber-600 mt-0.5"></i>
+                            <div>
+                                <p class="text-amber-800 text-sm font-medium mb-1">Why cookies are needed for chat</p>
+                                <p class="text-amber-700 text-xs">
+                                    Chat functionality requires third-party cookies to maintain your conversation and provide real-time messaging.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 bg-white border-t border-slate-100 shrink-0 space-y-3">
+                <button onclick="acceptCookiesForChat()" class="w-full py-2.5 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition-all active:scale-[0.98]">
+                    Accept Cookies & Enable Chat
+                </button>
+                <button onclick="toggleChatConsentModal()" class="w-full py-2.5 bg-slate-100 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-200 transition-all active:scale-[0.98]">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cookie-popup" class="fixed bottom-4 left-4 z-[90] bg-white rounded-2xl shadow-2xl border border-slate-200 p-6 max-w-sm hidden">
+        <div class="flex items-start space-x-3">
+            <div class="bg-blue-100 p-2 rounded-lg flex-shrink-0">
+                <i class="fas fa-cookie-bite text-blue-600 text-lg"></i>
+            </div>
+            <div class="flex-1">
+                <h3 class="font-bold text-slate-900 mb-2">🍪 Cookie Consent</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                    We use cookies to enhance your experience and analyze site traffic. By continuing, you agree to our use of cookies.
+                </p>
+                <div class="flex flex-col space-y-2">
+                    <div class="flex space-x-2">
+                        <button onclick="acceptCookies()" class="flex-1 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition">
+                            Accept All
+                        </button>
+                        <button onclick="declineCookies()" class="flex-1 py-2 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-200 transition">
+                            Decline
+                        </button>
+                    </div>
+                    <button onclick="showCookieModal()" class="w-full py-2 bg-slate-50 text-slate-600 rounded-lg text-xs font-bold hover:bg-slate-100 transition">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+            <button onclick="toggleCookiePopup()" class="text-slate-400 hover:text-slate-600 transition flex-shrink-0">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="cookie-modal" class="fixed inset-0 z-[100] items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+        <div class="modal-content bg-white w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-white shrink-0">
+                <h3 class="text-lg font-bold text-slate-900">🍪 Cookie Policy & Consent</h3>
+                <button onclick="toggleCookieModal()" class="text-slate-400 hover:text-slate-600 transition">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto custom-scrollbar bg-slate-50/30">
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3">What are Cookies?</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Cookies are small text files that are stored on your device when you visit websites. They help websites remember information about your visit, making your experience more efficient and personalized. Think of them as memory notes that help the website remember you and your preferences.
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3">Cookies We Use</h4>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-white border border-slate-200 rounded-lg">
+                                <h5 class="font-semibold text-slate-800 mb-1">Essential Cookies</h5>
+                                <p class="text-slate-600 text-xs">Required for the website to function properly. These include basic site functionality and security features.</p>
+                            </div>
+                            <div class="p-3 bg-white border border-slate-200 rounded-lg">
+                                <h5 class="font-semibold text-slate-800 mb-1">Analytics Cookies</h5>
+                                <p class="text-slate-600 text-xs">Help us understand how visitors interact with our website by collecting and reporting information anonymously.</p>
+                            </div>
+                            <div class="p-3 bg-white border border-slate-200 rounded-lg">
+                                <h5 class="font-semibold text-slate-800 mb-1">Third-Party Cookies</h5>
+                                <p class="text-slate-600 text-xs">Used by external services like Google Analytics, Cookiebot consent management, and Tidio chat support.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3">Your Rights (GDPR Compliance)</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                            Under GDPR, you have the right to:
+                        </p>
+                        <ul class="text-slate-600 text-sm space-y-1 list-disc list-inside">
+                            <li>Know what cookies are being used and why</li>
+                            <li>Accept or reject non-essential cookies</li>
+                            <li>Withdraw consent at any time</li>
+                            <li>Request access to any data stored about you</li>
+                            <li>Request deletion of your data</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-3">Managing Your Preferences</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            You can control cookies through your browser settings or by clicking the cookie consent widget that appears on this site. You can also withdraw consent at any time by adjusting your preferences in your browser or contacting us directly.
+                        </p>
+                    </div>
+
+                    <div class="p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                        <h4 class="font-bold text-blue-800 mb-2">Contact Us</h4>
+                        <p class="text-blue-700 text-sm">
+                            If you have questions about our cookie policy or need to exercise your GDPR rights, please contact us at our privacy policy page.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 bg-white border-t border-slate-100 shrink-0 space-y-3">
+                <div class="flex space-x-3">
+                    <button onclick="acceptCookiesFromModal()" class="flex-1 py-2.5 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition-all active:scale-[0.98]">
+                        Accept All Cookies
+                    </button>
+                    <button onclick="declineCookiesFromModal()" class="flex-1 py-2.5 bg-slate-100 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-200 transition-all active:scale-[0.98]">
+                        Decline All Cookies
+                    </button>
+                </div>
+                <button onclick="toggleCookieModal()" class="w-full py-2.5 bg-slate-50 text-slate-600 rounded-xl font-bold text-sm hover:bg-slate-100 transition-all active:scale-[0.98]">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
     <footer class="py-12 px-6 border-t border-slate-100 bg-slate-50">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-center mb-8">
@@ -409,9 +630,10 @@
                     </div>
                     <span class="text-lg font-bold text-slate-900">CC Improver</span>
                 </div>
-                <div class="flex space-x-6 text-sm font-medium">
+                <div class="flex flex-wrap justify-center md:justify-end space-x-6 text-sm font-medium">
                     <a href="terms.html" class="text-slate-500 hover:text-blue-600 transition">Terms & Conditions</a>
                     <a href="privacy.html" class="text-slate-500 hover:text-blue-600 transition">Privacy Policy</a>
+                    <a href="javascript:void(0)" onclick="toggleCookieModal()" class="text-slate-500 hover:text-blue-600 transition">Cookie Consent</a>
                     <a href="https://jamestheakston.pages.dev" target="_blank" class="text-slate-500 hover:text-blue-600 transition">Contact</a>
                     <a href="https://github.com/jamestheakston/classchartsimprover" target="_blank" class="text-slate-500 hover:text-blue-600 transition flex items-center">
                         <i class="fab fa-github mr-1.5"></i> Source Code
@@ -636,10 +858,369 @@
             }
         }
 
-        window.onclick = function(event) {
-            if (event.target.id === 'compatibility-modal') toggleModal();
+        function toggleAnnouncementModal() {
+            const modal = document.getElementById('announcement-modal');
+            const isActive = modal.classList.contains('active');
+            if (!isActive) {
+                modal.style.display = 'flex';
+                setTimeout(() => {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }, 10);
+            } else {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
         }
 
+        function dontShowAgain() {
+            // Save preference to localStorage
+            localStorage.setItem('hideAnnouncement', 'true');
+            // Close modal
+            toggleAnnouncementModal();
+            // Show badge
+            const badge = document.getElementById('announcement-badge');
+            badge.classList.remove('hidden');
+        }
+
+        function showAnnouncementFromBadge() {
+            // Open modal
+            toggleAnnouncementModal();
+        }
+
+        function checkAnnouncementPreference() {
+            const hideAnnouncement = localStorage.getItem('hideAnnouncement');
+            if (hideAnnouncement !== 'true') {
+                // Show announcement modal by default on first visit
+                setTimeout(() => {
+                    toggleAnnouncementModal();
+                }, 1000); // Delay to let page load
+            } else {
+                // Show badge if user chose not to show again
+                const badge = document.getElementById('announcement-badge');
+                badge.classList.remove('hidden');
+            }
+        }
+
+        function toggleCookieModal() {
+            const modal = document.getElementById('cookie-modal');
+            const isActive = modal.classList.contains('active');
+            if (!isActive) {
+                modal.style.display = 'flex';
+                setTimeout(() => {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }, 10);
+            } else {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        function acceptCookies() {
+            // Save cookie consent preference
+            localStorage.setItem('cookieConsent', 'accepted');
+            // Close popup
+            const popup = document.getElementById('cookie-popup');
+            popup.classList.add('hidden');
+            // Load video if consent accepted
+            loadVideo();
+            // Load cookie-dependent scripts
+            loadCookieScripts();
+        }
+
+        function declineCookies() {
+            // Save declined preference
+            localStorage.setItem('cookieConsent', 'declined');
+            // Close popup
+            const popup = document.getElementById('cookie-popup');
+            popup.classList.add('hidden');
+        }
+
+        function acceptCookiesAndShowVideo() {
+            // Accept cookies and load video
+            localStorage.setItem('cookieConsent', 'accepted');
+            loadVideo();
+            loadCookieScripts();
+            // Close popup if it's open
+            const popup = document.getElementById('cookie-popup');
+            popup.classList.add('hidden');
+        }
+
+        function showVideoLoading() {
+            const placeholder = document.getElementById('video-placeholder');
+            if (placeholder) {
+                placeholder.innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center bg-slate-50 border-2 border-slate-200 rounded-xl">
+                        <div class="text-center p-8">
+                            <div class="animate-spin w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+                            <p class="text-slate-600 font-medium mb-2">Loading video...</p>
+                            <p class="text-slate-400 text-sm">Please accept cookies to continue</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function showVideoError() {
+            const placeholder = document.getElementById('video-placeholder');
+            if (placeholder) {
+                placeholder.innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center bg-red-50 border-2 border-red-200 rounded-xl">
+                        <div class="text-center p-8">
+                            <i class="fas fa-exclamation-triangle text-6xl text-red-400 mb-4"></i>
+                            <p class="text-red-600 font-bold mb-2">Content Blocked</p>
+                            <p class="text-red-500 text-sm mb-2">YouTube video requires cookies</p>
+                            <p class="text-red-400 text-xs mb-4">This content has been blocked to protect your privacy</p>
+                            <button onclick="acceptCookiesAndShowVideo()" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition">
+                                Accept Cookies & Watch
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function loadVideo() {
+            const placeholder = document.getElementById('video-placeholder');
+            if (placeholder) {
+                placeholder.innerHTML = `
+                    <iframe src="https://www.youtube.com/embed/3cAEsMirXqc?si=0FdqCG0WRoIk17KL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                `;
+            }
+        }
+
+        function loadCookieScripts() {
+            // Load Cookiebot script
+            if (!document.getElementById('cookiebot-script')) {
+                const cookiebotScript = document.createElement('script');
+                cookiebotScript.id = 'cookiebot-script';
+                cookiebotScript.src = 'https://consent.cookiebot.com/uc.js';
+                cookiebotScript.setAttribute('data-cbid', '86a3fec8-8822-46cf-ace0-93173e7f791f');
+                cookiebotScript.setAttribute('data-blockingmode', 'auto');
+                cookiebotScript.type = 'text/javascript';
+                document.head.appendChild(cookiebotScript);
+            }
+
+            // Load Tidio chat script
+            if (!document.getElementById('tidio-script')) {
+                const tidioScript = document.createElement('script');
+                tidioScript.id = 'tidio-script';
+                tidioScript.src = '//code.tidio.co/sttyy4cu7mmp0m4gfctxaj8fowg6schk.js';
+                tidioScript.async = true;
+                document.body.appendChild(tidioScript);
+            }
+        }
+
+        function toggleCookiePopup() {
+            const popup = document.getElementById('cookie-popup');
+            popup.classList.toggle('hidden');
+            
+            // Save cookie consent preference (default to accepted)
+            localStorage.setItem('cookieConsent', 'accepted');
+            // Load video if accepted
+            loadVideo();
+            loadCookieScripts();
+        }
+
+        function showCookieModal() {
+            // Close popup first
+            const popup = document.getElementById('cookie-popup');
+            popup.classList.add('hidden');
+            
+            // Open detailed modal
+            toggleCookieModal();
+        }
+
+        function acceptCookiesFromModal() {
+            // Save cookie consent preference
+            localStorage.setItem('cookieConsent', 'accepted');
+            // Load video and scripts
+            loadVideo();
+            loadCookieScripts();
+            // Close modal
+            toggleCookieModal();
+            // Show success feedback
+            showCookiePreferenceFeedback('accepted');
+        }
+
+        function declineCookiesFromModal() {
+            // Save declined preference
+            localStorage.setItem('cookieConsent', 'declined');
+            // Remove video and scripts
+            removeVideoAndScripts();
+            // Ensure Tidio is completely removed
+            ensureTidioRemoved();
+            // Show custom chat widget
+            const chatWidget = document.getElementById('chat-widget');
+            chatWidget.classList.remove('hidden');
+            // Close modal
+            toggleCookieModal();
+            // Show success feedback
+            showCookiePreferenceFeedback('declined');
+        }
+
+        function removeVideoAndScripts() {
+            // Reset video to error state
+            showVideoError();
+            
+            // Remove cookie scripts if they exist
+            const cookiebotScript = document.getElementById('cookiebot-script');
+            if (cookiebotScript) {
+                cookiebotScript.remove();
+            }
+            
+            const tidioScript = document.getElementById('tidio-script');
+            if (tidioScript) {
+                tidioScript.remove();
+            }
+        }
+
+        function showCookiePreferenceFeedback(preference) {
+            // Create temporary feedback notification
+            const feedback = document.createElement('div');
+            feedback.className = 'fixed top-4 right-4 z-[200] bg-white rounded-lg shadow-lg border border-slate-200 p-4 max-w-sm';
+            feedback.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <div class="${preference === 'accepted' ? 'bg-green-100' : 'bg-red-100'} p-2 rounded-lg">
+                        <i class="fas ${preference === 'accepted' ? 'fa-check text-green-600' : 'fa-times text-red-600'}"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-sm">Preference Updated</h4>
+                        <p class="text-slate-600 text-xs">You have ${preference === 'accepted' ? 'accepted' : 'declined'} cookies</p>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(feedback);
+            
+            // Remove feedback after 3 seconds
+            setTimeout(() => {
+                feedback.remove();
+            }, 3000);
+        }
+
+        function toggleChatConsentModal() {
+            const modal = document.getElementById('chat-consent-modal');
+            const isActive = modal.classList.contains('active');
+            if (!isActive) {
+                modal.style.display = 'flex';
+                setTimeout(() => {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }, 10);
+            } else {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        function showChatConsentModal() {
+            toggleChatConsentModal();
+        }
+
+        function acceptCookiesForChat() {
+            // Save cookie consent preference
+            localStorage.setItem('cookieConsent', 'accepted');
+            // Load video and scripts
+            loadVideo();
+            loadCookieScripts();
+            // Hide chat widget (real chat will load)
+            const chatWidget = document.getElementById('chat-widget');
+            chatWidget.classList.add('hidden');
+            // Close modal
+            toggleChatConsentModal();
+            // Show success feedback
+            showCookiePreferenceFeedback('accepted');
+        }
+
+        function checkCookieConsent() {
+            const consent = localStorage.getItem('cookieConsent');
+            if (consent === 'accepted') {
+                // Load video if consent was already given
+                loadVideo();
+                loadCookieScripts();
+                // Hide custom chat widget since real chat will load
+                const chatWidget = document.getElementById('chat-widget');
+                chatWidget.classList.add('hidden');
+            } else if (consent === 'declined') {
+                // Show custom chat widget when cookies are declined
+                const chatWidget = document.getElementById('chat-widget');
+                chatWidget.classList.remove('hidden');
+                // Show video error
+                showVideoError();
+                // Ensure Tidio is not loaded
+                ensureTidioRemoved();
+            } else {
+                // Show loading spinner when no decision made
+                showVideoLoading();
+                // Hide chat widget until decision made
+                const chatWidget = document.getElementById('chat-widget');
+                chatWidget.classList.add('hidden');
+                // Ensure Tidio is not loaded when no decision made
+                ensureTidioRemoved();
+                // Show cookie popup after a delay
+                setTimeout(() => {
+                    const popup = document.getElementById('cookie-popup');
+                    popup.classList.remove('hidden');
+                }, 2000); // Show after 2 seconds
+            }
+        }
+
+        function ensureTidioRemoved() {
+            // Remove Tidio script if it exists
+            const tidioScript = document.getElementById('tidio-script');
+            if (tidioScript) {
+                tidioScript.remove();
+            }
+            // Also remove any Tidio chat widgets that might have loaded
+            const tidioWidgets = document.querySelectorAll('[id*="tidio"], [class*="tidio"]');
+            tidioWidgets.forEach(widget => widget.remove());
+        }
+
+        function checkAnnouncementParameter() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('announcement')) {
+                // Force show announcement regardless of preference
+                setTimeout(() => {
+                    toggleAnnouncementModal();
+                    // Remove the parameter from URL to prevent reopening on refresh
+                    const url = new URL(window.location);
+                    url.searchParams.delete('announcement');
+                    window.history.replaceState({}, document.title, url);
+                }, 500); // Short delay to ensure page is loaded
+                return true; // Indicate that announcement was forced
+            }
+            return false; // No announcement parameter
+        }
+
+        window.onclick = function(event) {
+            if (event.target.id === 'compatibility-modal') toggleModal();
+            if (event.target.id === 'announcement-modal') toggleAnnouncementModal();
+            if (event.target.id === 'cookie-modal') toggleCookieModal();
+            if (event.target.id === 'chat-consent-modal') toggleChatConsentModal();
+        }
+
+        // Check for announcement parameter when page loads
+        const forcedAnnouncement = checkAnnouncementParameter();
+        
+        // If not forced by URL parameter, check user preference
+        if (!forcedAnnouncement) {
+            checkAnnouncementPreference();
+        }
+        
+        // Check cookie consent
+        checkCookieConsent();
+        
         initReviews();
     </script>
 </body>
