@@ -3,185 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Version - ClassCharts Improver</title>
-    <meta name="description" content="Teacher version of ClassCharts Improver - Coming Soon">
-    <meta property="og:title" content="Teacher Version - ClassCharts Improver">
-    <meta property="og:description" content="Teacher version of ClassCharts Improver - Coming Soon">
-    <meta property="og:image" content="https://classchartsimprover.pages.dev/og-image.png">
-    <meta property="og:url" content="https://classchartsimprover.pages.dev/teacher.html">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://classchartsimprover.pages.dev/teacher.html">
+    
+    <title>Teacher Version - ClassCharts Improver | AI Tools & Dark Mode</title>
+    <meta name="title" content="Teacher Version - ClassCharts Improver | AI Tools & Dark Mode">
+    <meta name="description" content="Enhance your teaching workflow with ClassCharts Improver. Featuring optional AI insights, universal dark mode, and improved icons—with the same features students love.">
+    <meta name="keywords" content="ClassCharts Teacher, Classroom AI, Dark Mode ClassCharts, Teacher Productivity, Education Icons">
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+    <meta property="og:url" content="https://classchartsimprover.pages.dev/teacher.html">
+    <meta property="og:title" content="ClassCharts Improver for Teachers - AI & Dark Mode">
+    <meta property="og:description" content="The ultimate toolkit for educators. Optional AI, improved icons, and dark mode support.">
+    <meta property="og:image" content="https://classchartsimprover.pages.dev/og-image.png">
+
+    <!-- JSON-LD Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "ClassCharts Improver (Teacher Edition)",
+      "operatingSystem": "Browser Extension",
+      "applicationCategory": "EducationalApplication",
+      "description": "A productivity extension for teachers using ClassCharts, featuring Dark Mode, AI tools, and improved iconography.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            600: '#2563eb',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        .hero-gradient { background: radial-gradient(circle at 50% 50%, #f8fafc 0%, #ffffff 100%); }
+        .dark .hero-gradient { background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%); }
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(10px);
+            border: 1px solid #e2e8f0; 
         }
-        .hero-gradient {
-            background: radial-gradient(circle at 50% 50%, #f8fafc 0%, #ffffff 100%);
+        .dark .glass-card { 
+            background: rgba(30, 41, 59, 0.5); 
+            border: 1px solid #334155; 
         }
-        .glass-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        }
-        .pulse-animation {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: .5;
-            }
-        }
+        .pulse-animation { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        
+        .tab-transition { transition: all 0.3s ease-in-out; }
     </style>
 </head>
-<body class="bg-white text-slate-800 antialiased">
-    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="bg-blue-600 p-2 rounded-lg">
-                    <i class="fas fa-chart-bar text-white text-sm"></i>
-                </div>
-                <span class="text-xl font-bold tracking-tight text-slate-900">CC <span class="text-blue-600">Improver</span></span>
-            </div>
-            <div class="hidden md:flex space-x-8 text-sm font-medium">
-                <a href="index.html" class="text-slate-600 hover:text-blue-600 transition">Home</a>
-                <a href="teacher.html" class="text-blue-600 font-semibold">Teacher</a>
-                <a href="privacy.html" class="text-slate-600 hover:text-blue-600 transition">Privacy</a>
-                <a href="https://github.com/jamestheakston/classchartsimprover" target="_blank" class="text-slate-600 hover:text-blue-600 transition flex items-center">
-                    <i class="fab fa-github mr-1.5"></i> GitHub
+
+<body class="bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 antialiased">
+    <header>
+        <nav class="fixed w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <div class="bg-blue-600 p-2 rounded-lg">
+                        <i class="fas fa-chart-bar text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">CC <span class="text-blue-600">Improver</span></span>
                 </a>
-            </div>
-            <a href="https://chromewebstore.google.com/detail/classcharts-improver/kalmdpfngeebamgaeegkieojhbkbghoe" target="_blank" class="bg-slate-900 hover:bg-black text-white px-5 py-2 rounded-full text-sm font-semibold transition">
-                Add to Chrome
-            </a>
-        </div>
-    </nav>
-
-    <main class="pt-40 pb-20 px-6 hero-gradient min-h-screen flex items-center">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="mb-8">
-                <div class="inline-flex items-center justify-center w-20 h-20 bg-blue-100 rounded-full mb-6">
-                    <i class="fas fa-chalkboard-teacher text-blue-600 text-3xl"></i>
+                
+                <div class="flex items-center space-x-4 md:space-x-8">
+                    <div class="hidden md:flex space-x-6 text-sm font-medium">
+                        <a href="index.html" class="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition">Home</a>
+                        <a href="teacher.html" class="text-blue-600 font-semibold">Teacher</a>
+                    </div>
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition text-slate-600 dark:text-slate-400" aria-label="Toggle Dark Mode">
+                        <i id="theme-icon" class="fas fa-moon"></i>
+                    </button>
+                    <a href="https://chromewebstore.google.com/detail/classcharts-improver/kalmdpfngeebamgaeegkieojhbkbghoe" target="_blank" class="bg-slate-900 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-semibold transition">
+                        Install
+                    </a>
                 </div>
-                <h1 class="text-5xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
-                    Teacher Version
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-40 pb-20 px-6 hero-gradient min-h-screen">
+        <article class="max-w-5xl mx-auto text-center">
+            <header class="mb-12">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-blue-100 dark:bg-blue-900/30 rounded-2xl mb-6 shadow-sm">
+                    <i class="fas fa-chalkboard-teacher text-blue-600 dark:text-blue-400 text-3xl"></i>
+                </div>
+                <h1 class="text-5xl md:text-6xl font-extrabold text-slate-900 dark:text-white mb-6 leading-tight">
+                    ClassCharts for <span class="text-blue-600">Educators</span>
                 </h1>
-                <div class="inline-flex items-center px-4 py-2 bg-amber-50 border border-amber-200 rounded-full mb-8">
-                    <span class="pulse-animation inline-block w-2 h-2 bg-amber-500 rounded-full mr-2"></span>
-                    <span class="text-amber-800 font-semibold text-sm">Coming Soon</span>
-                </div>
-            </div>
-
-            <div class="glass-card rounded-2xl p-8 md:p-12 mb-8">
-                <h2 class="text-2xl font-bold text-slate-900 mb-4">Enhanced Tools for Teachers</h2>
-                <p class="text-lg text-slate-600 mb-8 leading-relaxed">
-                    We're working on a specialized version of ClassCharts Improver designed specifically for teachers, 
-                    with the same features students love. Stay tuned for powerful features that will help you manage your classroom more efficiently.
+                <p class="text-xl text-slate-600 dark:text-slate-400 font-medium mb-8">
+                    Built <span class="italic text-blue-500 underline decoration-2 underline-offset-4">with the same features students love</span>, <br class="hidden md:block"> now supercharged for professional teaching.
                 </p>
+                <div class="inline-flex items-center px-4 py-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 rounded-full mb-8">
+                    <span class="pulse-animation inline-block w-2 h-2 bg-amber-500 rounded-full mr-2"></span>
+                    <span class="text-amber-800 dark:text-amber-400 font-semibold text-xs uppercase tracking-wider text-sm">Under Active Development</span>
+                </div>
+            </header>
 
-                <div class="grid md:grid-cols-3 gap-6 mb-8">
-                    <div class="text-center">
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                            <i class="fas fa-chart-line text-blue-600"></i>
-                        </div>
-                        <h3 class="font-semibold text-slate-900 mb-2">Advanced Analytics</h3>
-                        <p class="text-sm text-slate-600">Deep insights into student performance</p>
+            <section class="grid md:grid-cols-3 gap-6 mb-12">
+                <div class="glass-card rounded-2xl p-8 transition-all hover:scale-[1.02]">
+                    <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center mx-auto mb-5 shadow-sm">
+                        <i class="fas fa-robot text-purple-600 dark:text-purple-400 text-2xl"></i>
                     </div>
-                    <div class="text-center">
-                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                            <i class="fas fa-tasks text-green-600"></i>
-                        </div>
-                        <h3 class="font-semibold text-slate-900 mb-2">Streamlined Workflow</h3>
-                        <p class="text-sm text-slate-600">Save time on administrative tasks</p>
+                    <h3 class="text-xl font-bold mb-3 dark:text-white">AI Assistant</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                        Automate comments and analyze behavior trends with localized intelligence. This feature is fully optional via a toggle.
+                    </p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-8 transition-all hover:scale-[1.02]">
+                    <div class="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mx-auto mb-5 shadow-sm">
+                        <i class="fas fa-moon text-blue-600 dark:text-blue-400 text-2xl"></i>
                     </div>
-                    <div class="text-center">
-                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                            <i class="fas fa-users text-purple-600"></i>
-                        </div>
-                        <h3 class="font-semibold text-slate-900 mb-2">Class Management</h3>
-                        <p class="text-sm text-slate-600">Better control over classroom activities</p>
+                    <h3 class="text-xl font-bold mb-3 dark:text-white">Dark Mode</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                        A beautiful, eye-friendly interface designed for late-night grading and low-light classrooms.
+                    </p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-8 transition-all hover:scale-[1.02]">
+                    <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center mx-auto mb-5 shadow-sm">
+                        <i class="fas fa-shapes text-emerald-600 dark:text-emerald-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 dark:text-white">Improved Icons</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                        High-definition, modern icons for behavior types to help you identify classroom events instantly.
+                    </p>
+                </div>
+            </section>
+
+            <section class="glass-card rounded-3xl p-8 md:p-12 text-left mb-12 max-w-4xl mx-auto shadow-xl">
+                <div class="flex items-center space-x-4 mb-8">
+                    <div class="p-3 bg-blue-600 rounded-xl text-white">
+                        <i class="fas fa-info-circle text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold dark:text-white">Implementation & Support</h2>
+                        <p class="text-slate-500 dark:text-slate-400">Choose the information relevant to your role.</p>
                     </div>
                 </div>
 
-                <div class="bg-slate-50 rounded-xl p-6">
-                    <h3 class="font-semibold text-slate-900 mb-3">Questions</h3>
-                    <p class="text-slate-600 mb-6">Contact us and we can explain how ClassCharts Improver works, and if your school allows it or not</p>
-                    
-                    <div class="border-b border-slate-200 mb-6">
-                        <div class="flex space-x-8">
-                            <button onclick="switchTab('teacher')" id="teacher-tab" class="pb-3 px-1 border-b-2 border-blue-600 text-blue-600 font-medium text-sm transition">
-                                Teacher
-                            </button>
-                            <button onclick="switchTab('admin')" id="admin-tab" class="pb-3 px-1 border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-medium text-sm transition">
-                                School Admin
-                            </button>
+                <!-- Tab Buttons -->
+                <div class="border-b border-slate-200 dark:border-slate-800 mb-8">
+                    <div class="flex space-x-8">
+                        <button onclick="switchTab('teacher')" id="teacher-tab" class="pb-4 px-1 border-b-2 border-blue-600 text-blue-600 font-bold text-sm transition">
+                            <i class="fas fa-user-tie mr-2"></i> For Teachers
+                        </button>
+                        <button onclick="switchTab('admin')" id="admin-tab" class="pb-4 px-1 border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-semibold text-sm transition">
+                            <i class="fas fa-shield-halved mr-2"></i> For School Admins
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Teacher -->
+                <div id="teacher-content" class="tab-content space-y-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="mt-1 text-blue-600 dark:text-blue-400">
+                            <i class="fas fa-check-circle"></i>
                         </div>
+                        <p class="text-slate-700 dark:text-slate-300"><strong>Optional AI:</strong> Our AI features are disabled by default. You remain in full control of your classroom data with a simple toggle in the settings menu.</p>
                     </div>
-                    
-                    <div id="teacher-content" class="tab-content">
-                        <p class="text-slate-600 mb-4">Contact us and we can explain how ClassCharts Improver works, and if your school allows it or not</p>
-                        <a href="mailto:hi.opticflowstudios@gmail.com" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition inline-block">
-                            Contact Us
-                        </a>
+                    <div class="flex items-start space-x-4">
+                        <div class="mt-1 text-blue-600 dark:text-blue-400">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <p class="text-slate-700 dark:text-slate-300"><strong>The Core Features:</strong> We've maintained the behavior streaks and points visualization that makes ClassCharts effective, just with a modern interface.</p>
                     </div>
-                    
-                    <div id="admin-content" class="tab-content hidden">
-                        <p class="text-slate-600 mb-4">Learn how ClassCharts Improver could boost your school environment and a guide to safely install it on your computers.</p>
-                        <a href="mailto:hi.opticflowstudios@gmail.com" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition inline-block">
-                            Contact Us
+                    <div class="pt-4">
+                        <a href="mailto:hi.opticflowstudios@gmail.com" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold transition shadow-lg shadow-blue-500/20">
+                            Get Early Access
                         </a>
                     </div>
                 </div>
-            </div>
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="index.html" class="inline-flex items-center justify-center px-6 py-3 bg-slate-900 hover:bg-black text-white rounded-full font-semibold transition">
-                    <i class="fas fa-arrow-left mr-2"></i>
+                <!-- Tab Content: Admin -->
+                <div id="admin-content" class="tab-content hidden space-y-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="mt-1 text-blue-600 dark:text-blue-400">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <p class="text-slate-700 dark:text-slate-300"><strong>Privacy Compliant:</strong> No classroom data is ever stored on our servers. All AI processing (when enabled) happens locally or via encrypted enterprise gateways.</p>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="mt-1 text-blue-600 dark:text-blue-400">
+                            <i class="fas fa-file-shield"></i>
+                        </div>
+                        <p class="text-slate-700 dark:text-slate-300"><strong>Platform & Security Guide:</strong> We provide a comprehensive guide for network administrators that details how the platform works, how secure it is, and instructions to safely deploy the extension across school computers.</p>
+                    </div>
+                    <div class="pt-4">
+                        <a href="/downloads/teacheradminguide.pdf" target="_blank" class="inline-block bg-slate-900 dark:bg-slate-700 hover:bg-black text-white px-8 py-3 rounded-xl font-bold transition shadow-lg">
+                            Download Security & Platform Guide
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <nav class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="index.html" class="inline-flex items-center justify-center px-8 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-950 rounded-full font-bold transition">
+                    <i class="fas fa-home mr-2"></i>
                     Back to Home
                 </a>
-                <a href="https://github.com/jamestheakston/classchartsimprover" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-slate-300 hover:bg-slate-50 rounded-full font-semibold transition">
+                <a href="https://github.com/jamestheakston/classchartsimprover" target="_blank" class="inline-flex items-center justify-center px-8 py-3 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full font-bold transition">
                     <i class="fab fa-github mr-2"></i>
-                    Follow Development
+                    Source Code
                 </a>
-            </div>
-        </div>
+            </nav>
+        </article>
     </main>
 
-    <footer class="bg-slate-50 border-t border-slate-200 py-8">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <p class="text-slate-600 text-sm">
-                © 2024 ClassCharts Improver. Not affiliated with ClassCharts.
+    <footer class="py-12 px-6 border-t border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-950">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-slate-500 dark:text-slate-400 text-sm">
+                © 2026 ClassCharts Improver. Not affiliated with Edukey or ClassCharts.
             </p>
         </div>
     </footer>
 
     <script>
-        function switchTab(tab) {
-            // Remove active state from all tabs and contents
-            document.getElementById('teacher-tab').classList.remove('border-blue-600', 'text-blue-600');
-            document.getElementById('teacher-tab').classList.add('border-transparent', 'text-slate-500');
-            document.getElementById('admin-tab').classList.remove('border-blue-600', 'text-blue-600');
-            document.getElementById('admin-tab').classList.add('border-transparent', 'text-slate-500');
-            document.getElementById('teacher-content').classList.add('hidden');
-            document.getElementById('admin-content').classList.add('hidden');
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
             
-            // Add active state to selected tab and content
-            if (tab === 'teacher') {
-                document.getElementById('teacher-tab').classList.remove('border-transparent', 'text-slate-500');
-                document.getElementById('teacher-tab').classList.add('border-blue-600', 'text-blue-600');
-                document.getElementById('teacher-content').classList.remove('hidden');
-            } else if (tab === 'admin') {
-                document.getElementById('admin-tab').classList.remove('border-transparent', 'text-slate-500');
-                document.getElementById('admin-tab').classList.add('border-blue-600', 'text-blue-600');
-                document.getElementById('admin-content').classList.remove('hidden');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
             }
+        }
+
+        function switchTab(tab) {
+            const teacherTab = document.getElementById('teacher-tab');
+            const adminTab = document.getElementById('admin-tab');
+            const teacherContent = document.getElementById('teacher-content');
+            const adminContent = document.getElementById('admin-content');
+
+            if (tab === 'teacher') {
+                teacherTab.classList.add('border-blue-600', 'text-blue-600', 'font-bold');
+                teacherTab.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                adminTab.classList.remove('border-blue-600', 'text-blue-600', 'font-bold');
+                adminTab.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                teacherContent.classList.remove('hidden');
+                adminContent.classList.add('hidden');
+            } else {
+                adminTab.classList.add('border-blue-600', 'text-blue-600', 'font-bold');
+                adminTab.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                teacherTab.classList.remove('border-blue-600', 'text-blue-600', 'font-bold');
+                teacherTab.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
+                adminContent.classList.remove('hidden');
+                teacherContent.classList.add('hidden');
+            }
+        }
+
+        // Initialize theme based on user preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
         }
     </script>
 </body>
