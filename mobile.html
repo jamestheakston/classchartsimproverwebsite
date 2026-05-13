@@ -7,16 +7,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>ClassCharts Improver</title>
-    <script>
-        function isPWA() {
-            return window.matchMedia('(display-mode: standalone)').matches || 
-                   window.navigator.standalone === true || 
-                   document.referrer.includes('android-app://');
-        }
-        if (!isPWA()) {
-            window.location.href = 'landing.html';
-        }
-    </script>
     <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkNsYXNzQ2hhcnRzIEltcHJvdmVyIiwKICAic2hvcnRfbmFtZSI6ICJDQ0ltcHJvdmVyIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmOGZhZmMiLAogICJ0aGVtZV9jb2xvciI6ICIjNGY0NmU1IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L25wbS9mYXZpY29uLTE5Ni54MTkyLnBuZyIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -36,9 +26,300 @@
         .btn:active {
             transform: scale(0.95);
         }
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, #f8fafc 0%, #ffffff 100%);
+        }
+        .glass-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .accent-gradient {
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .phone-frame {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 5s ease-in-out infinite;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+            border-color: #3b82f6;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        #install-modal {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #install-modal.active {
+            display: flex;
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen pb-20" id="appBody">
+    <div id="landingPage" class="hidden">
+        <div id="install-modal" class="fixed inset-0 z-[100] items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
+            <div class="bg-white w-full max-w-lg rounded-[2.5rem] p-8 lg:p-12 shadow-2xl relative overflow-hidden">
+                <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+                <div id="modal-loading" class="text-center py-12">
+                    <div class="inline-block w-12 h-12 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin mb-6"></div>
+                    <h3 class="text-2xl font-bold text-slate-900">Checking your device...</h3>
+                    <p class="text-slate-500 mt-2">Preparing installation steps</p>
+                </div>
+                <div id="modal-ios" class="hidden">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-xl">
+                            <i class="fab fa-apple"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900">Install on iOS</h3>
+                            <p class="text-slate-500 text-sm">Follow these steps in Safari</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-6">
+                        <li class="flex gap-4">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-900 font-bold shrink-0">1</div>
+                            <p class="text-slate-600">Tap the <strong>Share</strong> button <i class="fas fa-share-square text-blue-600 mx-1"></i> in the bottom navigation bar.</p>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-900 font-bold shrink-0">2</div>
+                            <p class="text-slate-600">Scroll down and select <strong>Add to Home Screen</strong> <i class="fas fa-plus-square text-blue-600 mx-1"></i>.</p>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-900 font-bold shrink-0">3</div>
+                            <p class="text-slate-600">Tap <strong>Add</strong> in the top right corner.</p>
+                        </li>
+                    </ul>
+                    <button onclick="closeModal()" class="w-full mt-10 bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-black transition-all">Got it</button>
+                </div>
+                <div id="modal-android" class="hidden">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-white text-xl">
+                            <i class="fab fa-android"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900">Install on Android</h3>
+                            <p class="text-slate-500 text-sm">Follow these steps in Chrome</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-6">
+                        <li class="flex gap-4">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-900 font-bold shrink-0">1</div>
+                            <p class="text-slate-600">Tap the <strong>Menu</strong> icon <i class="fas fa-ellipsis-v text-emerald-600 mx-1"></i> in the top right.</p>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-900 font-bold shrink-0">2</div>
+                            <p class="text-slate-600">Select <strong>Install app</strong> or <strong>Add to Home Screen</strong>.</p>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-900 font-bold shrink-0">3</div>
+                            <p class="text-slate-600">Tap <strong>Install</strong> to confirm.</p>
+                        </li>
+                    </ul>
+                    <button onclick="closeModal()" class="w-full mt-10 bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-black transition-all">Got it</button>
+                </div>
+                <div id="modal-error" class="hidden text-center">
+                    <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900">Scan to Install</h3>
+                    <p class="text-slate-500 mt-4 leading-relaxed">
+                        We've detected you're on a computer. Scan this QR code with your phone's camera to open the mobile site and install the app.
+                    </p>
+                    <div class="mt-8 mb-4 flex justify-center">
+                        <div class="p-4 bg-white border-2 border-slate-100 rounded-3xl shadow-sm">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://classchartsimprover.pages.dev/mobile" alt="QR Code" class="w-40 h-40">
+                        </div>
+                    </div>
+                    <button onclick="closeModal()" class="w-full mt-6 bg-slate-100 text-slate-900 py-4 rounded-2xl font-bold hover:bg-slate-200 transition-all">Close</button>
+                </div>
+            </div>
+        </div>
+        <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="bg-blue-600 p-2 rounded-lg">
+                        <i class="fas fa-chart-bar text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-slate-900">CC <span class="text-blue-600">Improver</span></span>
+                </div>
+                <div class="hidden md:flex gap-8 font-medium text-slate-600">
+                    <a href="#features" class="hover:text-blue-600 transition-colors">Features</a>
+                    <a href="#how-to" class="hover:text-blue-600 transition-colors">Installation</a>
+                    <a href="#faq" class="hover:text-blue-600 transition-colors">FAQ</a>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="openInstallModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-sm font-semibold transition transform hover:scale-105 active:scale-95">
+                        Install Now
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <header class="relative pt-40 pb-20 px-6 hero-gradient overflow-hidden">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-blue-50/50 blur-[120px] rounded-full -z-10"></div>
+            <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold uppercase tracking-wider mx-auto lg:mx-0">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+                        </span>
+                        Now available as a Mobile PWA
+                    </div>
+                    <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight text-slate-900">
+                        ClassCharts <br/> 
+                        <span class="text-gradient">Evolved for Mobile.</span>
+                    </h1>
+                    <p class="text-xl text-slate-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                        With the same features students love, right from your phone.
+                    </p>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+                        <button onclick="openInstallModal()" class="flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-black transition-all shadow-lg shadow-slate-200">
+                            <i class="fas fa-mobile-alt text-xl"></i>
+                            <div class="text-left">
+                                <div class="text-[10px] uppercase opacity-60 leading-none">Add to home screen</div>
+                                <div class="text-xl font-bold">Install Mobile App</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="relative flex justify-center lg:justify-end">
+                    <div class="relative z-10 w-[290px] h-[590px] bg-slate-900 rounded-[3.5rem] border-[10px] border-slate-800 phone-frame overflow-hidden animate-float">
+                        <div class="h-full w-full bg-white p-6 space-y-6">
+                            <div class="flex justify-between items-center pt-6">
+                                <div>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Dashboard</p>
+                                    <p class="font-extrabold text-xl text-slate-900">Hi, Alex!</p>
+                                </div>
+                                <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200">
+                                    <i class="fas fa-user text-slate-400"></i>
+                                </div>
+                            </div>
+                            <div class="accent-gradient rounded-2xl p-6 text-white shadow-xl shadow-blue-200 relative overflow-hidden">
+                                <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+                                <p class="text-xs font-bold uppercase opacity-80 mb-1">Weekly Points</p>
+                                <p class="text-4xl font-black">1,248</p>
+                                <div class="mt-4 flex items-center gap-2">
+                                    <span class="bg-white/20 px-2 py-0.5 rounded-md text-[10px] font-bold">+12 today</span>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="bg-slate-50 p-4 rounded-2xl flex items-center gap-4 border border-slate-100">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white text-sm shadow-md shadow-blue-100">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-bold text-slate-900">Excellent Effort</p>
+                                        <p class="text-[10px] text-slate-500 font-medium">Maths • 10:45 AM</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-8 left-6 right-6 flex justify-between items-center px-6 py-4 bg-white shadow-2xl shadow-slate-200 rounded-2xl border border-slate-100">
+                                <i class="fas fa-home text-blue-600 text-sm"></i>
+                                <i class="fas fa-chart-line text-slate-300 text-sm"></i>
+                                <i class="fas fa-calendar-alt text-slate-300 text-sm"></i>
+                                <i class="fas fa-cog text-slate-300 text-sm"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-blue-400/20 blur-[100px] rounded-full"></div>
+                </div>
+            </div>
+        </header>
+        <section id="features" class="py-32 px-6 bg-slate-900 text-white rounded-[3rem] lg:rounded-[5rem] mx-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-20 space-y-4">
+                    <span class="text-blue-400 font-bold text-xs uppercase tracking-widest">Everything you need</span>
+                    <h2 class="text-4xl md:text-5xl font-bold">A Native <span class="text-blue-400">Experience.</span></h2>
+                </div>
+                <div class="grid md:grid-cols-3 gap-10">
+                    <div class="p-10 rounded-[2.5rem] bg-white/5 border border-white/10 feature-card">
+                        <div class="w-14 h-14 bg-blue-500 rounded-2xl flex items-center justify-center mb-8">
+                            <i class="fas fa-bolt text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Instant Access</h3>
+                        <p class="text-slate-400 leading-relaxed">Launch directly from your home screen. No more typing URLs or navigating through browser tabs to check your points.</p>
+                    </div>
+                    <div class="p-10 rounded-[2.5rem] bg-white/5 border border-white/10 feature-card">
+                        <div class="w-14 h-14 bg-indigo-500 rounded-2xl flex items-center justify-center mb-8">
+                            <i class="fas fa-moon text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Built-in Dark Mode</h3>
+                        <p class="text-slate-400 leading-relaxed">The mobile app comes with our signature dark theme pre-configured, making it easier on your eyes during early mornings.</p>
+                    </div>
+                    <div class="p-10 rounded-[2.5rem] bg-white/5 border border-white/10 feature-card">
+                        <div class="w-14 h-14 bg-emerald-500 rounded-2xl flex items-center justify-center mb-8">
+                            <i class="fas fa-chart-pie text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Point Insights</h3>
+                        <p class="text-slate-400 leading-relaxed">View your behavior trends and predictions with a mobile-optimized interface designed for quick glances.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="how-to" class="py-32 px-6">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-card rounded-[3rem] p-12 lg:p-20 overflow-hidden relative">
+                    <h2 class="text-4xl font-bold text-slate-900 mb-4 text-center">Platform Support</h2>
+                    <p class="text-slate-500 text-center mb-16 max-w-xl mx-auto">We provide tailored installation guides for the major mobile platforms. Tap the Install Mobile App button at the top to get started.</p>
+                    <div class="grid md:grid-cols-2 gap-16">
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shadow-lg shadow-blue-100">1</div>
+                                <h3 class="text-2xl font-bold text-slate-900"><i class="fab fa-apple mr-2"></i> iOS (Safari)</h3>
+                            </div>
+                            <p class="text-slate-600">Full support for iPhones and iPads. Requires Safari for "Add to Home Screen" functionality.</p>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shadow-lg shadow-emerald-100">2</div>
+                                <h3 class="text-2xl font-bold text-slate-900"><i class="fab fa-android mr-2 text-emerald-600"></i> Android</h3>
+                            </div>
+                            <p class="text-slate-600">Full support for all Android devices. Works best when using Google Chrome.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="py-16 px-6 bg-white border-t border-slate-100">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                    <div class="flex items-center space-x-2 mb-8 md:mb-0">
+                        <div class="bg-blue-600 p-2 rounded-lg">
+                            <i class="fas fa-chart-bar text-white text-xs"></i>
+                        </div>
+                        <span class="text-xl font-bold text-slate-900 tracking-tight">CC Improver</span>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-8 text-sm font-bold text-slate-500 uppercase tracking-widest">
+                        <a href="#" class="hover:text-blue-600">Privacy Policy</a>
+                        <a href="#" class="hover:text-blue-600">Support</a>
+                        <a href="#" class="hover:text-blue-600">Updates</a>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p class="text-slate-400 text-[10px]">© James Theakston 2026. This app is an independent enhancement tool and is not affiliated with, endorsed by, or connected to ClassCharts or Edukey Education Ltd.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <div id="pwaApp" class="hidden">
     <div id="loginOverlay" class="fixed inset-0 bg-gradient-to-br from-indigo-600 to-purple-700 z-50 flex items-center justify-center hidden">
         <div class="bg-white rounded-2xl p-8 mx-4 w-full max-w-sm shadow-2xl">
             <div class="text-center mb-6">
@@ -443,7 +724,91 @@
             document.getElementById('userName').textContent = 'Student';
         });
 
-        checkAuth();
+        function isPWA() {
+            return window.matchMedia('(display-mode: standalone)').matches || 
+                   window.navigator.standalone === true || 
+                   document.referrer.includes('android-app://');
+        }
+
+        function initApp() {
+            const landingPage = document.getElementById('landingPage');
+            const pwaApp = document.getElementById('pwaApp');
+            
+            if (isPWA()) {
+                landingPage.classList.add('hidden');
+                pwaApp.classList.remove('hidden');
+                checkAuth();
+            } else {
+                landingPage.classList.remove('hidden');
+                pwaApp.classList.add('hidden');
+                initLandingPage();
+            }
+        }
+
+        function initLandingPage() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.feature-card, .glass-card').forEach(el => {
+                el.style.opacity = "0";
+                el.style.transform = "translateY(20px)";
+                el.style.transition = "all 0.6s cubic-bezier(0.22, 1, 0.36, 1)";
+                observer.observe(el);
+            });
+        }
+
+        function openInstallModal() {
+            const modal = document.getElementById('install-modal');
+            const loading = document.getElementById('modal-loading');
+            const ios = document.getElementById('modal-ios');
+            const android = document.getElementById('modal-android');
+            const error = document.getElementById('modal-error');
+
+            loading.classList.remove('hidden');
+            ios.classList.add('hidden');
+            android.classList.add('hidden');
+            error.classList.add('hidden');
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                
+                const ua = navigator.userAgent || navigator.vendor || window.opera;
+                const isIos = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+                const isAndroid = /android/i.test(ua);
+
+                if (isIos) {
+                    ios.classList.remove('hidden');
+                } else if (isAndroid) {
+                    android.classList.remove('hidden');
+                } else {
+                    error.classList.remove('hidden');
+                }
+            }, 1500);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('install-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('install-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        initApp();
 
         if ('serviceWorker' in navigator) {
             const swCode = `
