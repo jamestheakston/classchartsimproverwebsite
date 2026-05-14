@@ -69,9 +69,103 @@
             display: flex;
             opacity: 1;
         }
+        #debug-console {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            left: 10px;
+            right: 10px;
+            background: #1e1e1e;
+            border-radius: 12px;
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 11px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        #debug-console.active {
+            display: block;
+        }
+        #debug-console .console-header {
+            background: #2d2d2d;
+            padding: 8px 12px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+        }
+        #debug-console .console-header h3 {
+            color: #fff;
+            margin: 0;
+            font-size: 12px;
+        }
+        #debug-console .console-header button {
+            background: #ff5252;
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        #debug-console .console-logs {
+            padding: 8px;
+        }
+        #debug-console .log-entry {
+            padding: 4px 8px;
+            margin: 2px 0;
+            border-radius: 4px;
+            word-wrap: break-word;
+        }
+        #debug-console .log-info {
+            background: #2d2d2d;
+            color: #fff;
+            border-left: 3px solid #2196f3;
+        }
+        #debug-console .log-error {
+            background: #2d2d2d;
+            color: #ff5252;
+            border-left: 3px solid #ff5252;
+        }
+        #debug-console .log-warn {
+            background: #2d2d2d;
+            color: #ffc107;
+            border-left: 3px solid #ffc107;
+        }
+        #debug-console-btn {
+            position: fixed;
+            bottom: 85px;
+            right: 10px;
+            background: #2d2d2d;
+            color: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen pb-20" id="appBody">
+    <button id="debug-console-btn" onclick="toggleDebugConsole()">
+        <i class="fas fa-terminal"></i>
+    </button>
+    <div id="debug-console">
+        <div class="console-header">
+            <h3>Debug Console</h3>
+            <button onclick="clearDebugConsole()">Clear</button>
+        </div>
+        <div class="console-logs" id="console-logs"></div>
+    </div>
     <div id="landingPage" class="hidden">
         <div id="install-modal" class="fixed inset-0 z-[100] items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
             <div class="bg-white w-full max-w-lg rounded-[2.5rem] p-8 lg:p-12 shadow-2xl relative overflow-hidden">
@@ -506,6 +600,77 @@
     </nav>
 
     <script>
+        // Debug Console
+        const debugConsole = {
+            logs: [],
+            maxLogs: 100,
+            
+            addLog: function(type, args) {
+                const timestamp = new Date().toLocaleTimeString();
+                const message = args.map(arg => 
+                    typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                ).join(' ');
+                
+                this.logs.push({ type, timestamp, message });
+                if (this.logs.length > this.maxLogs) {
+                    this.logs.shift();
+                }
+                
+                this.render();
+            },
+            
+            render: function() {
+                const logsContainer = document.getElementById('console-logs');
+                if (!logsContainer) return;
+                
+                logsContainer.innerHTML = this.logs.map(log => {
+                    const typeClass = log.type === 'error' ? 'log-error' : 
+                                     log.type === 'warn' ? 'log-warn' : 'log-info';
+                    return `
+                        <div class="log-entry ${typeClass}">
+                            <span style="opacity: 0.6">[${log.timestamp}]</span> ${log.message}
+                        </div>
+                    `;
+                }).join('');
+                
+                logsContainer.scrollTop = logsContainer.scrollHeight;
+            },
+            
+            clear: function() {
+                this.logs = [];
+                this.render();
+            }
+        };
+        
+        // Override console methods
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            debugConsole.addLog('info', args);
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            debugConsole.addLog('error', args);
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            debugConsole.addLog('warn', args);
+        };
+        
+        function toggleDebugConsole() {
+            const console = document.getElementById('debug-console');
+            console.classList.toggle('active');
+        }
+        
+        function clearDebugConsole() {
+            debugConsole.clear();
+        }
+        
         const loginOverlay = document.getElementById('loginOverlay');
         const loginForm = document.getElementById('loginForm');
         const navItems = document.querySelectorAll('.nav-item');
