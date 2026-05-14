@@ -531,6 +531,10 @@
             const code = document.getElementById('code').value;
             const dob = document.getElementById('dob').value;
             
+            console.log('[Login] Starting login process');
+            console.log('[Login] Code:', code);
+            console.log('[Login] DOB:', dob);
+            
             try {
                 const formData = new URLSearchParams();
                 formData.append('code', code);
@@ -538,6 +542,7 @@
                 formData.append('remember', 'true');
                 formData.append('recaptcha-token', 'no-token-available');
                 
+                console.log('[Login] Sending request to ClassCharts via corsfix');
                 const response = await fetch('https://proxy.corsfix.com/?' + encodeURIComponent('https://www.classcharts.com/apiv2student/login'), {
                     method: 'POST',
                     headers: {
@@ -548,11 +553,15 @@
                     body: formData
                 });
                 
+                console.log('[Login] Response status:', response.status);
+                console.log('[Login] Response ok:', response.ok);
+                
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
                 const data = await response.json();
+                console.log('[Login] Response data:', data);
                 
                 if (data.success === 1 && data.meta && data.meta.session_id) {
                     localStorage.setItem('cc_token', data.meta.session_id);
