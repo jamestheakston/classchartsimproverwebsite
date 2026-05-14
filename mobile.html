@@ -738,8 +738,13 @@
                     alert('Login failed: ' + (data.error || 'Invalid credentials'));
                 }
             } catch (error) {
-                console.error('Login error:', error);
-                alert('Login error: Unable to connect to ClassCharts. This may be due to CORS restrictions. Please try using the app as a PWA or check your network connection.');
+                console.error('Login error:', error.message || error);
+                console.error('Error details:', {
+                    name: error.name,
+                    message: error.message,
+                    stack: error.stack
+                });
+                alert('Login error: ' + (error.message || 'Unable to connect to ClassCharts. This may be due to CORS restrictions. Please try using the app as a PWA or check your network connection.'));
             }
         });
 
