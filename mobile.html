@@ -542,7 +542,8 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
-                        'X-Requested-With': 'XMLHttpRequest'
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'x-corsfix-key': 'cfx_9028537c0198e4fa37403fbc967c1482'
                     },
                     body: formData
                 });
@@ -595,17 +596,20 @@
                 const [homeworkResponse, behaviourResponse, announcementsResponse] = await Promise.all([
                     fetch(`https://proxy.corsfix.com/?` + encodeURIComponent(`https://www.classcharts.com/apiv2student/homeworks/${studentId}`), {
                         headers: {
-                            'Authorization': `Basic ${token}`
+                            'Authorization': `Basic ${token}`,
+                            'x-corsfix-key': 'cfx_9028537c0198e4fa37403fbc967c1482'
                         }
                     }),
                     fetch(`https://proxy.corsfix.com/?` + encodeURIComponent(`https://www.classcharts.com/apiv2student/behaviour/${studentId}`), {
                         headers: {
-                            'Authorization': `Basic ${token}`
+                            'Authorization': `Basic ${token}`,
+                            'x-corsfix-key': 'cfx_9028537c0198e4fa37403fbc967c1482'
                         }
                     }),
                     fetch(`https://proxy.corsfix.com/?` + encodeURIComponent(`https://www.classcharts.com/apiv2student/announcements/${studentId}`), {
                         headers: {
-                            'Authorization': `Basic ${token}`
+                            'Authorization': `Basic ${token}`,
+                            'x-corsfix-key': 'cfx_9028537c0198e4fa37403fbc967c1482'
                         }
                     })
                 ]);
