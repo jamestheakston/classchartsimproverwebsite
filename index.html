@@ -99,13 +99,11 @@
     </style>
 </head>
 <body class="bg-white text-slate-800 antialiased">
-    <div id="instatus-banner" class="fixed top-0 left-0 right-0 z-[60] bg-slate-900 text-white px-6 py-2 flex items-center justify-between text-xs font-medium cursor-pointer hover:bg-slate-800 transition">
+    <div id="instatus-banner" class="fixed top-0 left-0 right-0 z-[60] bg-slate-900 text-white px-6 py-2 flex items-center text-xs font-medium cursor-pointer hover:bg-slate-800 transition">
         <div class="flex items-center space-x-2">
             <div id="status-indicator" class="w-2 h-2 rounded-full bg-slate-300 animate-pulse"></div>
             <span id="status-text" class="text-slate-300">Loading...</span>
-        </div>
-        <div id="incident-info" class="text-slate-400 hidden">
-            <span id="incident-count">0</span> active incident(s)
+            <span id="incident-info" class="text-slate-400 hidden">(<span id="incident-count">0</span> active)</span>
         </div>
     </div>
     <div id="incident-tooltip" class="fixed top-10 left-1/2 -translate-x-1/2 z-[61] bg-white rounded-lg shadow-xl border border-slate-200 p-4 max-w-md hidden">
@@ -1218,24 +1216,65 @@
         let activeIncidents = [];
 
         async function fetchInstatusStatus() {
+            const pageId = 'cmp82nxza05nkpfx4vbfon3iy';
+            const apiKey = '8e3990d9e190e77a3d5b5963b7225d2d';
             const statusIndicator = document.getElementById('status-indicator');
             const statusText = document.getElementById('status-text');
             const incidentInfo = document.getElementById('incident-info');
             const incidentCount = document.getElementById('incident-count');
 
             try {
-                const response = await fetch('https://cmp82nxza05nkpfx4vbfon3iy.instatus.com/summary.json');
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+                const response = await fetch('https://api.instatus.com/v2/pages', {
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
 
                 if (response.ok) {
-                    const data = await response.json();
-                    activeIncidents = data.activeIncidents || [];
-                    updateStatusIndicator(data.page.status, activeIncidents);
+                    const pages = await response.json();
+                    const page = pages.find(p => p.id === pageId);
+                    if (page) {
+                        // For incidents, we need to fetch them separately
+                        await fetchIncidents(pageId, apiKey, page.status);
+                    } else {
+                        updateStatusIndicator('unknown', []);
+                    }
                 } else {
+                    console.error('Instatus API returned non-OK status:', response.status);
                     updateStatusIndicator('unknown', []);
                 }
             } catch (error) {
                 console.error('Failed to fetch Instatus:', error);
                 updateStatusIndicator('unknown', []);
+            }
+        }
+
+        async function fetchIncidents(pageId, apiKey, pageStatus) {
+            try {
+                const response = await fetch(`https://api.instatus.com/v2/pages/${pageId}/incidents`, {
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const incidents = await response.json();
+                    activeIncidents = incidents.filter(i => i.status !== 'RESOLVED');
+                    updateStatusIndicator(pageStatus, activeIncidents);
+                } else {
+                    updateStatusIndicator(pageStatus, []);
+                }
+            } catch (error) {
+                console.error('Failed to fetch incidents:', error);
+                updateStatusIndicator(pageStatus, []);
             }
         }
 
@@ -1256,6 +1295,15 @@
                     incidentInfo.classList.add('hidden');
                     break;
                 case 'HASISSUES':
+                case 'ALLDEGRADEDPERFORMANCE':
+                case 'SOMEDEGRADEDPERFORMANCE':
+                case 'ONEDEGRADEDPERFORMANCE':
+                case 'ALLPARTIALOUTAGE':
+                case 'SOMEPARTIALOUTAGE':
+                case 'ONEPARTIALOUTAGE':
+                case 'ALLMINOROUTAGE':
+                case 'SOMEMINOROUTAGE':
+                case 'ONEMINOROUTAGE':
                     statusIndicator.classList.add('bg-yellow-500');
                     statusText.textContent = 'Some Issues';
                     statusText.classList.add('text-yellow-400');
@@ -1266,11 +1314,26 @@
                         incidentInfo.classList.add('hidden');
                     }
                     break;
-                case 'UNDERMAINTENANCE':
+                case 'ALLUNDERMAINTENANCE':
+                case 'SOMEUNDERMAINTENANCE':
+                case 'ONEUNDERMAINTENANCE':
                     statusIndicator.classList.add('bg-blue-500');
                     statusText.textContent = 'Under Maintenance';
                     statusText.classList.add('text-blue-400');
                     incidentInfo.classList.add('hidden');
+                    break;
+                case 'ALLMAJOROUTAGE':
+                case 'SOMEMAJOROUTAGE':
+                case 'ONEMAJOROUTAGE':
+                    statusIndicator.classList.add('bg-red-500');
+                    statusText.textContent = 'Major Outage';
+                    statusText.classList.add('text-red-400');
+                    if (incidents.length > 0) {
+                        incidentInfo.classList.remove('hidden');
+                        incidentCount.textContent = incidents.length;
+                    } else {
+                        incidentInfo.classList.add('hidden');
+                    }
                     break;
                 default:
                     statusIndicator.classList.add('bg-slate-300');
@@ -1305,8 +1368,14 @@
             tooltip.classList.add('hidden');
         }
 
-        document.getElementById('instatus-banner').addEventListener('mouseenter', showIncidentTooltip);
-        document.getElementById('instatus-banner').addEventListener('mouseleave', hideIncidentTooltip);
+        // Attach event listeners when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const banner = document.getElementById('instatus-banner');
+            if (banner) {
+                banner.addEventListener('mouseenter', showIncidentTooltip);
+                banner.addEventListener('mouseleave', hideIncidentTooltip);
+            }
+        });
 
         window.onclick = function(event) {
             if (event.target.id === 'compatibility-modal') toggleModal();
