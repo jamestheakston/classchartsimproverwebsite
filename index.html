@@ -99,7 +99,11 @@
     </style>
 </head>
 <body class="bg-white text-slate-800 antialiased">
-    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+    <div id="instatus-status" class="fixed top-0 right-4 z-[60] bg-white px-3 py-1.5 rounded-full shadow-md border border-slate-200 flex items-center space-x-2 text-xs font-medium">
+        <div id="status-indicator" class="w-2 h-2 rounded-full bg-slate-300 animate-pulse"></div>
+        <span id="status-text" class="text-slate-600">Loading...</span>
+    </div>
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100" style="top: 0; padding-top: 0.5rem;">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <div class="bg-blue-600 p-2 rounded-lg">
@@ -313,6 +317,17 @@
                     <div class="faq-answer">
                         <div class="p-6 pt-0 text-slate-600 text-sm leading-relaxed">
                             No. The extension runs entirely on the "client-side" (your computer). Teachers see the same ClassCharts portal they always have; only your personal view is upgraded.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item group border border-slate-100 rounded-2xl overflow-hidden bg-slate-50/30">
+                    <button onclick="toggleFaq(this)" class="w-full p-6 text-left flex justify-between items-center bg-white hover:bg-slate-50 transition">
+                        <span class="font-bold text-slate-900">Will my school allow me to use this?</span>
+                        <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="p-6 pt-0 text-slate-600 text-sm leading-relaxed">
+                            It depends on your school's IT policies. The best way to find out is to speak to your school or IT department directly. If you're an IT administrator, you can download our <a href="/downloads/teacheradminguide.pdf" target="_blank" class="text-blue-600 hover:text-blue-800 underline">Teacher Admin Guide</a> for technical details and deployment guidance.
                         </div>
                     </div>
                 </div>
@@ -1191,6 +1206,69 @@
             return false; // No announcement parameter
         }
 
+        async function fetchInstatusStatus() {
+            const pageId = 'cmp82nxza05nkpfx4vbfon3iy';
+            const apiKey = '8e3990d9e190e77a3d5b5963b7225d2d';
+            const statusIndicator = document.getElementById('status-indicator');
+            const statusText = document.getElementById('status-text');
+
+            try {
+                const response = await fetch(`https://api.instatus.com/v1/${pageId}/status`, {
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    updateStatusIndicator(data.status);
+                } else {
+                    // Fallback to public status page if API fails
+                    updateStatusIndicator('unknown');
+                }
+            } catch (error) {
+                console.error('Failed to fetch Instatus:', error);
+                updateStatusIndicator('unknown');
+            }
+        }
+
+        function updateStatusIndicator(status) {
+            const statusIndicator = document.getElementById('status-indicator');
+            const statusText = document.getElementById('status-text');
+
+            statusIndicator.classList.remove('animate-pulse', 'bg-slate-300', 'bg-green-500', 'bg-yellow-500', 'bg-red-500');
+
+            switch (status) {
+                case 'operational':
+                case 'ok':
+                    statusIndicator.classList.add('bg-green-500');
+                    statusText.textContent = 'All Systems Operational';
+                    statusText.classList.remove('text-slate-600', 'text-yellow-600', 'text-red-600');
+                    statusText.classList.add('text-green-600');
+                    break;
+                case 'degraded':
+                case 'partial_outage':
+                    statusIndicator.classList.add('bg-yellow-500');
+                    statusText.textContent = 'Degraded Performance';
+                    statusText.classList.remove('text-slate-600', 'text-green-600', 'text-red-600');
+                    statusText.classList.add('text-yellow-600');
+                    break;
+                case 'major_outage':
+                case 'down':
+                    statusIndicator.classList.add('bg-red-500');
+                    statusText.textContent = 'System Outage';
+                    statusText.classList.remove('text-slate-600', 'text-green-600', 'text-yellow-600');
+                    statusText.classList.add('text-red-600');
+                    break;
+                default:
+                    statusIndicator.classList.add('bg-slate-300');
+                    statusText.textContent = 'Status Unknown';
+                    statusText.classList.remove('text-green-600', 'text-yellow-600', 'text-red-600');
+                    statusText.classList.add('text-slate-600');
+            }
+        }
+
         window.onclick = function(event) {
             if (event.target.id === 'compatibility-modal') toggleModal();
             if (event.target.id === 'announcement-modal') toggleAnnouncementModal();
@@ -1208,6 +1286,9 @@
         
         // Check cookie consent
         checkCookieConsent();
+        
+        // Fetch Instatus status
+        fetchInstatusStatus();
         
         initReviews();
     </script>
