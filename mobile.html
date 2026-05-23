@@ -91,25 +91,30 @@
         }
     }
 
-    async function api(endpoint) {
+    async function api(endpoint, params = "") {
         try {
-            const res = await fetch(`/api/${endpoint}/${studentId}`, { headers: { Authorization: `Basic ${sessionId}` } });
+            const url = `/api/${endpoint}/${studentId}${params ? '?' + params : ''}`;
+            const res = await fetch(url, { headers: { Authorization: sessionId } });
             const text = await res.text();
             try {
                 return JSON.parse(text);
             } catch (e) {
-                console.error("Failed to parse JSON from", endpoint, text);
                 return { data: [], meta: {} };
             }
         } catch(e) { 
-            console.error("Fetch error on", endpoint, e);
             return { data: [], meta: {} }; 
         }
     }
 
     async function loadAll() {
+        const today = new Date().toISOString().split('T')[0];
         const [hw, bh, an, at, ac, cl] = await Promise.all([
-            api("homeworks"), api("behaviour"), api("announcements"), api("attendance"), api("activity"), api("classes")
+            api("homeworks"), 
+            api("behaviour"), 
+            api("announcements"), 
+            api("attendance", `from=${today}&to=${today}`), 
+            api("activity"), 
+            api("classes")
         ]);
         
         document.getElementById("homework").innerHTML = hw.data?.map(i => `<div class="bg-white p-4 rounded-2xl shadow-sm mb-3 font-bold">${i.title}</div>`).join('') || '';
