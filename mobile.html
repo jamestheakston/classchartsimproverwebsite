@@ -2,144 +2,125 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClassCharts Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ClassCharts</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #f8fafc; color: #1e293b; }
+        body { background-color: #f1f5f9; color: #0f172a; padding-bottom: 80px; }
+        .nav-active { color: #2563eb; }
+        .view { display: none; }
+        .view.active { display: block; }
     </style>
 </head>
 <body>
 
-<div id="loginPage" class="min-h-screen flex items-center justify-center p-6">
-    <div class="bg-white border border-slate-200 rounded-3xl p-8 w-full max-w-md shadow-sm">
-        <h2 class="text-2xl font-bold mb-2">ClassCharts Login</h2>
-        <p class="text-slate-500 mb-6">Enter your student credentials.</p>
+<div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-8 w-full max-w-sm shadow-lg">
+        <h2 class="text-2xl font-bold mb-6">Sign In</h2>
         <div id="loginMessage" class="mb-4"></div>
-        <input type="text" id="code" placeholder="Student Code" class="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 outline-none mb-4">
-        <input type="date" id="dob" class="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 outline-none mb-6">
-        <button onclick="login()" class="w-full p-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition">Login</button>
+        <input type="text" id="code" placeholder="Student Code" class="w-full p-4 rounded-xl bg-slate-100 mb-4 outline-none">
+        <input type="date" id="dob" class="w-full p-4 rounded-xl bg-slate-100 mb-6 outline-none">
+        <button onclick="login()" class="w-full p-4 rounded-xl bg-blue-600 text-white font-bold">Login</button>
     </div>
 </div>
 
-<div id="dashboard" class="hidden min-h-screen p-6">
-    <header class="max-w-7xl mx-auto flex justify-between items-center mb-8">
-        <h1 id="studentName" class="text-2xl font-bold">Dashboard</h1>
-        <button class="bg-white border border-slate-200 px-5 py-2 rounded-lg hover:bg-slate-50 transition" onclick="logout()">
-            <i class="fas fa-sign-out-alt mr-2"></i>Logout
-        </button>
+<div id="dashboard" class="hidden">
+    <header class="p-4 bg-white border-b border-slate-200 sticky top-0 z-10 flex justify-between items-center">
+        <h1 id="studentName" class="font-bold text-lg">Dashboard</h1>
+        <button onclick="logout()" class="text-slate-500"><i class="fas fa-sign-out-alt"></i></button>
     </header>
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-            <h3 class="font-bold mb-4 text-lg"><i class="fas fa-book mr-2 text-blue-500"></i>Homework</h3>
+
+    <main class="p-4 space-y-6">
+        <div id="view-home" class="view active">
+            <h2 class="text-sm font-bold text-slate-500 uppercase mb-3">Today</h2>
+            <div id="attendance" class="bg-white p-4 rounded-2xl shadow-sm mb-4"></div>
             <div id="homework"></div>
         </div>
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-            <h3 class="font-bold mb-4 text-lg"><i class="fas fa-chart-line mr-2 text-green-500"></i>Behaviour</h3>
+        <div id="view-behaviour" class="view">
+            <h2 class="text-sm font-bold text-slate-500 uppercase mb-3">Behaviour</h2>
             <div id="behaviour"></div>
         </div>
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-            <h3 class="font-bold mb-4 text-lg"><i class="fas fa-bullhorn mr-2 text-amber-500"></i>Announcements</h3>
+        <div id="view-more" class="view">
+            <h2 class="text-sm font-bold text-slate-500 uppercase mb-3">More</h2>
             <div id="announcements"></div>
-        </div>
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-            <h3 class="font-bold mb-4 text-lg"><i class="fas fa-user-check mr-2 text-indigo-500"></i>Attendance</h3>
-            <div id="attendance"></div>
-        </div>
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-            <h3 class="font-bold mb-4 text-lg"><i class="fas fa-history mr-2 text-purple-500"></i>Activity</h3>
             <div id="activity"></div>
-        </div>
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-            <h3 class="font-bold mb-4 text-lg"><i class="fas fa-chalkboard-teacher mr-2 text-rose-500"></i>Classes</h3>
             <div id="classes"></div>
         </div>
-    </div>
+    </main>
+
+    <nav class="fixed bottom-0 w-full bg-white border-t border-slate-200 p-3 flex justify-around">
+        <button onclick="switchView('home', this)" class="nav-active flex flex-col items-center text-xs"><i class="fas fa-home text-xl"></i>Home</button>
+        <button onclick="switchView('behaviour', this)" class="flex flex-col items-center text-xs"><i class="fas fa-chart-line text-xl"></i>Stats</button>
+        <button onclick="switchView('more', this)" class="flex flex-col items-center text-xs"><i class="fas fa-ellipsis-h text-xl"></i>More</button>
+    </nav>
 </div>
 
 <script>
     let studentId = localStorage.getItem("cc_student_id");
     let sessionId = localStorage.getItem("cc_session_id");
 
-    function setMessage(text, type = "error") {
-        const color = type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800";
-        document.getElementById("loginMessage").innerHTML = `<div class="${color} p-4 rounded-xl border border-current">${text}</div>`;
+    function switchView(id, btn) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('nav-active'));
+        document.getElementById('view-' + id).classList.add('active');
+        btn.classList.add('nav-active');
     }
 
     async function login() {
         const code = document.getElementById("code").value.trim();
         const dob = document.getElementById("dob").value;
-        if(!code || !dob) return setMessage("Fill in all fields");
         try {
             const response = await fetch("/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ code, dob })
             });
-            const text = await response.text();
-            const data = JSON.parse(text);
+            const data = await response.json();
             if(data.success === 1) {
                 studentId = data.data.id;
                 sessionId = data.meta.session_id;
                 localStorage.setItem("cc_student_id", studentId);
                 localStorage.setItem("cc_session_id", sessionId);
-                document.getElementById("loginPage").style.display = "none";
-                document.getElementById("dashboard").style.display = "block";
-                loadAll();
+                location.reload();
             } else {
-                setMessage(data.error || "Login failed");
+                document.getElementById("loginMessage").innerText = data.error || "Login failed";
             }
-        } catch(err) {
-            setMessage("Connection error or invalid server response");
-            console.error(err);
+        } catch(e) {
+            document.getElementById("loginMessage").innerText = "Connection error";
         }
     }
 
     async function api(endpoint) {
         try {
-            if(!studentId || !sessionId) return { data: [], meta: {} };
-            const response = await fetch(`/api/${endpoint}/${studentId}`, {
-                headers: { Authorization: `Basic ${sessionId}` }
-            });
-            const text = await response.text();
-            if(!text) return { data: [], meta: {} };
-            return JSON.parse(text);
-        } catch (e) {
-            console.error(`API Error on ${endpoint}:`, e);
-            return { data: [], meta: {} };
+            const res = await fetch(`/api/${endpoint}/${studentId}`, { headers: { Authorization: `Basic ${sessionId}` } });
+            const text = await res.text();
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                console.error("Failed to parse JSON from", endpoint, text);
+                return { data: [], meta: {} };
+            }
+        } catch(e) { 
+            console.error("Fetch error on", endpoint, e);
+            return { data: [], meta: {} }; 
         }
     }
 
-    function renderList(id, items, renderer) {
-        const el = document.getElementById(id);
-        el.innerHTML = items?.length ? items.map(renderer).join("") : '<div class="text-slate-400 text-sm italic">No items found</div>';
-    }
-
     async function loadAll() {
-        const homework = await api("homeworks");
-        renderList("homework", homework?.data, hw => `<div class="bg-slate-50 p-3 rounded-lg mb-2 border border-slate-100"><div class="font-bold">${hw?.title || 'Assignment'}</div><div class="text-xs text-slate-500">${hw?.subject || ''} • Due: ${hw?.due_date || 'N/A'}</div></div>`);
+        const [hw, bh, an, at, ac, cl] = await Promise.all([
+            api("homeworks"), api("behaviour"), api("announcements"), api("attendance"), api("activity"), api("classes")
+        ]);
         
-        const behaviour = await api("behaviour");
-        renderList("behaviour", behaviour?.data, b => `<div class="bg-slate-50 p-3 rounded-lg mb-2 border border-slate-100"><div class="font-bold">${b?.reason || 'Event'}</div><div class="text-xs ${b?.points > 0 ? 'text-green-600' : 'text-red-600'}">${b?.points > 0 ? '+' : ''}${b?.points || 0} pts • ${b?.teacher_name || ''}</div></div>`);
-        
-        const announcements = await api("announcements");
-        renderList("announcements", announcements?.data, a => `<div class="bg-slate-50 p-3 rounded-lg mb-2 border border-slate-100"><div class="font-bold">${a?.title || 'Announcement'}</div><div class="text-xs text-slate-500">${a?.description || ''}</div></div>`);
-        
-        const attendance = await api("attendance");
-        document.getElementById("attendance").innerHTML = `<div class="bg-slate-50 p-3 rounded-lg border border-slate-100 font-bold text-xl text-blue-600">${attendance?.meta?.percentage || 0}%</div>`;
-        
-        const activity = await api("activity");
-        renderList("activity", activity?.data, a => `<div class="bg-slate-50 p-3 rounded-lg mb-2 border border-slate-100"><div class="font-bold">${a?.title || 'Activity'}</div><div class="text-xs text-slate-500">${a?.description || ''}</div></div>`);
-        
-        const classes = await api("classes");
-        renderList("classes", classes?.data, c => `<div class="bg-slate-50 p-3 rounded-lg mb-2 border border-slate-100"><div class="font-bold">${c?.name || 'Class'}</div><div class="text-xs text-slate-500">${c?.teacher_name || ''}</div></div>`);
+        document.getElementById("homework").innerHTML = hw.data?.map(i => `<div class="bg-white p-4 rounded-2xl shadow-sm mb-3 font-bold">${i.title}</div>`).join('') || '';
+        document.getElementById("behaviour").innerHTML = bh.data?.map(i => `<div class="bg-white p-4 rounded-2xl shadow-sm mb-3">${i.reason} <span class="${i.points > 0 ? 'text-green-500' : 'text-red-500'} font-bold">${i.points}</span></div>`).join('') || '';
+        document.getElementById("announcements").innerHTML = an.data?.map(i => `<div class="bg-white p-4 rounded-2xl shadow-sm mb-3">${i.title}</div>`).join('') || '';
+        document.getElementById("attendance").innerHTML = `Attendance: ${at.meta?.percentage || 0}%`;
+        document.getElementById("activity").innerHTML = ac.data?.map(i => `<div class="bg-white p-4 rounded-2xl shadow-sm mb-3">${i.title}</div>`).join('') || '';
+        document.getElementById("classes").innerHTML = cl.data?.map(i => `<div class="bg-white p-4 rounded-2xl shadow-sm mb-3">${i.name}</div>`).join('') || '';
     }
 
-    function logout() {
-        localStorage.clear();
-        location.reload();
-    }
+    function logout() { localStorage.clear(); location.reload(); }
 
     if(studentId && sessionId) {
         document.getElementById("loginPage").style.display = "none";
