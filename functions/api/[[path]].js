@@ -13,22 +13,21 @@ export async function onRequestGet(context) {
                 Authorization: formattedAuth,
                 "Accept": "application/json",
                 "User-Agent": "Mozilla/5.0"
-            }
+            },
+            redirect: "manual"
         });
 
+        if (response.status >= 300 && response.status < 400) {
+            return Response.json({ error: "Session expired" }, { status: 401 });
+        }
+
         if (!response.ok) {
-            return Response.json(
-                { error: `ClassCharts API returned status ${response.status}` },
-                { status: response.status }
-            );
+            return Response.json({ error: `API returned ${response.status}` }, { status: response.status });
         }
 
         const data = await response.json();
         return Response.json(data);
     } catch(err) {
-        return Response.json(
-            { error: err.message },
-            { status: 500 }
-        );
+        return Response.json({ error: err.message }, { status: 500 });
     }
 }
