@@ -1,600 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ClassCharts Dashboard</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Inter,Arial,sans-serif;
-}
-
-body{
-    background:#0f172a;
-    color:white;
-    min-height:100vh;
-}
-
-header{
-    background:#111827;
-    border-bottom:1px solid #1f2937;
-    padding:20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-header h1{
-    font-size:24px;
-}
-
-.container{
-    max-width:1300px;
-    margin:auto;
-    padding:20px;
-}
-
-.login-screen{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-}
-
-.login-box{
-    width:100%;
-    max-width:420px;
-    background:#111827;
-    border:1px solid #1f2937;
-    border-radius:24px;
-    padding:30px;
-}
-
-.login-box h2{
-    margin-bottom:10px;
-}
-
-.login-box p{
-    opacity:0.7;
-    margin-bottom:25px;
-}
-
-input{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:14px;
-    margin-bottom:15px;
-    background:#1f2937;
-    color:white;
-    outline:none;
-}
-
-button{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:14px;
-    background:#2563eb;
-    color:white;
-    font-weight:700;
-    cursor:pointer;
-    transition:0.2s;
-}
-
-button:hover{
-    opacity:0.9;
-}
-
-.logout-btn{
-    width:auto;
-    padding:10px 18px;
-}
-
-.dashboard{
-    display:none;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:20px;
-    margin-top:20px;
-}
-
-.card{
-    background:#111827;
-    border:1px solid #1f2937;
-    border-radius:22px;
-    padding:20px;
-}
-
-.card h3{
-    margin-bottom:15px;
-}
-
-.item{
-    background:#1f2937;
-    padding:14px;
-    border-radius:14px;
-    margin-bottom:12px;
-}
-
-.small{
-    font-size:13px;
-    opacity:0.75;
-    margin-top:4px;
-}
-
-.green{
-    color:#22c55e;
-}
-
-.red{
-    color:#ef4444;
-}
-
-.loading{
-    opacity:0.5;
-}
-
-.empty{
-    opacity:0.6;
-}
-
-.error{
-    background:#7f1d1d;
-    padding:12px;
-    border-radius:12px;
-    margin-bottom:15px;
-}
-
-.success{
-    background:#14532d;
-    padding:12px;
-    border-radius:12px;
-    margin-bottom:15px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClassCharts Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #0f172a; color: white; }
+    </style>
 </head>
 <body>
 
-<div id="loginPage" class="login-screen">
-    <div class="login-box">
-
-        <h2>ClassCharts Login</h2>
-        <p>Sign in with your student code and date of birth.</p>
-
-        <div id="loginMessage"></div>
-
-        <input
-            type="text"
-            id="code"
-            placeholder="Student Code"
-        >
-
-        <input
-            type="date"
-            id="dob"
-        >
-
-        <button onclick="login()">
-            Login
-        </button>
-
+<div id="loginPage" class="min-h-screen flex items-center justify-center p-6">
+    <div class="bg-gray-900 border border-gray-800 rounded-3xl p-8 w-full max-w-md shadow-2xl">
+        <h2 class="text-2xl font-bold mb-2">ClassCharts Login</h2>
+        <p class="opacity-70 mb-6">Enter your student credentials.</p>
+        <div id="loginMessage" class="mb-4"></div>
+        <input type="text" id="code" placeholder="Student Code" class="w-full p-4 rounded-xl bg-gray-800 border-none outline-none mb-4">
+        <input type="date" id="dob" class="w-full p-4 rounded-xl bg-gray-800 border-none outline-none mb-6">
+        <button onclick="login()" class="w-full p-4 rounded-xl bg-blue-600 font-bold hover:opacity-90 transition">Login</button>
     </div>
 </div>
 
-<div id="dashboard" class="dashboard">
-
-    <header>
-        <h1 id="studentName">Dashboard</h1>
-
-        <button
-            class="logout-btn"
-            onclick="logout()"
-        >
-            Logout
+<div id="dashboard" class="hidden min-h-screen">
+    <header class="bg-gray-900 border-b border-gray-800 p-6 flex justify-between items-center">
+        <h1 id="studentName" class="text-xl font-bold">Dashboard</h1>
+        <button class="bg-gray-800 px-5 py-2 rounded-lg hover:bg-gray-700 transition" onclick="logout()">
+            <i class="fas fa-sign-out-alt mr-2"></i>Logout
         </button>
     </header>
-
-    <div class="container">
-
-        <div class="cards">
-
-            <div class="card">
-                <h3>Homework</h3>
-                <div id="homework"></div>
-            </div>
-
-            <div class="card">
-                <h3>Behaviour</h3>
-                <div id="behaviour"></div>
-            </div>
-
-            <div class="card">
-                <h3>Announcements</h3>
-                <div id="announcements"></div>
-            </div>
-
-            <div class="card">
-                <h3>Attendance</h3>
-                <div id="attendance"></div>
-            </div>
-
-            <div class="card">
-                <h3>Activity</h3>
-                <div id="activity"></div>
-            </div>
-
-            <div class="card">
-                <h3>Classes</h3>
-                <div id="classes"></div>
-            </div>
-
+    <div class="max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <h3 class="font-bold mb-4"><i class="fas fa-book mr-2"></i>Homework</h3>
+            <div id="homework"></div>
         </div>
-
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <h3 class="font-bold mb-4"><i class="fas fa-chart-line mr-2"></i>Behaviour</h3>
+            <div id="behaviour"></div>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <h3 class="font-bold mb-4"><i class="fas fa-bullhorn mr-2"></i>Announcements</h3>
+            <div id="announcements"></div>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <h3 class="font-bold mb-4"><i class="fas fa-user-check mr-2"></i>Attendance</h3>
+            <div id="attendance"></div>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <h3 class="font-bold mb-4"><i class="fas fa-history mr-2"></i>Activity</h3>
+            <div id="activity"></div>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <h3 class="font-bold mb-4"><i class="fas fa-chalkboard-teacher mr-2"></i>Classes</h3>
+            <div id="classes"></div>
+        </div>
     </div>
-
 </div>
 
 <script>
+    let studentId = localStorage.getItem("cc_student_id");
+    let sessionId = localStorage.getItem("cc_session_id");
 
-const API_BASE = "https://www.classcharts.com/apiv2student";
-
-let studentId = null;
-let sessionId = null;
-
-function setMessage(text, type = "error") {
-
-    document.getElementById("loginMessage").innerHTML = `
-        <div class="${type}">
-            ${text}
-        </div>
-    `;
-
-}
-
-function showDashboard() {
-
-    document.getElementById("loginPage").style.display = "none";
-    document.getElementById("dashboard").style.display = "block";
-
-}
-
-function showLogin() {
-
-    document.getElementById("loginPage").style.display = "flex";
-    document.getElementById("dashboard").style.display = "none";
-
-}
-
-function saveSession() {
-
-    localStorage.setItem("cc_student_id", studentId);
-    localStorage.setItem("cc_session_id", sessionId);
-
-}
-
-function logout() {
-
-    localStorage.clear();
-    location.reload();
-
-}
-
-async function login() {
-
-    const code = document.getElementById("code").value.trim();
-    const dob = document.getElementById("dob").value;
-
-    if(!code || !dob){
-
-        setMessage("Please fill in all fields");
-        return;
-
+    function setMessage(text, type = "error") {
+        const color = type === "success" ? "bg-green-900" : "bg-red-900";
+        document.getElementById("loginMessage").innerHTML = `<div class="${color} p-4 rounded-xl">${text}</div>`;
     }
 
-    try {
+    async function login() {
+        const code = document.getElementById("code").value.trim();
+        const dob = document.getElementById("dob").value;
+        if(!code || !dob) return setMessage("Fill in all fields");
+        try {
+            const response = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code, dob })
+            });
+            const data = await response.json();
+            if(data.success === 1) {
+                studentId = data.data.id;
+                sessionId = data.meta.session_id;
+                localStorage.setItem("cc_student_id", studentId);
+                localStorage.setItem("cc_session_id", sessionId);
+                document.getElementById("loginPage").style.display = "none";
+                document.getElementById("dashboard").style.display = "block";
+                loadAll();
+            } else {
+                setMessage(data.error || "Login failed");
+            }
+        } catch(err) {
+            setMessage("Connection error");
+        }
+    }
 
-        const form = new URLSearchParams();
-
-        form.append("code", code);
-        form.append("dob", dob);
-        form.append("remember", "true");
-
-        // required by API
-        form.append("recaptcha-token", "no-token-available");
-
-        const response = await fetch(`${API_BASE}/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: form
+    async function api(endpoint) {
+        const response = await fetch(`/api/${endpoint}/${studentId}`, {
+            headers: { Authorization: `Basic ${sessionId}` }
         });
-
-        const data = await response.json();
-
-        console.log(data);
-
-        if(data.success === 1){
-
-            studentId = data.data.id;
-            sessionId = data.meta.session_id;
-
-            saveSession();
-
-            document.getElementById("studentName").innerText =
-                `${data.data.first_name}'s Dashboard`;
-
-            setMessage("Login successful", "success");
-
-            showDashboard();
-
-            await loadAll();
-
-        } else {
-
-            setMessage(data.error || "Login failed");
-
-        }
-
-    } catch(err){
-
-        console.error(err);
-        setMessage("Failed to connect to ClassCharts");
-
+        return await response.json();
     }
 
-}
-
-async function api(endpoint){
-
-    const response = await fetch(
-        `${API_BASE}/${endpoint}/${studentId}`,
-        {
-            headers:{
-                "Authorization": `Basic ${sessionId}`
-            }
-        }
-    );
-
-    return await response.json();
-
-}
-
-function renderList(elementId, items, renderer){
-
-    const el = document.getElementById(elementId);
-
-    if(!items || items.length === 0){
-
-        el.innerHTML = `<div class="empty">No data available</div>`;
-        return;
-
+    function renderList(id, items, renderer) {
+        const el = document.getElementById(id);
+        el.innerHTML = items?.length ? items.map(renderer).join("") : '<div class="opacity-50">No data</div>';
     }
 
-    el.innerHTML = items.map(renderer).join("");
-
-}
-
-async function loadHomework(){
-
-    const data = await api("homeworks");
-
-    renderList("homework", data.data, hw => `
-        <div class="item">
-            <strong>${hw.title || "Homework"}</strong>
-
-            <div class="small">
-                ${hw.subject || ""}
-            </div>
-
-            <div class="small">
-                Due: ${hw.due_date || "Unknown"}
-            </div>
-        </div>
-    `);
-
-}
-
-async function loadBehaviour(){
-
-    const data = await api("behaviour");
-
-    renderList("behaviour", data.data, item => `
-        <div class="item">
-
-            <strong>
-                ${item.reason || "Behaviour"}
-            </strong>
-
-            <div class="small">
-                ${item.teacher_name || ""}
-            </div>
-
-            <div class="small ${item.points > 0 ? "green" : "red"}">
-
-                ${item.points > 0 ? "+" : ""}
-                ${item.points || 0} points
-
-            </div>
-
-        </div>
-    `);
-
-}
-
-async function loadAnnouncements(){
-
-    const data = await api("announcements");
-
-    renderList("announcements", data.data, item => `
-        <div class="item">
-
-            <strong>
-                ${item.title || "Announcement"}
-            </strong>
-
-            <div class="small">
-                ${item.description || ""}
-            </div>
-
-        </div>
-    `);
-
-}
-
-async function loadAttendance(){
-
-    const data = await api("attendance");
-
-    const attendance = data.meta || {};
-
-    document.getElementById("attendance").innerHTML = `
-        <div class="item">
-
-            <strong>
-                Overall Attendance
-            </strong>
-
-            <div class="small">
-                ${attendance.percentage || "0"}%
-            </div>
-
-        </div>
-    `;
-
-}
-
-async function loadActivity(){
-
-    const data = await api("activity");
-
-    renderList("activity", data.data, item => `
-        <div class="item">
-
-            <strong>
-                ${item.title || "Activity"}
-            </strong>
-
-            <div class="small">
-                ${item.description || ""}
-            </div>
-
-        </div>
-    `);
-
-}
-
-async function loadClasses(){
-
-    const data = await api("classes");
-
-    renderList("classes", data.data, item => `
-        <div class="item">
-
-            <strong>
-                ${item.name || "Class"}
-            </strong>
-
-            <div class="small">
-                ${item.teacher_name || ""}
-            </div>
-
-        </div>
-    `);
-
-}
-
-async function refreshSession(){
-
-    try {
-
-        const form = new URLSearchParams();
-
-        form.append("include_data", "true");
-
-        const response = await fetch(
-            `${API_BASE}/ping`,
-            {
-                method:"POST",
-
-                headers:{
-                    "Authorization": `Basic ${sessionId}`,
-                    "Content-Type":"application/x-www-form-urlencoded"
-                },
-
-                body:form
-            }
-        );
-
-        const data = await response.json();
-
-        if(data.meta?.session_id){
-
-            sessionId = data.meta.session_id;
-
-            localStorage.setItem(
-                "cc_session_id",
-                sessionId
-            );
-
-        }
-
-    } catch(err){
-
-        console.error(err);
-
+    async function loadAll() {
+        const homework = await api("homeworks");
+        renderList("homework", homework.data, hw => `<div class="bg-gray-800 p-3 rounded-lg mb-2">${hw.title}</div>`);
+        const behaviour = await api("behaviour");
+        renderList("behaviour", behaviour.data, b => `<div class="bg-gray-800 p-3 rounded-lg mb-2">${b.reason}</div>`);
+        const announcements = await api("announcements");
+        renderList("announcements", announcements.data, a => `<div class="bg-gray-800 p-3 rounded-lg mb-2">${a.title}</div>`);
+        const attendance = await api("attendance");
+        document.getElementById("attendance").innerHTML = `<div class="bg-gray-800 p-3 rounded-lg">${attendance.meta.percentage}%</div>`;
+        const activity = await api("activity");
+        renderList("activity", activity.data, a => `<div class="bg-gray-800 p-3 rounded-lg mb-2">${a.title}</div>`);
+        const classes = await api("classes");
+        renderList("classes", classes.data, c => `<div class="bg-gray-800 p-3 rounded-lg mb-2">${c.name}</div>`);
     }
 
-}
-
-async function loadAll(){
-
-    await refreshSession();
-
-    await Promise.all([
-        loadHomework(),
-        loadBehaviour(),
-        loadAnnouncements(),
-        loadAttendance(),
-        loadActivity(),
-        loadClasses()
-    ]);
-
-}
-
-async function restoreSession(){
-
-    const storedStudentId =
-        localStorage.getItem("cc_student_id");
-
-    const storedSessionId =
-        localStorage.getItem("cc_session_id");
-
-    if(storedStudentId && storedSessionId){
-
-        studentId = storedStudentId;
-        sessionId = storedSessionId;
-
-        showDashboard();
-
-        await loadAll();
-
+    function logout() {
+        localStorage.clear();
+        location.reload();
     }
 
-}
-
-restoreSession();
-
+    if(studentId && sessionId) {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+        loadAll();
+    }
 </script>
-
 </body>
 </html>
