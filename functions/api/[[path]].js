@@ -1,9 +1,18 @@
 export async function onRequestGet(context) {
     try {
         const path = context.params.path.join("/");
-        const response = await fetch(`https://www.classcharts.com/apiv2student/${path}`, {
+        const { searchParams } = new URL(context.request.url);
+        const queryString = searchParams.toString();
+        const url = `https://www.classcharts.com/apiv2student/${path}${queryString ? '?' + queryString : ''}`;
+
+        const authHeader = context.request.headers.get("Authorization");
+        const formattedAuth = authHeader && !authHeader.startsWith("Basic ") ? `Basic ${authHeader}` : authHeader;
+
+        const response = await fetch(url, {
             headers: {
-                Authorization: context.request.headers.get("Authorization")
+                Authorization: formattedAuth,
+                "Accept": "application/json",
+                "User-Agent": "Mozilla/5.0"
             }
         });
 
