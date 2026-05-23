@@ -98,8 +98,7 @@
             const res = await fetch(url, { headers: { Authorization: sessionId } });
             
             if (res.status === 401) {
-                console.warn("Session expired");
-                logout();
+                console.error("401 Unauthorized - Check session token validity");
                 return { data: [], meta: {} };
             }
             
@@ -138,7 +137,7 @@
     if(studentId && sessionId) {
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("dashboard").style.display = "block";
-        loadAll();
+        setTimeout(loadAll, 500);
     }
 </script>
 </body>
