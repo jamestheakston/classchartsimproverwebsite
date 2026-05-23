@@ -95,6 +95,12 @@
         try {
             const url = `/api/${endpoint}/${studentId}${params ? '?' + params : ''}`;
             const res = await fetch(url, { headers: { Authorization: sessionId } });
+            
+            if (res.status === 401) {
+                logout();
+                return { data: [], meta: {} };
+            }
+            
             const text = await res.text();
             try {
                 return JSON.parse(text);
