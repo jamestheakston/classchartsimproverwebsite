@@ -2,27 +2,24 @@ export async function onRequestGet(context) {
     try {
         const path = context.params.path.join("/");
         const { searchParams } = new URL(context.request.url);
-        const queryString = searchParams.toString();
-        const url = `https://www.classcharts.com/apiv2student/${path}${queryString ? '?' + queryString : ''}`;
+        const url = `https://www.classcharts.com/apiv2student/${path}?${searchParams.toString()}`;
 
-        const authHeader = context.request.headers.get("Authorization");
-        const formattedAuth = authHeader && !authHeader.startsWith("Basic ") ? `Basic ${authHeader}` : authHeader;
+        const token = context.request.headers.get("Authorization") || "";
 
         const response = await fetch(url, {
+            method: "GET",
             headers: {
-                Authorization: formattedAuth,
                 "Accept": "application/json",
-                "User-Agent": "Mozilla/5.0"
+                "X-Requested-With": "XMLHttpRequest",
+                "Referer": "https://www.classcharts.com/student/classes",
+                "Origin": "https://www.classcharts.com",
+                "Cookie": `session=${token}`
             },
             redirect: "manual"
         });
 
         if (response.status >= 300 && response.status < 400) {
             return Response.json({ error: "Session expired" }, { status: 401 });
-        }
-
-        if (!response.ok) {
-            return Response.json({ error: `API returned ${response.status}` }, { status: response.status });
         }
 
         const data = await response.json();
