@@ -7,52 +7,52 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #0f172a; color: white; }
+        body { background-color: #f8fafc; color: #1e293b; }
     </style>
 </head>
 <body>
 
 <div id="loginPage" class="min-h-screen flex items-center justify-center p-6">
-    <div class="bg-gray-900 border border-gray-800 rounded-3xl p-8 w-full max-w-md shadow-2xl">
+    <div class="bg-white border border-slate-200 rounded-3xl p-8 w-full max-w-md shadow-sm">
         <h2 class="text-2xl font-bold mb-2">ClassCharts Login</h2>
-        <p class="opacity-70 mb-6">Enter your student credentials.</p>
+        <p class="text-slate-500 mb-6">Enter your student credentials.</p>
         <div id="loginMessage" class="mb-4"></div>
-        <input type="text" id="code" placeholder="Student Code" class="w-full p-4 rounded-xl bg-gray-800 border-none outline-none mb-4">
-        <input type="date" id="dob" class="w-full p-4 rounded-xl bg-gray-800 border-none outline-none mb-6">
-        <button onclick="login()" class="w-full p-4 rounded-xl bg-blue-600 font-bold hover:opacity-90 transition">Login</button>
+        <input type="text" id="code" placeholder="Student Code" class="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 outline-none mb-4">
+        <input type="date" id="dob" class="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 outline-none mb-6">
+        <button onclick="login()" class="w-full p-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition">Login</button>
     </div>
 </div>
 
-<div id="dashboard" class="hidden min-h-screen">
-    <header class="bg-gray-900 border-b border-gray-800 p-6 flex justify-between items-center">
-        <h1 id="studentName" class="text-xl font-bold">Dashboard</h1>
-        <button class="bg-gray-800 px-5 py-2 rounded-lg hover:bg-gray-700 transition" onclick="logout()">
+<div id="dashboard" class="hidden min-h-screen p-6">
+    <header class="max-w-7xl mx-auto flex justify-between items-center mb-8">
+        <h1 id="studentName" class="text-2xl font-bold">Dashboard</h1>
+        <button class="bg-white border border-slate-200 px-5 py-2 rounded-lg hover:bg-slate-50 transition" onclick="logout()">
             <i class="fas fa-sign-out-alt mr-2"></i>Logout
         </button>
     </header>
-    <div class="max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-            <h3 class="font-bold mb-4"><i class="fas fa-book mr-2"></i>Homework</h3>
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h3 class="font-bold mb-4 text-lg"><i class="fas fa-book mr-2 text-blue-500"></i>Homework</h3>
             <div id="homework"></div>
         </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-            <h3 class="font-bold mb-4"><i class="fas fa-chart-line mr-2"></i>Behaviour</h3>
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h3 class="font-bold mb-4 text-lg"><i class="fas fa-chart-line mr-2 text-green-500"></i>Behaviour</h3>
             <div id="behaviour"></div>
         </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-            <h3 class="font-bold mb-4"><i class="fas fa-bullhorn mr-2"></i>Announcements</h3>
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h3 class="font-bold mb-4 text-lg"><i class="fas fa-bullhorn mr-2 text-amber-500"></i>Announcements</h3>
             <div id="announcements"></div>
         </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-            <h3 class="font-bold mb-4"><i class="fas fa-user-check mr-2"></i>Attendance</h3>
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h3 class="font-bold mb-4 text-lg"><i class="fas fa-user-check mr-2 text-indigo-500"></i>Attendance</h3>
             <div id="attendance"></div>
         </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-            <h3 class="font-bold mb-4"><i class="fas fa-history mr-2"></i>Activity</h3>
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h3 class="font-bold mb-4 text-lg"><i class="fas fa-history mr-2 text-purple-500"></i>Activity</h3>
             <div id="activity"></div>
         </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-            <h3 class="font-bold mb-4"><i class="fas fa-chalkboard-teacher mr-2"></i>Classes</h3>
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h3 class="font-bold mb-4 text-lg"><i class="fas fa-chalkboard-teacher mr-2 text-rose-500"></i>Classes</h3>
             <div id="classes"></div>
         </div>
     </div>
@@ -63,8 +63,8 @@
     let sessionId = localStorage.getItem("cc_session_id");
 
     function setMessage(text, type = "error") {
-        const color = type === "success" ? "bg-green-900" : "bg-red-900";
-        document.getElementById("loginMessage").innerHTML = `<div class="${color} p-4 rounded-xl">${text}</div>`;
+        const color = type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800";
+        document.getElementById("loginMessage").innerHTML = `<div class="${color} p-4 rounded-xl border border-current">${text}</div>`;
     }
 
     async function login() {
@@ -95,30 +95,41 @@
     }
 
     async function api(endpoint) {
-        const response = await fetch(`/api/${endpoint}/${studentId}`, {
-            headers: { Authorization: `Basic ${sessionId}` }
-        });
-        return await response.json();
+        try {
+            if(!studentId || !sessionId) return { data: [], meta: {} };
+            const response = await fetch(`/api/${endpoint}/${studentId}`, {
+                headers: { Authorization: `Basic ${sessionId}` }
+            });
+            if (!response.ok) return { data: [], meta: {} };
+            return await response.json();
+        } catch (e) {
+            return { data: [], meta: {} };
+        }
     }
 
     function renderList(id, items, renderer) {
         const el = document.getElementById(id);
-        el.innerHTML = items?.length ? items.map(renderer).join("") : '<div class="opacity-50">No data</div>';
+        el.innerHTML = items?.length ? items.map(renderer).join("") : '<div class="text-slate-400 text-sm italic">No items found</div>';
     }
 
     async function loadAll() {
         const homework = await api("homeworks");
-        renderList("homework", homework.data, hw => `<div class="bg-gray-800 p-3 rounded-lg mb-2">${hw.title}</div>`);
+        renderList("homework", homework?.data, hw => `<div class="bg-slate-50 p-3 rounded-lg mb-2 border border-slate-100"><div class="font-bold">${hw?.title || 'Assignment'}</div><div class="text-xs text-slate-500">${hw?.subject || ''} • Due: ${hw?.due_date || 'N/A'}</div></div>`);
+        
         const behaviour = await api("behaviour");
-        renderList("behaviour", behaviour.data, b => `<div class="bg-gray-800 p-3 rounded-lg mb-2">${b.reason}</div>`);
+        renderList("behaviour", behaviour?.data, b => `<div class="bg-slate-50 p-3 rounded-lg mb-2 border border-slate-100"><div class="font-bold">${b?.reason || 'Event'}</div><div class="text-xs ${b?.points > 0 ? 'text-green-600' : 'text-red-600'}">${b?.points > 0 ? '+' : ''}${b?.points || 0} pts • ${b?.teacher_name || ''}</div></div>`);
+        
         const announcements = await api("announcements");
-        renderList("announcements", announcements.data, a => `<div class="bg-gray-800 p-3 rounded-lg mb-2">${a.title}</div>`);
+        renderList("announcements", announcements?.data, a => `<div class="bg-slate-50 p-3 rounded-lg mb-2 border border-slate-100"><div class="font-bold">${a?.title || 'Announcement'}</div><div class="text-xs text-slate-500">${a?.description || ''}</div></div>`);
+        
         const attendance = await api("attendance");
-        document.getElementById("attendance").innerHTML = `<div class="bg-gray-800 p-3 rounded-lg">${attendance.meta.percentage}%</div>`;
+        document.getElementById("attendance").innerHTML = `<div class="bg-slate-50 p-3 rounded-lg border border-slate-100 font-bold text-xl text-blue-600">${attendance?.meta?.percentage || 0}%</div>`;
+        
         const activity = await api("activity");
-        renderList("activity", activity.data, a => `<div class="bg-gray-800 p-3 rounded-lg mb-2">${a.title}</div>`);
+        renderList("activity", activity?.data, a => `<div class="bg-slate-50 p-3 rounded-lg mb-2 border border-slate-100"><div class="font-bold">${a?.title || 'Activity'}</div><div class="text-xs text-slate-500">${a?.description || ''}</div></div>`);
+        
         const classes = await api("classes");
-        renderList("classes", classes.data, c => `<div class="bg-gray-800 p-3 rounded-lg mb-2">${c.name}</div>`);
+        renderList("classes", classes?.data, c => `<div class="bg-slate-50 p-3 rounded-lg mb-2 border border-slate-100"><div class="font-bold">${c?.name || 'Class'}</div><div class="text-xs text-slate-500">${c?.teacher_name || ''}</div></div>`);
     }
 
     function logout() {
