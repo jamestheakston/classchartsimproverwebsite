@@ -14,6 +14,7 @@ export async function onRequestGet(context) {
                 "X-Remix-Version": "1.19.3",
                 "Referer": "https://www.classcharts.com/student/classes",
                 "Origin": "https://www.classcharts.com",
+                "Authorization": token,
                 "Cookie": `session=${token}`,
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
             },
