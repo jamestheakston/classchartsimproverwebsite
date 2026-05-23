@@ -92,11 +92,13 @@
     }
 
     async function api(endpoint, params = "") {
+        if (!sessionId) return { data: [], meta: {} };
         try {
             const url = `/api/${endpoint}/${studentId}${params ? '?' + params : ''}`;
             const res = await fetch(url, { headers: { Authorization: sessionId } });
             
             if (res.status === 401) {
+                console.warn("Session expired");
                 logout();
                 return { data: [], meta: {} };
             }
@@ -131,7 +133,7 @@
         document.getElementById("classes").innerHTML = cl.data?.map(i => `<div class="bg-white p-4 rounded-2xl shadow-sm mb-3">${i.name}</div>`).join('') || '';
     }
 
-    function logout() { localStorage.clear(); location.reload(); }
+    function logout() { localStorage.clear(); location.href = "/"; }
 
     if(studentId && sessionId) {
         document.getElementById("loginPage").style.display = "none";
