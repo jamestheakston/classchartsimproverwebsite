@@ -14,7 +14,6 @@
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen p-4 flex flex-col items-center">
-    <!-- Hero Section -->
     <section class="w-full max-w-2xl text-center py-12">
         <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
             Join the ClassCharts <span class="text-blue-600">Beta</span>
@@ -25,7 +24,6 @@
     </section>
 
     <div id="app" class="w-full max-w-md bg-white rounded-xl shadow-lg p-8 border border-gray-100">
-        <!-- Auth View -->
         <div id="auth-view">
             <h2 class="text-xl font-bold mb-6 text-gray-800">Sign in to get started</h2>
             <div id="auth-error" class="hidden mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
@@ -43,19 +41,18 @@
                 </button>
             </div>
             
-            <p class="text-sm text-gray-600 text-center mb-6">
-                <strong>Important:</strong> If you have an existing account with James Auth, you must create a new account from within the extension to register for the Beta.
-            </p>
+            <div class="text-sm text-gray-600 text-center space-y-4 border-t pt-4">
+                <p><strong>Need an account?</strong> Create one directly within the extension.</p>
+                <p><strong>Using James Auth?</strong> If you authenticated via James Auth, you must create a new account from within the extension to register for the Beta.</p>
+            </div>
         </div>
 
-        <!-- Enrollment View -->
         <div id="enroll-view" class="hidden">
             <h2 class="text-2xl font-bold mb-6 text-gray-800">Complete Enrollment</h2>
             <input type="text" id="userName" placeholder="Enter your full name" class="w-full p-3 mb-6 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
             <button id="enroll-btn" onclick="enroll()" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">Join Beta</button>
         </div>
 
-        <!-- Success View -->
         <div id="success-view" class="hidden">
             <div class="text-center">
                 <i class="fa-solid fa-circle-check text-green-500 text-5xl mb-4"></i>
@@ -73,21 +70,35 @@
         const SUPABASE_KEY = 'sb_publishable_a7GOW5zpj5YQp-nXJ6KyQA_NGkNyWFh';
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        window.addEventListener('load', async () => {
+            const { data: { session } } = await sb.auth.getSession();
+            if (session) {
+                document.getElementById('auth-view').classList.add('hidden');
+                checkExistingEnrollment(session.user.id);
+            }
+        });
+
+        async function checkExistingEnrollment(userId) {
+            const { data, error } = await sb.from('partnercodes').select('*').eq('user_id', userId);
+            if (data && data.length > 0) {
+                document.getElementById('resName').textContent = data[0].name;
+                document.getElementById('resCode').textContent = data[0].code;
+                document.getElementById('success-view').classList.remove('hidden');
+            } else {
+                document.getElementById('enroll-view').classList.remove('hidden');
+            }
+        }
+
         function showError(message) {
             const errorDiv = document.getElementById('auth-error');
             errorDiv.textContent = message;
             errorDiv.classList.remove('hidden');
         }
 
-        function showEnrollment() {
-            document.getElementById('auth-view').classList.add('hidden');
-            document.getElementById('enroll-view').classList.remove('hidden');
-        }
-
         async function handleOAuth(provider) {
             const { error } = await sb.auth.signInWithOAuth({
                 provider: provider,
-                options: { redirectTo: window.location.origin + window.location.pathname }
+                options: { redirectTo: 'https://classchartsimprover.pages.dev/beta' }
             });
             if (error) showError(error.message);
         }
@@ -109,7 +120,8 @@
                 showError(error.message);
                 return;
             }
-            showEnrollment();
+            document.getElementById('auth-view').classList.add('hidden');
+            checkExistingEnrollment((await sb.auth.getUser()).data.user.id);
         }
 
         async function generateUniqueCode() {
@@ -125,18 +137,9 @@
 
         async function enroll() {
             const name = document.getElementById('userName').value;
-            if(!name) {
-                showError("Please enter your name.");
-                return;
-            }
-
+            if(!name) return;
+            
             const { data: { user } } = await sb.auth.getUser();
-            
-            if (!user) {
-                showError("Authentication error: Please sign in again.");
-                return;
-            }
-            
             const code = await generateUniqueCode();
             
             const { error } = await sb.from('partnercodes').insert({
@@ -144,23 +147,17 @@
                 name: name,
                 code: code
             });
-
+            
             if (error) {
                 showError("Enrollment failed: " + error.message);
                 return;
             }
-
+            
             document.getElementById('resName').textContent = name;
             document.getElementById('resCode').textContent = code;
             document.getElementById('enroll-view').classList.add('hidden');
             document.getElementById('success-view').classList.remove('hidden');
         }
-
-        // Check session on load
-        window.onload = async () => {
-            const { data: { session } } = await sb.auth.getSession();
-            if (session) showEnrollment();
-        };
     </script>
 </body>
 </html>
