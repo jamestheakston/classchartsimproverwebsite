@@ -7,11 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .cc-primary { color: #007bff; }
-        .cc-bg-primary { background-color: #007bff; }
-        .cc-border { border-color: #e2e8f0; }
-    </style>
 </head>
 <body class="bg-gray-50 min-h-screen p-4 flex flex-col items-center">
     <section class="w-full max-w-2xl text-center py-12">
@@ -27,6 +22,7 @@
     </section>
 
     <div id="app" class="w-full max-w-md bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+        
         <!-- Auth View -->
         <div id="auth-view">
             <h2 class="text-xl font-bold mb-6 text-gray-800">Sign in to get started</h2>
@@ -39,7 +35,7 @@
             <div class="text-sm text-gray-600 text-center space-y-4 border-t pt-4">
                 <p><strong>Need an account?</strong> Create one directly within the extension.</p>
                 <p><strong>Using James Auth?</strong> If you authenticated via James Auth, you must create a new account from within the extension to register for the Beta.</p>
-                <p><strong>Using other external apps?</strong> If you have used an auth option other than James Auth, use the method of typing in the email linked to that external app in the email field and choose a password.</p>
+                <p><strong>Other external apps?</strong> If you have an account linked to an external app, use the method of typing in the email linked to that external app in the field above and choose a password to create a login for this portal.</p>
             </div>
         </div>
 
@@ -50,57 +46,92 @@
             <button id="enroll-btn" onclick="enroll()" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">Join Beta</button>
         </div>
 
-        <!-- Success View -->
+        <!-- Success/Dashboard View -->
         <div id="success-view" class="hidden">
             <div class="text-center">
                 <i class="fa-solid fa-circle-check text-green-500 text-5xl mb-4"></i>
-                <h2 id="success-title" class="text-2xl font-bold mb-2">You already have an account</h2>
-                <div class="bg-gray-100 p-4 rounded-lg text-left">
-                    <p><strong>Name:</strong> <span id="resName"></span></p>
-                    <p><strong>Code:</strong> <span id="resCode" class="font-mono font-bold"></span></p>
+                <h2 id="success-title" class="text-2xl font-bold mb-6">You already have an account</h2>
+                
+                <div class="bg-gray-100 p-4 rounded-lg text-left space-y-2 text-sm">
+                    <p><strong>Email:</strong> <span id="resEmail"></span></p>
+                    <p><strong>Name:</strong> <span id="resName" class="font-medium"></span></p>
+                    <p><strong>Code:</strong> <span id="resCode" class="font-mono font-bold bg-white px-2 py-1 rounded border"></span></p>
+                </div>
+
+                <div class="mt-8 border-t pt-6 space-y-4">
+                    <h3 class="font-bold text-gray-800 text-left text-sm uppercase tracking-wider text-gray-500">Account Management</h3>
+                    <input type="text" id="updateNameInput" placeholder="Update your name" class="w-full p-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
+                    <button onclick="updateName()" class="w-full bg-gray-800 text-white py-2 rounded-lg font-semibold hover:bg-black transition">Update Name</button>
+                    <button onclick="confirmLeaveBeta()" class="w-full text-red-600 border border-red-200 py-2 rounded-lg font-semibold hover:bg-red-50 transition">Leave Beta</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Onboarding Section -->
     <section id="onboarding-section" class="hidden w-full max-w-4xl mt-12 mb-12">
         <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Getting Started</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                <img src="/assets/betaonboard1.png" onerror="this.src='https://placehold.co/400x300?text=Settings+Access'" alt="Onboarding Step 1" class="rounded-lg w-full h-48 object-cover mb-4">
-                <h3 class="font-bold text-gray-800">Step 1: Locate Beta</h3>
+                <img src="/assets/betaonboard1.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Settings'" alt="Step 1" class="rounded-lg w-full h-48 object-cover mb-4">
+                <h3 class="font-bold text-gray-800">Step 1: Settings</h3>
                 <p class="text-sm text-gray-600">Click on Settings & Customization, scroll to the bottom and select "Beta Access".</p>
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                <img src="/assets/betaonboard2.png" onerror="this.src='https://placehold.co/400x300?text=Enter+Code'" alt="Onboarding Step 2" class="rounded-lg w-full h-48 object-cover mb-4">
+                <img src="/assets/betaonboard2.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Enter+Code'" alt="Step 2" class="rounded-lg w-full h-48 object-cover mb-4">
                 <h3 class="font-bold text-gray-800">Step 2: Enter Code</h3>
                 <p class="text-sm text-gray-600">Enter your partner code provided in this portal.</p>
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                <img src="/assets/betaonboard3.png" onerror="this.src='https://placehold.co/400x300?text=Feedback+Time'" alt="Onboarding Step 3" class="rounded-lg w-full h-48 object-cover mb-4">
+                <img src="/assets/betaonboard3.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Feedback'" alt="Step 3" class="rounded-lg w-full h-48 object-cover mb-4">
                 <h3 class="font-bold text-gray-800">Step 3: Enhance</h3>
                 <p class="text-sm text-gray-600">Give feedback and try out beta features!</p>
             </div>
         </div>
     </section>
 
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div id="modal-box" class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm">
+            <h3 id="modal-title" class="text-lg font-bold text-gray-800 mb-2"></h3>
+            <p id="modal-text" class="text-gray-600 mb-6"></p>
+            <div id="modal-actions" class="flex gap-3 justify-end"></div>
+        </div>
+    </div>
+
     <script>
         const SUPABASE_URL = 'https://izcixahquohigrzghyqv.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_a7GOW5zpj5YQp-nXJ6KyQA_NGkNyWFh';
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        function showModal(title, text, actions = []) {
+            const overlay = document.getElementById('modal-overlay');
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-text').textContent = text;
+            const actionContainer = document.getElementById('modal-actions');
+            actionContainer.innerHTML = '';
+            actions.forEach(action => {
+                const btn = document.createElement('button');
+                btn.textContent = action.label;
+                btn.className = action.className || 'px-4 py-2 rounded-lg';
+                btn.onclick = () => { action.onClick(); overlay.classList.add('hidden'); };
+                actionContainer.appendChild(btn);
+            });
+            overlay.classList.remove('hidden');
+        }
+
         window.addEventListener('load', async () => {
             const { data: { session } } = await sb.auth.getSession();
             if (session) {
-                showAuthUI(session.user.id);
+                showAuthUI(session.user);
             }
         });
 
-        function showAuthUI(userId) {
+        function showAuthUI(user) {
             document.getElementById('auth-view').classList.add('hidden');
             document.getElementById('logout-container').classList.remove('hidden');
             document.getElementById('onboarding-section').classList.remove('hidden');
-            checkExistingEnrollment(userId);
+            checkExistingEnrollment(user);
         }
 
         async function logout() {
@@ -108,22 +139,16 @@
             location.reload();
         }
 
-        async function checkExistingEnrollment(userId) {
-            const { data, error } = await sb.from('partnercodes').select('*').eq('user_id', userId);
+        async function checkExistingEnrollment(user) {
+            const { data, error } = await sb.from('partnercodes').select('*').eq('user_id', user.id);
             if (data && data.length > 0) {
-                document.getElementById('success-title').textContent = "You already have an account";
+                document.getElementById('resEmail').textContent = user.email;
                 document.getElementById('resName').textContent = data[0].name;
                 document.getElementById('resCode').textContent = data[0].code;
                 document.getElementById('success-view').classList.remove('hidden');
             } else {
                 document.getElementById('enroll-view').classList.remove('hidden');
             }
-        }
-
-        function showError(message) {
-            const errorDiv = document.getElementById('auth-error');
-            errorDiv.textContent = message;
-            errorDiv.classList.remove('hidden');
         }
 
         async function handleLogin() {
@@ -143,18 +168,7 @@
                 showError(error.message);
                 return;
             }
-            showAuthUI(data.user.id);
-        }
-
-        async function generateUniqueCode() {
-            let code = "";
-            let exists = true;
-            while (exists) {
-                code = Math.floor(100000 + Math.random() * 900000).toString();
-                const { data } = await sb.from('partnercodes').select('code').eq('code', code);
-                if (!data || data.length === 0) exists = false;
-            }
-            return code;
+            showAuthUI(data.user);
         }
 
         async function enroll() {
@@ -162,14 +176,8 @@
             if(!name) return;
             
             const { data: { user } } = await sb.auth.getUser();
-            
-            const { data: existing } = await sb.from('partnercodes').select('id').eq('user_id', user.id);
-            if (existing && existing.length > 0) {
-                showError("You are already enrolled!");
-                return;
-            }
+            const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-            const code = await generateUniqueCode();
             const { error } = await sb.from('partnercodes').insert({
                 user_id: user.id,
                 name: name,
@@ -177,15 +185,51 @@
             });
             
             if (error) {
-                showError("Enrollment failed: " + error.message);
+                showModal("Error", "Enrollment failed: " + error.message, [{ label: 'Close', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} }]);
                 return;
             }
             
-            document.getElementById('success-title').textContent = "Welcome to Beta!";
-            document.getElementById('resName').textContent = name;
-            document.getElementById('resCode').textContent = code;
-            document.getElementById('enroll-view').classList.add('hidden');
-            document.getElementById('success-view').classList.remove('hidden');
+            location.reload();
+        }
+
+        async function updateName() {
+            const newName = document.getElementById('updateNameInput').value;
+            if(!newName) return;
+
+            const { data: { user } } = await sb.auth.getUser();
+            const { error } = await sb.from('partnercodes').update({ name: newName }).eq('user_id', user.id);
+            
+            if (error) {
+                showModal("Error", "Update failed: " + error.message, [{ label: 'Close', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} }]);
+            } else {
+                document.getElementById('resName').textContent = newName;
+                document.getElementById('updateNameInput').value = '';
+                showModal("Success", "Name updated successfully!", [{ label: 'OK', className: 'bg-green-600 text-white px-4 py-2 rounded-lg', onClick: () => {} }]);
+            }
+        }
+
+        function confirmLeaveBeta() {
+            showModal("Are you sure?", "You are about to leave the Beta. This will delete your access code.", [
+                { label: 'Cancel', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} },
+                { label: 'Leave', className: 'bg-red-600 text-white px-4 py-2 rounded-lg', onClick: leaveBeta }
+            ]);
+        }
+
+        async function leaveBeta() {
+            const { data: { user } } = await sb.auth.getUser();
+            const { error } = await sb.from('partnercodes').delete().eq('user_id', user.id);
+            
+            if (error) {
+                showModal("Error", "Action failed: " + error.message, [{ label: 'Close', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} }]);
+            } else {
+                location.reload();
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('auth-error');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
         }
     </script>
 </body>
