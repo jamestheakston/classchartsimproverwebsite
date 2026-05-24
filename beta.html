@@ -24,6 +24,7 @@
     </section>
 
     <div id="app" class="w-full max-w-md bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+        <!-- Auth View -->
         <div id="auth-view">
             <h2 class="text-xl font-bold mb-6 text-gray-800">Sign in to get started</h2>
             <div id="auth-error" class="hidden mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
@@ -43,16 +44,18 @@
             
             <div class="text-sm text-gray-600 text-center space-y-4 border-t pt-4">
                 <p><strong>Need an account?</strong> Create one directly within the extension.</p>
-                <p><strong>Using James Auth?</strong> If you authenticated via James Auth, you must create a new account from within the extension to register for the Beta.</p>
+                <p><strong>Using James Auth?</strong> If you have an account with James Auth, you must create a new account from within the extension to register for the Beta.</p>
             </div>
         </div>
 
+        <!-- Enrollment View -->
         <div id="enroll-view" class="hidden">
             <h2 class="text-2xl font-bold mb-6 text-gray-800">Complete Enrollment</h2>
             <input type="text" id="userName" placeholder="Enter your full name" class="w-full p-3 mb-6 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
             <button id="enroll-btn" onclick="enroll()" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">Join Beta</button>
         </div>
 
+        <!-- Success View -->
         <div id="success-view" class="hidden">
             <div class="text-center">
                 <i class="fa-solid fa-circle-check text-green-500 text-5xl mb-4"></i>
@@ -68,6 +71,7 @@
     <script>
         const SUPABASE_URL = 'https://izcixahquohigrzghyqv.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_a7GOW5zpj5YQp-nXJ6KyQA_NGkNyWFh';
+        const REDIRECT_URL = 'https://classchartsimprover.pages.dev/beta';
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         window.addEventListener('load', async () => {
@@ -98,7 +102,9 @@
         async function handleOAuth(provider) {
             const { error } = await sb.auth.signInWithOAuth({
                 provider: provider,
-                options: { redirectTo: 'https://classchartsimprover.pages.dev/beta' }
+                options: {
+                    redirectTo: REDIRECT_URL
+                }
             });
             if (error) showError(error.message);
         }
@@ -140,8 +146,15 @@
             if(!name) return;
             
             const { data: { user } } = await sb.auth.getUser();
-            const code = await generateUniqueCode();
             
+            // Re-check just in case
+            const { data: existing } = await sb.from('partnercodes').select('id').eq('user_id', user.id);
+            if (existing && existing.length > 0) {
+                showError("You are already enrolled!");
+                return;
+            }
+
+            const code = await generateUniqueCode();
             const { error } = await sb.from('partnercodes').insert({
                 user_id: user.id,
                 name: name,
