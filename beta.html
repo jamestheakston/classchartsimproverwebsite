@@ -32,6 +32,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@videojs/html/cdn/video.js"></script>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Auth View (Centered) -->
@@ -60,6 +61,16 @@
                 <p><strong>Need an account?</strong> Create one directly within the extension.</p>
                 <p><strong>Using James Auth?</strong> If you authenticated via James Auth, you must create a new account from within the extension to register for the Beta.</p>
                 <p><strong>Other external apps?</strong> If you have an account linked to an external app, use the method of typing in the email linked to that external app in the field above and choose a password to create a login for this portal.</p>
+            </div>
+
+            <!-- Video Explainer -->
+            <div class="mt-4 pt-4 border-t">
+                <p class="text-xs text-gray-500 mb-2 text-center">Watch a quick explainer</p>
+                <video-player>
+                    <video-skin>
+                        <video src="https://classchartsimprover.pages.dev/assets/betashort.mp4" playsinline class="w-full"></video>
+                    </video-skin>
+                </video-player>
             </div>
         </div>
 
@@ -122,6 +133,10 @@
                 <button onclick="showDashboardTab('changelog')" class="sidebar-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-700 hover:bg-gray-100 transition" data-tab="changelog">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <span>Changelog</span>
+                </button>
+                <button onclick="showDashboardTab('video')" class="sidebar-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-700 hover:bg-gray-100 transition" data-tab="video">
+                    <i class="fa-solid fa-video"></i>
+                    <span>Video</span>
                 </button>
                 <button onclick="showDashboardTab('account')" class="sidebar-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-700 hover:bg-gray-100 transition" data-tab="account">
                     <i class="fa-solid fa-user"></i>
@@ -297,6 +312,19 @@
                 </div>
                 <div id="changelog-content" class="space-y-6 max-w-3xl hidden"></div>
             </div>
+
+            <!-- Video Tab -->
+            <div id="tab-video" class="dashboard-tab hidden">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Beta Explainer Video</h2>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-4xl">
+                    <video-player>
+                        <video-skin>
+                            <video src="https://classchartsimprover.pages.dev/assets/betashort.mp4" playsinline class="w-full"></video>
+                        </video-skin>
+                    </video-player>
+                    <p class="text-gray-600 mt-4 text-center">Watch this quick video to learn more about the ClassCharts Improver Beta program.</p>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -404,11 +432,21 @@
         });
 
         function showAuthUI(user) {
+            // Stop all video playback
+            stopAllVideos();
             document.getElementById('auth-container').classList.add('hidden');
             document.getElementById('dashboard-container').classList.remove('hidden');
             // Initialize first tab as active
             showDashboardTab('overview');
             checkExistingEnrollment(user);
+        }
+
+        function stopAllVideos() {
+            // Stop all video elements
+            document.querySelectorAll('video').forEach(video => {
+                video.pause();
+                video.currentTime = 0;
+            });
         }
 
         function showDashboardTab(tabName) {
