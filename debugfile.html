@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Debug File - ClassCharts Improver</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen p-4 md:p-8">
+
+    <div class="max-w-xl mx-auto">
+        <div class="flex items-center justify-center space-x-2 mb-8">
+            <div class="bg-blue-600 p-2 rounded-lg">
+                <i class="fas fa-chart-bar text-white text-sm"></i>
+            </div>
+            <span class="text-xl font-bold tracking-tight text-slate-900">CC <span class="text-blue-600">Improver</span></span>
+        </div>
+
+        <div class="glass-card rounded-2xl p-8">
+            <header class="mb-8">
+                <h1 class="text-2xl font-bold text-slate-900">Export Your Debug File</h1>
+                <p class="text-slate-600 mt-2">Follow these steps to generate the debug data needed for your GitHub issue.</p>
+            </header>
+
+            <div class="space-y-8">
+                
+                <!-- Step 1 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center font-bold shadow-lg shadow-blue-200">1</div>
+                    <div>
+                        <h2 class="font-semibold text-slate-800">Check Installation</h2>
+                        <p class="text-sm text-slate-600">Ensure the <span class="font-semibold text-blue-600">ClassCharts Improver</span> extension is installed and active while on the ClassCharts website.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center font-bold shadow-lg shadow-blue-200">2</div>
+                    <div>
+                        <h2 class="font-semibold text-slate-800">Open Command Menu</h2>
+                        <p class="text-sm text-slate-600 mb-3">Trigger the command menu using your keyboard shortcut:</p>
+                        <div class="flex items-center gap-3">
+                            <kbd class="px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-lg font-mono text-xs font-bold shadow-sm">Cmd + D (Mac)</kbd>
+                            <kbd class="px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-lg font-mono text-xs font-bold shadow-sm">Ctrl + D (Win)</kbd>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center font-bold shadow-lg shadow-blue-200">3</div>
+                    <div>
+                        <h2 class="font-semibold text-slate-800">Export and Attach</h2>
+                        <p class="text-sm text-slate-600 mb-4">Click <span class="font-bold text-slate-900">"Export File"</span> in the menu, then attach the downloaded file to your GitHub issue. <span class="font-semibold text-red-600 block mt-1">Important: Do not change the file name.</span></p>
+                        
+                        <div class="rounded-xl border border-slate-200 shadow-inner bg-slate-50 overflow-hidden">
+                            <img src="/assets/debugguide2.png" 
+                                 alt="Export File menu guide" 
+                                 class="w-full h-auto object-cover" 
+                                 onerror="this.onerror=null; this.src='https://placehold.co/400x200/e2e8f0/64748b?text=Export+Guide+Preview';">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="mt-10 pt-6 border-t border-slate-100 text-center text-xs text-slate-400">
+                ClassCharts Improver Debug Assistant
+            </footer>
+        </div>
+    </div>
+</body>
+</html>
