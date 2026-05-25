@@ -8,20 +8,19 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-50 min-h-screen p-4 flex flex-col items-center">
-    <section class="w-full max-w-2xl text-center py-12">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-            Join the ClassCharts <span class="text-blue-600">Improver Beta</span>
-        </h1>
-        <p class="text-lg text-gray-600 mb-8">
-            Get exclusive early access to our next generation of classroom management tools. Help us shape the future of teaching.
-        </p>
-        <div id="logout-container" class="hidden">
-            <button onclick="logout()" class="text-sm text-gray-500 hover:text-red-600 transition underline">Sign out</button>
-        </div>
-    </section>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Auth View (Centered) -->
+    <div id="auth-container" class="min-h-screen p-4 flex flex-col items-center">
+        <section class="w-full max-w-2xl text-center py-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
+                Join the ClassCharts <span class="text-blue-600">Improver Beta</span>
+            </h1>
+            <p class="text-lg text-gray-600 mb-8">
+                Get exclusive early access to our next generation of classroom management tools. Help us shape the future of teaching.
+            </p>
+        </section>
 
-    <div id="app" class="w-full max-w-md bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+        <div id="app" class="w-full max-w-md bg-white rounded-xl shadow-lg p-8 border border-gray-100">
         
         <!-- Auth View -->
         <div id="auth-view">
@@ -67,28 +66,204 @@
             </div>
         </div>
     </div>
+    </div>
 
-    <!-- Onboarding Section -->
-    <section id="onboarding-section" class="hidden w-full max-w-4xl mt-12 mb-12">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Getting Started</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                <img src="/assets/betaonboard1.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Settings'" alt="Step 1" class="rounded-lg w-full h-48 object-cover mb-4">
-                <h3 class="font-bold text-gray-800">Step 1: Settings</h3>
-                <p class="text-sm text-gray-600">Click on Settings & Customization, scroll to the bottom and select "Beta Access".</p>
+    <!-- Dashboard View (Hidden by default) -->
+    <div id="dashboard-container" class="hidden min-h-screen flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+            <div class="p-6 border-b border-gray-200">
+                <h1 class="text-xl font-bold text-gray-900">ClassCharts <span class="text-blue-600">Improver Beta</span></h1>
             </div>
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                <img src="/assets/betaonboard2.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Enter+Code'" alt="Step 2" class="rounded-lg w-full h-48 object-cover mb-4">
-                <h3 class="font-bold text-gray-800">Step 2: Enter Code</h3>
-                <p class="text-sm text-gray-600">Enter your partner code provided in this portal.</p>
+            <nav class="flex-1 p-4 space-y-2">
+                <button onclick="showDashboardTab('overview')" class="sidebar-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-700 hover:bg-gray-100 transition" data-tab="overview">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Overview</span>
+                </button>
+                <button onclick="showDashboardTab('features')" class="sidebar-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-700 hover:bg-gray-100 transition" data-tab="features">
+                    <i class="fa-solid fa-star"></i>
+                    <span>Features</span>
+                </button>
+                <button onclick="showDashboardTab('feedback')" class="sidebar-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-700 hover:bg-gray-100 transition" data-tab="feedback">
+                    <i class="fa-solid fa-comment"></i>
+                    <span>Feedback</span>
+                </button>
+                <button onclick="showDashboardTab('faq')" class="sidebar-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-700 hover:bg-gray-100 transition" data-tab="faq">
+                    <i class="fa-solid fa-question-circle"></i>
+                    <span>FAQ</span>
+                </button>
+                <button onclick="showDashboardTab('changelog')" class="sidebar-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-700 hover:bg-gray-100 transition" data-tab="changelog">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Changelog</span>
+                </button>
+                <button onclick="showDashboardTab('account')" class="sidebar-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-700 hover:bg-gray-100 transition" data-tab="account">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Account</span>
+                </button>
+            </nav>
+            <div class="p-4 border-t border-gray-200">
+                <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-red-600 hover:bg-red-50 transition">
+                    <i class="fa-solid fa-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </button>
             </div>
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                <img src="/assets/betaonboard3.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Feedback'" alt="Step 3" class="rounded-lg w-full h-48 object-cover mb-4">
-                <h3 class="font-bold text-gray-800">Step 3: Enhance</h3>
-                <p class="text-sm text-gray-600">Give feedback and try out beta features!</p>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            <!-- Overview Tab -->
+            <div id="tab-overview" class="dashboard-tab">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Welcome to the Beta</h2>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+                    <div class="flex items-center gap-4 mb-4">
+                        <i class="fa-solid fa-circle-check text-green-500 text-4xl"></i>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800">You're enrolled!</h3>
+                            <p class="text-gray-600">Your beta access code is ready to use.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg space-y-2">
+                        <p><strong>Email:</strong> <span id="dashEmail"></span></p>
+                        <p><strong>Name:</strong> <span id="dashName" class="font-medium"></span></p>
+                        <p><strong>Code:</strong> <span id="dashCode" class="font-mono font-bold bg-white px-3 py-1 rounded border text-lg"></span></p>
+                    </div>
+                </div>
+
+                <!-- Getting Started Section -->
+                <div class="mt-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Getting Started</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <img src="/assets/betaonboard1.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Settings'" alt="Step 1" class="rounded-lg w-full h-48 object-cover mb-4">
+                            <h3 class="font-bold text-gray-800 mb-2">Step 1: Settings</h3>
+                            <p class="text-sm text-gray-600">Click on Settings & Customization, scroll to the bottom and select "Beta Access".</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <img src="/assets/betaonboard2.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Enter+Code'" alt="Step 2" class="rounded-lg w-full h-48 object-cover mb-4">
+                            <h3 class="font-bold text-gray-800 mb-2">Step 2: Enter Code</h3>
+                            <p class="text-sm text-gray-600">Enter your partner code provided in this portal.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <img src="/assets/betaonboard3.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Feedback'" alt="Step 3" class="rounded-lg w-full h-48 object-cover mb-4">
+                            <h3 class="font-bold text-gray-800 mb-2">Step 3: Enhance</h3>
+                            <p class="text-sm text-gray-600">Give feedback and try out beta features!</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+
+            <!-- Account Tab -->
+            <div id="tab-account" class="dashboard-tab hidden">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Account Management</h2>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-2xl">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Update Your Name</label>
+                            <input type="text" id="updateNameInput" placeholder="Enter new name" class="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <button onclick="updateName()" class="bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-black transition">Update Name</button>
+                        
+                        <hr class="border-gray-200">
+                        
+                        <div>
+                            <h3 class="font-bold text-gray-800 mb-2">Session</h3>
+                            <button onclick="logout()" class="text-gray-600 border border-gray-200 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition w-full">Sign Out</button>
+                        </div>
+                        
+                        <hr class="border-gray-200">
+                        
+                        <div>
+                            <h3 class="font-bold text-red-600 mb-2">Danger Zone</h3>
+                            <p class="text-sm text-gray-600 mb-4">Leaving the beta will delete your access code. You can re-enroll at any time.</p>
+                            <button onclick="confirmLeaveBeta()" class="text-red-600 border border-red-200 px-6 py-3 rounded-lg font-semibold hover:bg-red-50 transition w-full">Leave Beta</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Tab -->
+            <div id="tab-features" class="dashboard-tab hidden">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Beta Features</h2>
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                    <p class="text-blue-800 text-lg"><i class="fa-solid fa-info-circle mr-2"></i><strong>Note:</strong> Check out the ClassCharts Improver extension to see the latest features and enable them in your settings.</p>
+                </div>
+            </div>
+
+            <!-- Feedback Tab -->
+            <div id="tab-feedback" class="dashboard-tab hidden">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Send Feedback</h2>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-2xl">
+                    <p class="text-gray-600 mb-6">Help us improve ClassCharts Improver by sharing your thoughts, bug reports, or feature requests.</p>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Feedback Type</label>
+                            <select id="feedback-type" class="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="bug">Bug Report</option>
+                                <option value="feature">Feature Request</option>
+                                <option value="general">General Feedback</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
+                            <textarea id="feedback-message" rows="5" placeholder="Describe your feedback in detail..." class="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        <button onclick="submitFeedback()" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">Submit Feedback</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Tab -->
+            <div id="tab-faq" class="dashboard-tab hidden">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+                <div class="space-y-4 max-w-3xl">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="font-bold text-gray-800 mb-2">How do I get my beta access code?</h3>
+                        <p class="text-gray-600">Your beta access code is displayed in the Overview tab after you complete enrollment. You can also find it in your account settings.</p>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="font-bold text-gray-800 mb-2">Can I use the beta on multiple devices?</h3>
+                        <p class="text-gray-600">Yes, your beta access code works across all devices where you have the ClassCharts Improver extension installed.</p>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="font-bold text-gray-800 mb-2">What happens if I leave the beta?</h3>
+                        <p class="text-gray-600">Leaving the beta will remove your access code and disable beta features. You can re-enroll at any time to regain access.</p>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="font-bold text-gray-800 mb-2">How do I report bugs or suggest features?</h3>
+                        <p class="text-gray-600">Use the Feedback tab to submit bug reports, feature requests, or general feedback. We appreciate your input!</p>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="font-bold text-gray-800 mb-2">Is my data safe during the beta?</h3>
+                        <p class="text-gray-600">Absolutely. We use the same security measures as the main ClassCharts Improver platform. Your data is encrypted and never shared with third parties. Your data is encrypted with enterprise grade protection.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Changelog Tab -->
+            <div id="tab-changelog" class="dashboard-tab hidden">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Changelog</h2>
+                
+                <!-- Pagination Controls -->
+                <div id="pagination-controls" class="flex items-center justify-between mb-6 hidden">
+                    <button onclick="previousPage()" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed" id="prev-btn">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        <span>Previous</span>
+                    </button>
+                    <span id="page-indicator" class="text-gray-600 font-medium">Page 1 of 1</span>
+                    <button onclick="nextPage()" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed" id="next-btn">
+                        <span>Next</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div id="changelog-loading" class="text-center py-12">
+                    <i class="fa-solid fa-spinner fa-spin text-4xl text-blue-600 mb-4"></i>
+                    <p class="text-gray-600">Loading latest releases...</p>
+                </div>
+                <div id="changelog-content" class="space-y-6 max-w-3xl hidden"></div>
+            </div>
+        </main>
+    </div>
 
     <!-- Modal Overlay -->
     <div id="modal-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -128,13 +303,48 @@
         });
 
         function showAuthUI(user) {
-            document.getElementById('auth-view').classList.add('hidden');
-            document.getElementById('logout-container').classList.remove('hidden');
-            document.getElementById('onboarding-section').classList.remove('hidden');
+            document.getElementById('auth-container').classList.add('hidden');
+            document.getElementById('dashboard-container').classList.remove('hidden');
+            // Initialize first tab as active
+            showDashboardTab('overview');
             checkExistingEnrollment(user);
         }
 
-        async function logout() {
+        function showDashboardTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.dashboard-tab').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Show selected tab
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+            
+            // Update sidebar button states
+            document.querySelectorAll('.sidebar-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-100', 'text-blue-700');
+                btn.classList.add('text-gray-700');
+            });
+            
+            const activeBtn = document.querySelector(`.sidebar-btn[data-tab="${tabName}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-blue-100', 'text-blue-700');
+                activeBtn.classList.remove('text-gray-700');
+            }
+
+            // Load changelog if opening changelog tab
+            if (tabName === 'changelog') {
+                loadChangelog();
+            }
+        }
+
+        function logout() {
+            showModal("Sign Out", "Are you sure you want to sign out?", [
+                { label: 'Cancel', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} },
+                { label: 'Sign Out', className: 'bg-red-600 text-white px-4 py-2 rounded-lg', onClick: confirmLogout }
+            ]);
+        }
+
+        async function confirmLogout() {
             await sb.auth.signOut();
             location.reload();
         }
@@ -142,10 +352,10 @@
         async function checkExistingEnrollment(user) {
             const { data, error } = await sb.from('partnercodes').select('*').eq('user_id', user.id);
             if (data && data.length > 0) {
-                document.getElementById('resEmail').textContent = user.email;
-                document.getElementById('resName').textContent = data[0].name;
-                document.getElementById('resCode').textContent = data[0].code;
-                document.getElementById('success-view').classList.remove('hidden');
+                document.getElementById('dashEmail').textContent = user.email;
+                document.getElementById('dashName').textContent = data[0].name;
+                document.getElementById('dashCode').textContent = data[0].code;
+                showDashboardTab('overview');
             } else {
                 document.getElementById('enroll-view').classList.remove('hidden');
             }
@@ -202,7 +412,7 @@
             if (error) {
                 showModal("Error", "Update failed: " + error.message, [{ label: 'Close', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} }]);
             } else {
-                document.getElementById('resName').textContent = newName;
+                document.getElementById('dashName').textContent = newName;
                 document.getElementById('updateNameInput').value = '';
                 showModal("Success", "Name updated successfully!", [{ label: 'OK', className: 'bg-green-600 text-white px-4 py-2 rounded-lg', onClick: () => {} }]);
             }
@@ -230,6 +440,192 @@
             const errorDiv = document.getElementById('auth-error');
             errorDiv.textContent = message;
             errorDiv.classList.remove('hidden');
+        }
+
+        async function submitFeedback() {
+            const type = document.getElementById('feedback-type').value;
+            const message = document.getElementById('feedback-message').value;
+            
+            if (!message.trim()) {
+                showModal("Error", "Please enter a message before submitting.", [{ label: 'Close', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} }]);
+                return;
+            }
+            
+            try {
+                const response = await fetch('https://formspree.io/f/mvzyblke', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        type: type,
+                        message: message,
+                        email: document.getElementById('dashEmail')?.textContent || 'Not provided'
+                    })
+                });
+                
+                if (response.ok) {
+                    document.getElementById('feedback-message').value = '';
+                    showModal("Thank You!", "Your feedback has been submitted successfully. We appreciate your input!", [{ label: 'OK', className: 'bg-green-600 text-white px-4 py-2 rounded-lg', onClick: () => {} }]);
+                } else {
+                    showModal("Error", "Failed to submit feedback. Please try again.", [{ label: 'Close', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} }]);
+                }
+            } catch (error) {
+                showModal("Error", "An error occurred. Please try again.", [{ label: 'Close', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} }]);
+            }
+        }
+
+        let allReleases = [];
+        let currentPage = 1;
+        const itemsPerPage = 3;
+
+        async function loadChangelog() {
+            const loadingDiv = document.getElementById('changelog-loading');
+            const contentDiv = document.getElementById('changelog-content');
+            const paginationControls = document.getElementById('pagination-controls');
+            
+            loadingDiv.classList.remove('hidden');
+            contentDiv.classList.add('hidden');
+            paginationControls.classList.add('hidden');
+            contentDiv.innerHTML = '';
+            
+            try {
+                const response = await fetch('https://api.github.com/repos/jamestheakston/classchartsimprover/releases');
+                const releases = await response.json();
+                
+                if (!Array.isArray(releases) || releases.length === 0) {
+                    contentDiv.innerHTML = '<p class="text-gray-600">No releases found.</p>';
+                    loadingDiv.classList.add('hidden');
+                    contentDiv.classList.remove('hidden');
+                    return;
+                }
+                
+                allReleases = releases;
+                currentPage = 1;
+                renderReleases();
+                
+                loadingDiv.classList.add('hidden');
+                contentDiv.classList.remove('hidden');
+                
+                if (allReleases.length > itemsPerPage) {
+                    paginationControls.classList.remove('hidden');
+                }
+                
+            } catch (error) {
+                console.error('Error fetching releases:', error);
+                contentDiv.innerHTML = '<p class="text-red-600">Failed to load releases. Please try again later.</p>';
+                loadingDiv.classList.add('hidden');
+                contentDiv.classList.remove('hidden');
+            }
+        }
+
+        function renderReleases() {
+            const contentDiv = document.getElementById('changelog-content');
+            contentDiv.innerHTML = '';
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageReleases = allReleases.slice(startIndex, endIndex);
+            
+            pageReleases.forEach((release, index) => {
+                const isLatest = index === 0 && currentPage === 1;
+                const releaseDate = new Date(release.published_at).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Parse the release notes to extract "Latest Changes"
+                const body = release.body || '';
+                let changes = [];
+                
+                // Look for "Latest Changes" section
+                const latestChangesMatch = body.match(/\*\*Latest Changes\*\*([\s\S]*?)(?=\*\*|$)/);
+                if (latestChangesMatch) {
+                    const changesText = latestChangesMatch[1].trim();
+                    // Extract bullet points
+                    const bulletPoints = changesText.match(/^- (.+)$/gm);
+                    if (bulletPoints) {
+                        changes = bulletPoints.map(point => point.replace(/^- /, '').trim());
+                    }
+                }
+                
+                // If no "Latest Changes" found, try to extract all bullet points
+                if (changes.length === 0) {
+                    const allBullets = body.match(/^- (.+)$/gm);
+                    if (allBullets) {
+                        changes = allBullets.slice(0, 5).map(point => point.replace(/^- /, '').trim());
+                    }
+                }
+                
+                const releaseCard = document.createElement('div');
+                releaseCard.className = 'bg-white rounded-xl shadow-sm border border-gray-100 p-6';
+                
+                let changesHtml = '';
+                if (changes.length > 0) {
+                    changesHtml = '<ul class="text-gray-600 space-y-1 list-disc list-inside">' +
+                        changes.map(change => `<li>${parseMarkdownLinks(change)}</li>`).join('') +
+                        '</ul>';
+                } else {
+                    changesHtml = '<p class="text-gray-600">See full release notes on GitHub.</p>';
+                }
+                
+                releaseCard.innerHTML = `
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">${release.tag_name || release.name}</span>
+                        ${isLatest ? '<span class="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">Latest</span>' : ''}
+                        <span class="text-sm text-gray-500">${releaseDate}</span>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2">${release.name || 'Release'}</h3>
+                    ${changesHtml}
+                    <a href="${release.html_url}" target="_blank" class="inline-block mt-4 text-blue-600 hover:text-blue-700 text-sm font-medium">View on GitHub →</a>
+                `;
+                
+                contentDiv.appendChild(releaseCard);
+            });
+            
+            updatePaginationControls();
+        }
+
+        function updatePaginationControls() {
+            const totalPages = Math.ceil(allReleases.length / itemsPerPage);
+            const pageIndicator = document.getElementById('page-indicator');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            pageIndicator.textContent = `Page ${currentPage} of ${totalPages}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderReleases();
+            }
+        }
+
+        function nextPage() {
+            const totalPages = Math.ceil(allReleases.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderReleases();
+            }
+        }
+
+        function parseMarkdownLinks(text) {
+            // Replace markdown links [text](url) with HTML links
+            return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, url) => {
+                // Check if it's a GitHub issue or discussion link
+                const issueMatch = url.match(/github\.com\/[^/]+\/[^/]+\/(issues|discussions)\/(\d+)/);
+                if (issueMatch) {
+                    const number = issueMatch[2];
+                    return `<a href="${url}" target="_blank" class="text-blue-600 hover:text-blue-700 underline">#${number}</a>`;
+                }
+                // Default link styling
+                return `<a href="${url}" target="_blank" class="text-blue-600 hover:text-blue-700 underline">${linkText}</a>`;
+            });
         }
     </script>
 </body>
