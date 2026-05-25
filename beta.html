@@ -50,7 +50,7 @@
             <div class="text-center">
                 <i class="fa-solid fa-circle-check text-green-500 text-5xl mb-4"></i>
                 <h2 id="success-title" class="text-2xl font-bold mb-6">You already have an account</h2>
-                
+
                 <div class="bg-gray-100 p-4 rounded-lg text-left space-y-2 text-sm">
                     <p><strong>Email:</strong> <span id="resEmail"></span></p>
                     <p><strong>Name:</strong> <span id="resName" class="font-medium"></span></p>
@@ -70,7 +70,9 @@
 
     <!-- Dashboard View (Hidden by default) -->
     <div id="dashboard-container" class="hidden min-h-screen flex">
-        <!-- Sidebar -->
+        <!-- Dashboard Content (Sidebar + Main) -->
+        <div id="dashboard-content" class="hidden flex w-full">
+            <!-- Sidebar -->
         <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
             <div class="p-6 border-b border-gray-200">
                 <h1 class="text-xl font-bold text-gray-900">ClassCharts <span class="text-blue-600">Improver Beta</span></h1>
@@ -114,7 +116,15 @@
             <!-- Overview Tab -->
             <div id="tab-overview" class="dashboard-tab">
                 <h2 class="text-3xl font-bold text-gray-900 mb-6">Welcome to the Beta</h2>
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6 relative">
+                    <!-- Loading Overlay -->
+                    <div id="overview-loading" class="hidden absolute inset-0 bg-white/95 flex items-center justify-center z-10 rounded-xl">
+                        <div class="text-center">
+                            <i class="fa-solid fa-spinner fa-spin text-4xl text-blue-600 mb-4"></i>
+                            <p class="text-gray-600">Waiting for Enrollment...</p>
+                        </div>
+                    </div>
+                    
                     <div class="flex items-center gap-4 mb-4">
                         <i class="fa-solid fa-circle-check text-green-500 text-4xl"></i>
                         <div>
@@ -134,17 +144,17 @@
                     <h3 class="text-2xl font-bold text-gray-800 mb-6">Getting Started</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                            <img src="/assets/betaonboard1.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Settings'" alt="Step 1" class="rounded-lg w-full h-48 object-cover mb-4">
+                            <img src="/assets/betaonboard1.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Settings'" alt="Step 1" class="rounded-lg w-auto h-auto mb-4 mx-auto">
                             <h3 class="font-bold text-gray-800 mb-2">Step 1: Settings</h3>
                             <p class="text-sm text-gray-600">Click on Settings & Customization, scroll to the bottom and select "Beta Access".</p>
                         </div>
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                            <img src="/assets/betaonboard2.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Enter+Code'" alt="Step 2" class="rounded-lg w-full h-48 object-cover mb-4">
+                            <img src="/assets/betaonboard2.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Enter+Code'" alt="Step 2" class="rounded-lg w-auto h-auto mb-4 mx-auto">
                             <h3 class="font-bold text-gray-800 mb-2">Step 2: Enter Code</h3>
                             <p class="text-sm text-gray-600">Enter your partner code provided in this portal.</p>
                         </div>
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                            <img src="/assets/betaonboard3.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Feedback'" alt="Step 3" class="rounded-lg w-full h-48 object-cover mb-4">
+                            <img src="/assets/betaonboard3.png" onerror="this.src='https://placehold.co/400x300/e5e7eb/6b7280?text=Feedback'" alt="Step 3" class="rounded-lg w-auto h-auto mb-4 mx-auto">
                             <h3 class="font-bold text-gray-800 mb-2">Step 3: Enhance</h3>
                             <p class="text-sm text-gray-600">Give feedback and try out beta features!</p>
                         </div>
@@ -274,6 +284,56 @@
         </div>
     </div>
 
+    <!-- Enrollment Modal Overlay -->
+    <div id="enrollment-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Complete Enrollment</h2>
+            <div id="enrollment-error" class="hidden mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
+            <input type="text" id="userNameModal" placeholder="Enter your full name" class="w-full p-3 mb-6 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            <div class="mb-6">
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="agreeTerms" class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <span class="text-sm text-gray-600">I agree to the beta's <a href="javascript:void(0)" onclick="showPrivacyModal()" class="text-blue-600 hover:text-blue-700 underline">Privacy Policy</a> and <a href="javascript:void(0)" onclick="showTermsModal()" class="text-blue-600 hover:text-blue-700 underline">Terms & Conditions</a></span>
+                </label>
+            </div>
+            <button id="enroll-btn-modal" onclick="enrollModal()" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition mb-4">Join Beta</button>
+            <button onclick="directLogout()" class="w-full text-gray-500 hover:text-gray-700 text-sm font-medium transition">Sign Out</button>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[60]">
+        <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Beta Privacy Policy</h2>
+            <p class="text-sm text-gray-500 mb-4 italic">Note: This privacy policy applies only to the ClassCharts Improver Beta program, not the full extension.</p>
+            <div class="text-gray-600 space-y-4">
+                <p><strong>Data Collection:</strong> We collect your email address and name for beta enrollment purposes only.</p>
+                <p><strong>Data Storage:</strong> Your data is stored securely in our database (Supabase) and is encrypted.</p>
+                <p><strong>Data Usage:</strong> Your information is used solely to manage your beta access and communicate about beta updates.</p>
+                <p><strong>Feedback Submission:</strong> Any feedback you submit through the Feedback tab is sent via Formspree. We encourage you to review both <a href="https://formspree.io/legal/privacy-policy/" target="_blank" class="text-blue-600 hover:text-blue-700 underline">Formspree's Privacy Policy</a> and <a href="https://supabase.com/privacy" target="_blank" class="text-blue-600 hover:text-blue-700 underline">Supabase's Privacy Policy</a> to understand how your data is handled.</p>
+                <p><strong>Data Sharing:</strong> We do not share your personal data with third parties.</p>
+                <p><strong>Data Retention:</strong> Your data will be retained while you are enrolled in the beta program. You may request deletion at any time by leaving the beta.</p>
+            </div>
+            <button onclick="closePrivacyModal()" class="mt-6 w-full bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-black transition">Close</button>
+        </div>
+    </div>
+
+    <!-- Terms & Conditions Modal -->
+    <div id="terms-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[60]">
+        <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Beta Terms & Conditions</h2>
+            <p class="text-sm text-gray-500 mb-4 italic">Note: These terms apply only to the ClassCharts Improver Beta program, not the full extension.</p>
+            <div class="text-gray-600 space-y-4">
+                <p><strong>Beta Access:</strong> By enrolling in the beta, you agree to use the beta features as intended and provide feedback when appropriate.</p>
+                <p><strong>No Warranty:</strong> Beta features are provided "as is" without warranty of any kind. The beta may contain bugs and may not function as expected.</p>
+                <p><strong>Feedback:</strong> We encourage you to provide feedback on beta features to help improve the product.</p>
+                <p><strong>Termination:</strong> We reserve the right to terminate your beta access at any time for any reason.</p>
+                <p><strong>Modifications:</strong> We may modify beta features at any time without notice.</p>
+            </div>
+            <button onclick="closeTermsModal()" class="mt-6 w-full bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-black transition">Close</button>
+        </div>
+    </div>
+
     <script>
         const SUPABASE_URL = 'https://izcixahquohigrzghyqv.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_a7GOW5zpj5YQp-nXJ6KyQA_NGkNyWFh';
@@ -288,11 +348,27 @@
             actions.forEach(action => {
                 const btn = document.createElement('button');
                 btn.textContent = action.label;
-                btn.className = action.className || 'px-4 py-2 rounded-lg';
-                btn.onclick = () => { action.onClick(); overlay.classList.add('hidden'); };
+                btn.className = action.className;
+                btn.onclick = action.onClick;
                 actionContainer.appendChild(btn);
             });
             overlay.classList.remove('hidden');
+        }
+
+        function showPrivacyModal() {
+            document.getElementById('privacy-modal').classList.remove('hidden');
+        }
+
+        function closePrivacyModal() {
+            document.getElementById('privacy-modal').classList.add('hidden');
+        }
+
+        function showTermsModal() {
+            document.getElementById('terms-modal').classList.remove('hidden');
+        }
+
+        function closeTermsModal() {
+            document.getElementById('terms-modal').classList.add('hidden');
         }
 
         window.addEventListener('load', async () => {
@@ -344,6 +420,11 @@
             ]);
         }
 
+        async function directLogout() {
+            await sb.auth.signOut();
+            location.reload();
+        }
+
         async function confirmLogout() {
             await sb.auth.signOut();
             location.reload();
@@ -355,9 +436,12 @@
                 document.getElementById('dashEmail').textContent = user.email;
                 document.getElementById('dashName').textContent = data[0].name;
                 document.getElementById('dashCode').textContent = data[0].code;
+                document.getElementById('dashboard-content').classList.remove('hidden');
                 showDashboardTab('overview');
             } else {
-                document.getElementById('enroll-view').classList.remove('hidden');
+                document.getElementById('dashboard-content').classList.remove('hidden');
+                document.getElementById('enrollment-modal').classList.remove('hidden');
+                document.getElementById('overview-loading').classList.remove('hidden');
             }
         }
 
@@ -384,7 +468,7 @@
         async function enroll() {
             const name = document.getElementById('userName').value;
             if(!name) return;
-            
+
             const { data: { user } } = await sb.auth.getUser();
             const code = Math.floor(100000 + Math.random() * 900000).toString();
 
@@ -393,12 +477,56 @@
                 name: name,
                 code: code
             });
-            
+
             if (error) {
                 showModal("Error", "Enrollment failed: " + error.message, [{ label: 'Close', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} }]);
                 return;
             }
-            
+
+            location.reload();
+        }
+
+        async function enrollModal() {
+            const name = document.getElementById('userNameModal').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            const errorDiv = document.getElementById('enrollment-error');
+
+            // Hide previous error
+            errorDiv.classList.add('hidden');
+
+            if (!name.trim()) {
+                errorDiv.textContent = "Please enter your full name.";
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            if (!agreeTerms) {
+                errorDiv.textContent = "Please agree to the Privacy Policy and Terms & Conditions.";
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            const { data: { user } } = await sb.auth.getUser();
+            const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+            // Hide enrollment modal and show loading spinner
+            document.getElementById('enrollment-modal').classList.add('hidden');
+
+            const { error } = await sb.from('partnercodes').insert({
+                user_id: user.id,
+                name: name,
+                code: code
+            });
+
+            if (error) {
+                document.getElementById('enrollment-modal').classList.remove('hidden');
+                errorDiv.textContent = "Enrollment failed: " + error.message;
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            // Hide loading spinner and reload
+            document.getElementById('overview-loading').classList.add('hidden');
             location.reload();
         }
 
@@ -432,6 +560,7 @@
             if (error) {
                 showModal("Error", "Action failed: " + error.message, [{ label: 'Close', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} }]);
             } else {
+                await sb.auth.signOut();
                 location.reload();
             }
         }
@@ -459,9 +588,8 @@
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        type: type,
-                        message: message,
-                        email: document.getElementById('dashEmail')?.textContent || 'Not provided'
+                        email: document.getElementById('dashEmail')?.textContent || 'anonymous@beta.user',
+                        message: `[${type.toUpperCase()}] ${message}`
                     })
                 });
                 
@@ -469,9 +597,12 @@
                     document.getElementById('feedback-message').value = '';
                     showModal("Thank You!", "Your feedback has been submitted successfully. We appreciate your input!", [{ label: 'OK', className: 'bg-green-600 text-white px-4 py-2 rounded-lg', onClick: () => {} }]);
                 } else {
-                    showModal("Error", "Failed to submit feedback. Please try again.", [{ label: 'Close', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} }]);
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error('Formspree error:', errorData);
+                    showModal("Error", `Failed to submit feedback: ${errorData.error || 'Please try again.'}`, [{ label: 'Close', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} }]);
                 }
             } catch (error) {
+                console.error('Submit error:', error);
                 showModal("Error", "An error occurred. Please try again.", [{ label: 'Close', className: 'bg-gray-200 px-4 py-2 rounded-lg', onClick: () => {} }]);
             }
         }
