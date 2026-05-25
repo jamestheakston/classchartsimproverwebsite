@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /testgooglesocial.html
+Disallow: /githublogin.html
+Disallow: /azuretest.html
+Disallow: /debugfile.html
+Disallow: /404.html
+Disallow: /gitissuefeedback.html
+Disallow: /landing.html
+Disallow: /mobile.html
+Sitemap: https://classchartsimprover.pages.dev/sitemap.xml
