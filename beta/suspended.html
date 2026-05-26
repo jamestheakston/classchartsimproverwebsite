@@ -60,7 +60,7 @@
         
         <!-- Footer -->
         <p class="mt-8 text-sm text-gray-500">
-            ClassCharts Improver Beta &copy; 2024
+            ClassCharts Improver Beta &copy; 2026
         </p>
     </div>
 
@@ -76,7 +76,7 @@
         const backBtn = document.getElementById('back-btn');
         
         if (ref === 'extension') {
-            messageEl.textContent = 'Your beta account has been suspended. This action was taken from the ClassCharts Improver extension.';
+            messageEl.textContent = 'Your beta account has been suspended. This action was taken manually by our team. You can still use cross-device sync but must register for a new beta account if you wish to continue using features.';
             refInfoEl.classList.remove('hidden');
             refSourceEl.textContent = 'Extension';
             backBtn.innerHTML = '<i class="fa-solid fa-arrow-left mr-2"></i>Return to Extension';
@@ -89,7 +89,7 @@
                 }
             };
         } else if (ref === 'portal') {
-            messageEl.textContent = 'Your beta account has been suspended. This action was taken from the beta portal.';
+            messageEl.textContent = 'Your beta account has been suspended. This action was taken manually by our team. For more information please contact support.';
             refInfoEl.classList.remove('hidden');
             refSourceEl.textContent = 'Beta Portal';
             backBtn.innerHTML = '<i class="fa-solid fa-arrow-left mr-2"></i>Return to Portal';
@@ -110,10 +110,10 @@
             const body = encodeURIComponent(
                 `I am writing to appeal the suspension of my beta account.\n\n` +
                 `Reference: ${ref || 'Not specified'}\n\n` +
-                `Please review my case and provide more information about why my account was suspended.\n\n` +
+                `Please review my case and provide more information about why my account was suspended. My partner code is [TYPE YOUR PARTNER CODE AND EMAIL] \n\n` +
                 `Thank you.`
             );
-            window.location.href = `mailto:support@classchartsimprover.com?subject=${subject}&body=${body}`;
+            window.location.href = `mailto:jamesttheakston2+ccimproverbetaappeal@gmail.com?subject=${subject}&body=${body}`;
         }
         
         function goBack() {
