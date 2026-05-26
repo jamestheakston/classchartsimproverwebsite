@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Account Suspended | ClassCharts Improver Beta</title>
+    
+    <meta name="description" content="Your ClassCharts Improver Beta account has been suspended. Contact support for assistance.">
+    
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="min-h-screen p-4 flex flex-col items-center justify-center">
+        <div class="w-full max-w-lg bg-white rounded-xl shadow-lg p-8 border border-gray-100 text-center">
+            <!-- Suspended Icon -->
+            <div class="mb-6">
+                <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                    <i class="fa-solid fa-ban text-red-500 text-4xl"></i>
+                </div>
+            </div>
+            
+            <!-- Title -->
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Account Suspended</h1>
+            
+            <!-- Dynamic Message -->
+            <p id="suspension-message" class="text-gray-600 mb-6">
+                Your beta account has been suspended due to a violation of our terms and conditions.
+            </p>
+            
+            <!-- Reference Info -->
+            <div id="ref-info" class="bg-gray-50 p-4 rounded-lg mb-6 text-sm text-gray-600 hidden">
+                <p><strong>Reference:</strong> <span id="ref-source"></span></p>
+            </div>
+            
+            <!-- Next Steps -->
+            <div class="space-y-4">
+                <div class="text-left bg-blue-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-gray-800 mb-2"><i class="fa-solid fa-info-circle text-blue-500 mr-2"></i>Next Steps</h3>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• Review the beta terms and conditions</li>
+                        <li>• Contact support if you believe this is an error</li>
+                        <li>• Wait for further instructions from our team</li>
+                    </ul>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col gap-3">
+                    <button id="contact-support-btn" onclick="contactSupport()" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        <i class="fa-solid fa-envelope mr-2"></i>Contact Support
+                    </button>
+                    <button id="back-btn" onclick="goBack()" class="w-full bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                        <i class="fa-solid fa-arrow-left mr-2"></i>Go Back
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <p class="mt-8 text-sm text-gray-500">
+            ClassCharts Improver Beta &copy; 2024
+        </p>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const ref = urlParams.get('ref');
+        
+        // Update message based on ref parameter
+        const messageEl = document.getElementById('suspension-message');
+        const refInfoEl = document.getElementById('ref-info');
+        const refSourceEl = document.getElementById('ref-source');
+        const backBtn = document.getElementById('back-btn');
+        
+        if (ref === 'extension') {
+            messageEl.textContent = 'Your beta account has been suspended. This action was taken from the ClassCharts Improver extension.';
+            refInfoEl.classList.remove('hidden');
+            refSourceEl.textContent = 'Extension';
+            backBtn.innerHTML = '<i class="fa-solid fa-arrow-left mr-2"></i>Return to Extension';
+            backBtn.onclick = () => {
+                // Try to close the tab/window if opened from extension
+                if (window.opener) {
+                    window.close();
+                } else {
+                    window.history.back();
+                }
+            };
+        } else if (ref === 'portal') {
+            messageEl.textContent = 'Your beta account has been suspended. This action was taken from the beta portal.';
+            refInfoEl.classList.remove('hidden');
+            refSourceEl.textContent = 'Beta Portal';
+            backBtn.innerHTML = '<i class="fa-solid fa-arrow-left mr-2"></i>Return to Portal';
+            backBtn.onclick = () => {
+                window.location.href = '/beta.html';
+            };
+        } else {
+            // Default message for no ref parameter
+            messageEl.textContent = 'Your beta account has been suspended due to a violation of our terms and conditions.';
+            backBtn.innerHTML = '<i class="fa-solid fa-home mr-2"></i>Go to Home';
+            backBtn.onclick = () => {
+                window.location.href = '/beta.html';
+            };
+        }
+        
+        function contactSupport() {
+            const subject = encodeURIComponent('Account Suspension Appeal - ClassCharts Improver Beta');
+            const body = encodeURIComponent(
+                `I am writing to appeal the suspension of my beta account.\n\n` +
+                `Reference: ${ref || 'Not specified'}\n\n` +
+                `Please review my case and provide more information about why my account was suspended.\n\n` +
+                `Thank you.`
+            );
+            window.location.href = `mailto:support@classchartsimprover.com?subject=${subject}&body=${body}`;
+        }
+        
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
