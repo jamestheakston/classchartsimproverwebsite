@@ -16,9 +16,20 @@
     <meta property="og:description" content="Join 60+ students using the ultimate ClassCharts toolkit. Automated homework organization, visual enhancements, and powerful tools for students.">
     <meta property="og:url" content="https://classchartsimprover.pages.dev">
     <meta property="og:type" content="website">
-    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ClassCharts Improver - Transform Your School Portal Experience">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "ClassCharts Improver",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Chrome, Edge, Opera, Brave, Vivaldi",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4", "bestRating": "5", "ratingCount": "60" },
+        "description": "Transform your school portal experience with automated homework organization, visual enhancements, and powerful tools designed for students."
+    }
+    </script>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -29,13 +40,12 @@
         .hero-gradient { background: radial-gradient(circle at 50% 50%, #f8fafc 0%, #ffffff 100%); }
         .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
         .feature-card:hover { transform: translateY(-5px); transition: all 0.3s ease; border-color: #3b82f6; }
-        .review-slide { min-width: 100%; flex-shrink: 0; transition: opacity 0.5s ease; }
-        #review-slider { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 1rem; }
+        #review-slider { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .review-slide { min-width: 100%; flex-shrink: 0; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-white text-slate-800 antialiased">
@@ -68,25 +78,54 @@
         </div>
     </header>
 
-    <section class="py-12 bg-white border-y border-slate-100">
-        <div class="max-w-4xl mx-auto px-6 text-center">
+    <section class="py-12 bg-white border-y border-slate-100 text-center">
+        <div class="max-w-4xl mx-auto px-6">
             <div class="text-3xl font-extrabold text-slate-900 mb-1"><span id="active-users-count">60</span>+</div>
             <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Active Student Users</div>
         </div>
     </section>
 
-    <section class="py-24 px-6 bg-slate-50 overflow-hidden" id="reviews">
+    <section id="features" class="py-24 px-6 bg-slate-50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-center text-slate-900 mb-16">Powerful Features</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-2xl feature-card">
+                    <i class="fas fa-calendar-alt text-blue-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Homework Tracker</h3>
+                    <p class="text-slate-600">Organize your assignments and never miss a deadline again.</p>
+                </div>
+                <div class="glass-card p-8 rounded-2xl feature-card">
+                    <i class="fas fa-image text-indigo-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Visual Enhancements</h3>
+                    <p class="text-slate-600">Modernize the interface with clean, high-quality icons.</p>
+                </div>
+                <div class="glass-card p-8 rounded-2xl feature-card">
+                    <i class="fas fa-shield-alt text-emerald-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Privacy First</h3>
+                    <p class="text-slate-600">Your data remains local. No hidden tracking or logging.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 bg-white overflow-hidden" id="reviews">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-3xl font-bold text-slate-900 mb-12">What Students Say</h2>
             <div id="review-container" class="relative group">
                 <div class="overflow-hidden">
                     <div id="review-slider"></div>
                 </div>
-                <button onclick="prevReview()" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white p-4 rounded-full shadow-lg border border-slate-100 hover:text-blue-600 transition"><i class="fas fa-chevron-left text-2xl"></i></button>
-                <button onclick="nextReview()" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white p-4 rounded-full shadow-lg border border-slate-100 hover:text-blue-600 transition"><i class="fas fa-chevron-right text-2xl"></i></button>
+                <button onclick="prevReview()" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white p-6 rounded-full shadow-lg border border-slate-100 hover:text-blue-600 transition -translate-x-1/2"><i class="fas fa-chevron-left text-3xl"></i></button>
+                <button onclick="nextReview()" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white p-6 rounded-full shadow-lg border border-slate-100 hover:text-blue-600 transition translate-x-1/2"><i class="fas fa-chevron-right text-3xl"></i></button>
             </div>
         </div>
     </section>
+
+    <footer class="py-12 bg-slate-900 text-slate-400 text-center text-sm">
+        <div class="max-w-7xl mx-auto px-6">
+            <p>© 2026 James Theakston. Not affiliated with ClassCharts.</p>
+        </div>
+    </footer>
 
     <script>
         const slider = document.getElementById('review-slider');
@@ -106,58 +145,35 @@
                     let stars = '';
                     for(let i=0; i<5; i++) stars += i < review.stars ? '<i class="fas fa-star text-amber-400"></i>' : '<i class="far fa-star text-slate-300"></i>';
 
-                    slide.innerHTML = `<div class="glass-card p-8 rounded-2xl max-w-lg mx-auto h-full flex flex-col">
-                        <i class="fas fa-quote-right text-blue-200 text-5xl mb-4 self-start"></i>
-                        <p class="text-lg italic mb-6 text-slate-700 flex-grow">"${review.text}"</p>
-                        <div class="flex items-center gap-4 mt-auto">
-                            ${review.photo ? `<img src="${review.photo}" class="w-12 h-12 rounded-full">` : `<div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-600">${review.name.charAt(0)}</div>`}
+                    slide.innerHTML = `<div class="glass-card p-10 rounded-2xl max-w-lg mx-auto flex flex-col items-center text-center">
+                        <i class="fas fa-quote-left text-blue-200 text-6xl mb-6"></i>
+                        <p class="text-2xl italic mb-8 text-slate-700">"${review.text}"</p>
+                        <div class="flex items-center gap-4">
+                            ${review.photo ? `<img src="${review.photo}" class="w-14 h-14 rounded-full">` : `<div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-600">${review.name.charAt(0)}</div>`}
                             <div class="text-left">
                                 <p class="font-bold text-slate-900">${review.name}</p>
-                                <p class="text-xs text-blue-600 font-semibold">${review.source}</p>
+                                <p class="text-xs text-blue-600 font-semibold uppercase">${review.source}</p>
                                 <div class="mt-1">${stars}</div>
                             </div>
                         </div>
                     </div>`;
                     slider.appendChild(slide);
                 });
-            } catch (err) {
-                showErrorState();
+            } catch (e) {
+                slider.innerHTML = `<p class="text-slate-500">Reviews currently unavailable.</p>`;
             }
-        }
-
-        function showErrorState() {
-            const container = document.getElementById('review-container');
-            container.innerHTML = `<div class="glass-card p-8 rounded-2xl max-w-lg mx-auto bg-amber-50 border-amber-100">
-                <i class="fas fa-exclamation-triangle text-amber-500 text-2xl mb-4"></i>
-                <p class="text-slate-600">We're having trouble fetching reviews right now. Please check back later!</p>
-            </div>`;
         }
 
         function nextReview() {
-            if (currentIdx < reviewsData.length - 1) {
-                currentIdx++;
-                slider.style.transform = `translateX(-${currentIdx * 100}%)`;
-            }
+            currentIdx = (currentIdx + 1) % reviewsData.length;
+            slider.style.transform = `translateX(-${currentIdx * 100}%)`;
         }
 
         function prevReview() {
-            if (currentIdx > 0) {
-                currentIdx--;
-                slider.style.transform = `translateX(-${currentIdx * 100}%)`;
-            }
+            currentIdx = (currentIdx - 1 + reviewsData.length) % reviewsData.length;
+            slider.style.transform = `translateX(-${currentIdx * 100}%)`;
         }
 
-        function animateCountup(elementId, target) {
-            const el = document.getElementById(elementId);
-            let count = 0;
-            const interval = setInterval(() => {
-                count += Math.ceil(target / 50);
-                if(count >= target) { el.textContent = target; clearInterval(interval); }
-                else el.textContent = count;
-            }, 40);
-        }
-        
-        animateCountup('active-users-count', 60);
         initReviews();
     </script>
 </body>
