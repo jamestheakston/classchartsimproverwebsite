@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & Verification -->
     <meta name="google-site-verification" content="THR9CS9cW8LGx-WiKQAFdLYgRBljsr9ZpoDvwFArK3k">
     <meta name="google-site-verification" content="KA9Lh1Q44Dbeu7fuIhpKggedTJ8RHKu4GbK2PGAE_6s" />
-    <title>ClassCharts Improver</title>
-    <meta name="description" content="ClassCharts Improver - Transform your school portal experience with automated homework organization, visual enhancements, and powerful tools. Join 100+ students already using the ultimate ClassCharts toolkit.">
+    <title>ClassCharts Improver - Transform Your School Portal Experience</title>
+    <meta name="description" content="ClassCharts Improver - Transform your school portal experience with automated homework organization, visual enhancements, and powerful tools. Join 60+ students already using the ultimate ClassCharts toolkit.">
     <meta name="keywords" content="ClassCharts, school portal, homework tracker, student tools, browser extension, Chrome extension, education, school management">
     <meta name="author" content="James Theakston">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://classchartsimprover.pages.dev">
+
+    <!-- Open Graph / Social -->
     <meta property="og:title" content="ClassCharts Improver - Transform Your School Portal Experience">
-    <meta property="og:description" content="Join 100+ students using the ultimate ClassCharts toolkit. Automated homework organization, visual enhancements, and powerful tools for students.">
+    <meta property="og:description" content="Join 60+ students using the ultimate ClassCharts toolkit. Automated homework organization, visual enhancements, and powerful tools for students.">
     <meta property="og:image" content="https://classchartsimprover.pages.dev/og-image.png">
     <meta property="og:url" content="https://classchartsimprover.pages.dev">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="ClassCharts Improver">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="ClassCharts Improver - Transform Your School Portal Experience">
-    <meta name="twitter:description" content="Join 100+ students using the ultimate ClassCharts toolkit. Automated homework organization, visual enhancements, and powerful tools for students.">
-    <meta name="twitter:image" content="https://classchartsimprover.pages.dev/og-image.png">
-    <script type="text/javascript" charset="UTF-8" src="//cdn.cookie-script.com/s/21a223ea04fb9e03f5350bf10e9b6b1a.js"></script>
+    <meta name="twitter:description" content="Join 60+ students using the ultimate ClassCharts toolkit. Automated homework organization, visual enhancements, and powerful tools for students.">
+
+    <!-- Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -40,677 +43,160 @@
             "@type": "AggregateRating",
             "ratingValue": "4",
             "bestRating": "5",
-            "ratingCount": "100"
+            "ratingCount": "60"
         },
         "description": "Transform your school portal experience with automated homework organization, visual enhancements, and powerful tools designed for students."
     }
     </script>
-    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;1000;800&display=swap" rel="stylesheet">
-    <!-- Chat widget and modal will be placed in body -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .hero-gradient {
-            background: radial-gradient(circle at 50% 50%, #f8fafc 0%, #ffffff 100%);
-        }
-        .glass-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            transition: all 0.3s ease;
-            border-color: #3b82f6;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        #compatibility-modal {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        #compatibility-modal.active {
-            display: flex;
-            opacity: 1;
-        }
-        #compatibility-modal .modal-content {
-            transform: scale(0.9) translateY(20px);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        #compatibility-modal.active .modal-content {
-            transform: scale(1) translateY(0);
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-        }
-        .faq-item.active i {
-            transform: rotate(180deg);
-        }
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 1rem;
-        }
-        #review-slider {
-            display: flex;
-        }
-        .review-slide {
-            min-width: 100%;
-            flex-shrink: 0;
-        }
+        body { font-family: 'Inter', sans-serif; }
+        .hero-gradient { background: radial-gradient(circle at 50% 50%, #f8fafc 0%, #ffffff 100%); }
+        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .feature-card:hover { transform: translateY(-5px); transition: all 0.3s ease; border-color: #3b82f6; }
+        #review-slider { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .review-slide { min-width: 100%; flex-shrink: 0; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 1rem; }
     </style>
 </head>
 <body class="bg-white text-slate-800 antialiased">
+
     <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <div class="bg-blue-600 p-2 rounded-lg">
-                    <i class="fas fa-chart-bar text-white text-sm"></i>
-                </div>
+                <div class="bg-blue-600 p-2 rounded-lg"><i class="fas fa-chart-bar text-white text-sm"></i></div>
                 <span class="text-xl font-bold tracking-tight text-slate-900">CC <span class="text-blue-600">Improver</span></span>
             </div>
-            <div class="hidden md:flex space-x-8 text-sm font-medium">
-                <a href="javascript:void(0)" onclick="scrollToSection('features')" class="text-slate-600 hover:text-blue-600 transition">Features</a>
-                <a href="javascript:void(0)" onclick="scrollToSection('how-it-works')" class="text-slate-600 hover:text-blue-600 transition">How it Works</a>
-                <a href="javascript:void(0)" onclick="scrollToSection('faq')" class="text-slate-600 hover:text-blue-600 transition">FAQ</a>
-                <a href="privacy.html" class="text-slate-600 hover:text-blue-600 transition">Privacy</a>
-                <a href="https://github.com/jamestheakston/classchartsimprover" target="_blank" class="text-slate-600 hover:text-blue-600 transition flex items-center">
-                    <i class="fab fa-github mr-1.5"></i> GitHub
-                </a>
-            </div>
-            <a href="https://chromewebstore.google.com/detail/classcharts-improver/kalmdpfngeebamgaeegkieojhbkbghoe" target="_blank" class="bg-slate-900 hover:bg-black text-white px-5 py-2 rounded-full text-sm font-semibold transition">
-                Add to Chrome
-            </a>
+            <a href="https://chromewebstore.google.com/detail/classcharts-improver/kalmdpfngeebamgaeegkieojhbkbghoe" target="_blank" class="bg-slate-900 hover:bg-black text-white px-5 py-2 rounded-full text-sm font-semibold transition">Add to Chrome</a>
         </div>
     </nav>
 
-    <header class="relative pt-40 pb-20 px-6 hero-gradient overflow-hidden">
-        <div class="max-w-7xl mx-auto text-center relative z-10">
-            <span class="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest text-blue-600 uppercase bg-blue-50 rounded-full border border-blue-100">
-                The Ultimate ClassCharts Toolkit
-            </span>
-            <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 mb-6 leading-tight">
-                ClassCharts, <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Reimagined.</span>
-            </h1>
-            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10">
-                Upgrade your school portal experience with automated homework organization, visual enhancements, and powerful tools designed for students who want to stay ahead.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="https://chromewebstore.google.com/detail/classcharts-improver/kalmdpfngeebamgaeegkieojhbkbghoe" target="_blank" class="transition transform hover:scale-105">
-                    <img src="https://developer.chrome.com/static/docs/webstore/branding/image/YT2Grfi9vEBa2wAPzhWa.png" alt="Available in the Chrome Web Store" class="h-14 shadow-lg rounded-xl">
+    <header class="pt-40 pb-20 px-6 hero-gradient overflow-hidden">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <span class="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest text-blue-600 uppercase bg-blue-50 rounded-full border border-blue-100">The Ultimate Toolkit</span>
+                <h1 class="text-5xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">ClassCharts, <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Reimagined.</span></h1>
+                <p class="text-lg md:text-xl text-slate-600 max-w-xl mb-10">Upgrade your school portal experience with automated homework organization and powerful tools designed for students.</p>
+                <a href="https://chromewebstore.google.com/detail/classcharts-improver/kalmdpfngeebamgaeegkieojhbkbghoe" target="_blank">
+                    <img src="https://developer.chrome.com/static/docs/webstore/branding/image/YT2Grfi9vEBa2wAPzhWa.png" alt="Chrome Web Store" class="h-14 shadow-lg rounded-xl">
                 </a>
-                <div class="flex flex-col items-center">
-                    <a href="https://chatgpt.com/?prompt=What%20is%20ClassCharts%20Improver?" target="_blank" class="block transition transform hover:scale-105">
-                        <img src="Ask-your-2.png" alt="Ask your AI" class="h-14 shadow-lg rounded-xl w-48 object-contain">
-                    </a>
-                    <span class="mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-tighter w-48 text-center">(Ask ChatGPT about the extension)</span>
-                </div>
-                <button onclick="scrollToSection('features')" class="w-full sm:w-auto flex items-center justify-center border border-slate-200 bg-white px-8 py-3.5 rounded-xl font-bold text-lg text-slate-1000 hover:bg-slate-50 transition">
-                    View Features
-                </button>
             </div>
-            <div class="mt-6">
-                <a href="https://ccimprover.instatus.com/" class="text-blue-600 hover:text-blue-1000 text-sm font-semibold underline decoration-2 underline-offset-4 transition">View current status</a>
-            </div>
-        </div>
-    </header>
-
-    <section id="showcase-video" class="pb-24 px-6 bg-white">
-        <div class="max-w-4xl mx-auto">
             <div class="glass-card p-2 rounded-2xl shadow-2xl">
-                <div class="video-container" id="video-container">
+                <div class="video-container">
                     <iframe src="https://www.youtube.com/embed/3cAEsMirXqc?si=0FdqCG0WRoIk17KL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
-    </section>
+    </header>
 
-    <section id="stats" class="py-12 bg-white border-y border-slate-100">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="flex justify-center gap-16 md:gap-32">
-                <div class="text-center">
-                    <div class="text-3xl font-extrabold text-slate-900 mb-1"><span id="active-users-count">0</span>+</div>
-                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Active Users</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl font-extrabold text-slate-900 mb-1">4.5</div>
-                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Chrome Web Store Rating</div>
-                </div>
-            </div>
+    <section class="py-12 bg-white border-y border-slate-100">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="text-3xl font-extrabold text-slate-900 mb-1"><span id="active-users-count">60</span>+</div>
+            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Active Student Users</div>
         </div>
     </section>
 
-    <section id="features" class="py-24 px-6 bg-slate-50/50">
+    <section id="features" class="py-24 px-6">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Powerful Features</h2>
-                <p class="text-slate-600">Everything you need to master your school schedule.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="feature-card p-8 rounded-2xl glass-card transition-all flex flex-col">
-                    <div class="bg-blue-600 p-3 rounded-xl w-fit mb-6 shadow-lg shadow-blue-200">
-                        <i class="fas fa-calendar-alt text-white text-xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-3">Homework Tracker</h3>
-                    <p class="text-slate-600 leading-relaxed mb-8">
-                        Stay on top of every assignment with an improved homework view that highlights deadlines and categorizes tasks by urgency.
-                    </p>
-                    <div class="mt-auto overflow-hidden rounded-xl border border-slate-100 shadow-inner bg-slate-50 relative aspect-[4/3]">
-                        <img src="https://lh3.googleusercontent.com/Alsi9aPP-SuRLewLj3EXowdc03ynzGKRQ351lVWMk2CsEhyzQFwT7LoHgmqU3M_D079R2EJoo3YTGBwUGbWKNFGPt40=s1280-w1280-h800" alt="Redesigned Homework Tab" class="absolute inset-0 w-full h-full object-cover object-top hover:scale-105 transition duration-500">
-                    </div>
+            <h2 class="text-center text-3xl font-bold mb-16">Everything you need, organized.</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition feature-card">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6"><i class="fas fa-calendar-check text-xl"></i></div>
+                    <h3 class="text-xl font-bold mb-3">Homework Tracker</h3>
+                    <p class="text-slate-600">Never miss a deadline with our prioritized, clear view of your upcoming assignments.</p>
                 </div>
-                <div class="feature-card p-8 rounded-2xl glass-card transition-all flex flex-col">
-                    <div class="bg-indigo-600 p-3 rounded-xl w-fit mb-6 shadow-lg shadow-indigo-200">
-                        <i class="fas fa-image text-white text-xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-3">Better Icons</h3>
-                    <p class="text-slate-600 leading-relaxed mb-8">
-                        Replace generic icons with a modern, high-quality icon set that makes your dashboard easier to navigate and more visual.
-                    </p>
-                    <div class="mt-auto overflow-hidden rounded-xl border border-slate-100 shadow-inner flex items-center justify-center p-8 relative aspect-[4/3]" style="background-color: #F46A25;">
-                        <img src="https://lh3.googleusercontent.com/vTn4F6_DRI9LOKp5S-CEy2h-EC10sygzn100rLaSe2ZV47Z92fuJLNqbFMf_wwKJGWe5VaAoCWj3ga2UqYUsgP2W1xg=s1280-w1280-h800" alt="Better Icons" class="max-w-full max-h-full object-contain hover:scale-110 transition duration-500">
-                    </div>
+                <div class="p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition feature-card">
+                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center mb-6"><i class="fas fa-eye text-xl"></i></div>
+                    <h3 class="text-xl font-bold mb-3">Visual Polish</h3>
+                    <p class="text-slate-600">Modern, high-quality icons and a refined interface make your dashboard a joy to use.</p>
+                </div>
+                <div class="p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition feature-card">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-6"><i class="fas fa-bolt text-xl"></i></div>
+                    <h3 class="text-xl font-bold mb-3">Instant Speed</h3>
+                    <p class="text-slate-600">Optimized for performance, so you spend less time waiting and more time working.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="how-it-works" class="py-24 px-6 bg-slate-50/30">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
-            <div class="md:w-1/2">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Built for Students. By a student.</h2>
-                <p class="text-slate-600 text-lg mb-8">
-                    ClassCharts Improver injects clean code directly into your browser to streamline the experience without compromising your privacy or school data.
-                </p>
-                <ul class="space-y-4">
-                    <li class="flex items-start">
-                        <i class="fas fa-shield-alt text-blue-600 mr-3 mt-1"></i>
-                        <span class="text-slate-1000">No data collection – your info stays between you and ClassCharts.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-feather text-blue-600 mr-3 mt-1"></i>
-                        <span class="text-slate-1000">Ultra-lightweight and optimized for speed.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-sync-alt text-blue-600 mr-3 mt-1"></i>
-                        <span class="text-slate-1000">Regular updates to stay compatible with school updates.</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="md:w-1/2 w-full">
-                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-3xl border border-slate-100">
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                        <div class="space-y-6">
-                            <div class="flex items-center justify-between">
-                                <div class="h-2 w-24 bg-slate-100 rounded"></div>
-                                <div class="h-6 w-12 bg-green-100 text-green-1000 text-[10px] font-bold rounded flex items-center justify-center">ACTIVE</div>
-                            </div>
-                            <div class="space-y-3">
-                                <div class="h-4 w-full bg-slate-50 rounded"></div>
-                                <div class="h-4 w-5/6 bg-slate-50 rounded"></div>
-                            </div>
-                            <div class="py-4 border-y border-slate-50 flex justify-around">
-                                <div class="text-center">
-                                    <div class="text-blue-600 font-bold text-lg">42</div>
-                                    <div class="text-[10px] text-slate-400 uppercase">Points</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-indigo-600 font-bold text-lg">0</div>
-                                    <div class="text-[10px] text-slate-400 uppercase">Alerts</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="faq" class="py-24 px-6 bg-white">
-        <div class="max-w-3xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Common Questions</h2>
-                <p class="text-slate-600">Everything you need to know about the extension.</p>
-            </div>
-            <div class="space-y-4">
-                <div class="faq-item group border border-slate-100 rounded-2xl overflow-hidden bg-slate-50/30">
-                    <button onclick="toggleFaq(this)" class="w-full p-6 text-left flex justify-between items-center bg-white hover:bg-slate-50 transition">
-                        <span class="font-bold text-slate-900">Is this safe to use with my school account?</span>
-                        <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="p-6 pt-0 text-slate-600 text-sm leading-relaxed">
-                            Absolutely. The extension only modifies how the website looks in your own browser. It doesn't send your data to any external servers by default, and it doesn't change any data on the actual ClassCharts servers.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item group border border-slate-100 rounded-2xl overflow-hidden bg-slate-50/30">
-                    <button onclick="toggleFaq(this)" class="w-full p-6 text-left flex justify-between items-center bg-white hover:bg-slate-50 transition">
-                        <span class="font-bold text-slate-900">Where is my data stored?</span>
-                        <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="p-6 pt-0 text-slate-600 text-sm leading-relaxed">
-                            By default, all your settings are stored locally on your device in plain text. If you choose to enable the optional "Cross-Device Sync" feature, your settings and customisations are synced to a private database (stored as plain text) so you can use them on other computers.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item group border border-slate-100 rounded-2xl overflow-hidden bg-slate-50/30">
-                    <button onclick="toggleFaq(this)" class="w-full p-6 text-left flex justify-between items-center bg-white hover:bg-slate-50 transition">
-                        <span class="font-bold text-slate-900">Does it work on mobile devices?</span>
-                        <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="p-6 pt-0 text-slate-600 text-sm leading-relaxed">
-                            Currently, the extension is built for Chromium-based desktop browsers (Chrome, Edge, Brave, etc.). Some mobile browsers like Kiwi Browser support Chrome extensions and may work, but we officially support desktop only.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item group border border-slate-100 rounded-2xl overflow-hidden bg-slate-50/30">
-                    <button onclick="toggleFaq(this)" class="w-full p-6 text-left flex justify-between items-center bg-white hover:bg-slate-50 transition">
-                        <span class="font-bold text-slate-900">Will my teachers know I'm using it?</span>
-                        <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="p-6 pt-0 text-slate-600 text-sm leading-relaxed">
-                            No. The extension runs entirely on the "client-side" (your computer). Teachers see the same ClassCharts portal they always have; only your personal view is upgraded.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item group border border-slate-100 rounded-2xl overflow-hidden bg-slate-50/30">
-                    <button onclick="toggleFaq(this)" class="w-full p-6 text-left flex justify-between items-center bg-white hover:bg-slate-50 transition">
-                        <span class="font-bold text-slate-900">Will my school allow me to use this?</span>
-                        <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="p-6 pt-0 text-slate-600 text-sm leading-relaxed">
-                            It depends on your school's IT policies. The best way to find out is to speak to your school or IT department directly. If you're an IT administrator, you can download our <a href="/downloads/teacheradminguide.pdf" target="_blank" class="text-blue-600 hover:text-blue-800 underline">Teacher Admin Guide</a> for technical details and deployment guidance.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 px-6 bg-slate-50 border-y border-slate-100 overflow-hidden" id="review-section">
-        <div class="max-w-4xl mx-auto text-center relative">
+    <section class="py-24 px-6 bg-slate-50 overflow-hidden" id="reviews">
+        <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-3xl font-bold text-slate-900 mb-12">What Students Say</h2>
-            
-            <div id="review-container" class="relative group">
+            <div id="review-container" class="relative">
                 <div class="overflow-hidden">
                     <div id="review-slider"></div>
                 </div>
-
-                <button onclick="prevReview()" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 bg-white p-3 rounded-full shadow-lg border border-slate-100 text-slate-400 hover:text-blue-600 transition z-20">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button onclick="nextReview()" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 bg-white p-3 rounded-full shadow-lg border border-slate-100 text-slate-400 hover:text-blue-600 transition z-20">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
             </div>
             <div class="flex justify-center mt-8 space-x-2" id="review-dots"></div>
         </div>
     </section>
 
-    <section class="py-24 px-6 text-center bg-white">
-        <div class="max-w-3xl mx-auto">
-            <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mb-8">Ready to upgrade your workflow?</h2>
-            <p class="text-slate-600 text-lg mb-12">
-                Join students who have already transformed their ClassCharts experience.
-            </p>
-            <div class="flex flex-col items-center">
-                <a href="https://chromewebstore.google.com/detail/classcharts-improver/kalmdpfngeebamgaeegkieojhbkbghoe" target="_blank" class="transition transform hover:scale-105">
-                    <img src="https://developer.chrome.com/static/docs/webstore/branding/image/YT2Grfi9vEBa2wAPzhWa.png" alt="Get it on Chrome Web Store" class="h-20 shadow-xl rounded-2xl">
-                </a>
-                <button onclick="toggleModal()" class="mt-8 text-blue-600 hover:text-blue-800 text-sm font-semibold underline decoration-2 underline-offset-4 cursor-pointer">
-                    See full compatibility list
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <div id="compatibility-modal" class="fixed inset-0 z-[100] items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-        <div class="modal-content bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
-            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-white shrink-0">
-                <h3 class="text-lg font-bold text-slate-900">Browser Compatibility</h3>
-                <button onclick="toggleModal()" class="text-slate-400 hover:text-slate-600 transition">
-                    <i class="fas fa-times text-lg"></i>
-                </button>
-            </div>
-            <div class="p-6 overflow-y-auto custom-scrollbar bg-slate-50/30">
-                <div class="space-y-6">
-                    <div>
-                        <h4 class="text-[10px] font-bold text-blue-600 uppercase tracking-[0.2em] mb-3 flex items-center">
-                            <i class="fas fa-star mr-2 text-[8px]"></i> Mainstream / Popular
-                        </h4>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                            <div class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-1000 shadow-sm">Google Chrome</div>
-                            <div class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-1000 shadow-sm">Microsoft Edge</div>
-                            <div class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-1000 shadow-sm">Opera</div>
-                            <div class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-1000 shadow-sm">Brave</div>
-                            <div class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-1000 shadow-sm">Vivaldi</div>
-                        </div>
-                    </div>
-                    <div>
-                        <h4 class="text-[10px] font-bold text-indigo-600 uppercase tracking-[0.2em] mb-3 flex items-center">
-                            <i class="fas fa-shield-alt mr-2 text-[8px]"></i> Privacy-Focused / Niche
-                        </h4>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                            <div class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-1000 shadow-sm">Ungoogled Chromium</div>
-                            <div class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-1000 shadow-sm">SRWare Iron</div>
-                            <div class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-1000 shadow-sm">Epic Privacy Browser</div>
-                            <div class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-1000 shadow-sm">Tor (Chromium Fork)</div>
-                        </div>
-                    </div>
-                    <div class="p-4 bg-blue-50/50 rounded-xl border border-blue-100 text-center">
-                        <p class="text-blue-800 text-xs font-bold mb-1">+ any browser that supports Chrome Extensions</p>
-                    </div>
-                </div>
-            </div>
-            <div class="px-6 py-4 bg-white border-t border-slate-100 shrink-0 flex justify-center">
-                <button onclick="toggleModal()" class="w-full py-2.5 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-black transition-all active:scale-[0.98]">
-                    Done
-                </button>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-    <footer class="py-12 px-6 border-t border-slate-100 bg-slate-50">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
-                <div class="flex items-center space-x-2 mb-6 md:mb-0">
-                    <div class="bg-blue-600 p-1.5 rounded">
-                        <i class="fas fa-chart-bar text-white text-xs"></i>
-                    </div>
-                    <span class="text-lg font-bold text-slate-900">CC Improver</span>
-                </div>
-                <div class="flex flex-wrap justify-center md:justify-end space-x-6 text-sm font-medium">
-                    <a href="terms.html" class="text-slate-500 hover:text-blue-600 transition">Terms & Conditions</a>
-                    <a href="privacy.html" class="text-slate-500 hover:text-blue-600 transition">Privacy Policy</a>
-                    <a href="beta.html" class="text-slate-500 hover:text-blue-600 transition">Beta</a>
-                    <a href="https://jamestheakston.pages.dev" target="_blank" class="text-slate-500 hover:text-blue-600 transition">Contact</a>
-                    <a href="https://github.com/jamestheakston/classchartsimprover" target="_blank" class="text-slate-500 hover:text-blue-600 transition flex items-center">
-                        <i class="fab fa-github mr-1.5"></i> Source Code
-                    </a>
-                </div>
-            </div>
-            <div class="flex flex-col items-center border-t border-slate-200/50 pt-8">
-                <div class="text-slate-400 text-xs mb-4">
-                    © James Theakston 2026. Not affiliated with ClassCharts or Edukey.
-                </div>
-                <p class="text-slate-400 text-[10px] leading-relaxed max-w-2xl mx-auto text-center">
-                    This project is an independent browser enhancement and is not affiliated with, endorsed by, or in any way associated with OpenAI or ChatGPT. "ChatGPT" is a registered trademark of OpenAI.
-                </p>
-            </div>
+    <footer class="py-12 border-t border-slate-100 bg-white">
+        <div class="max-w-7xl mx-auto px-6 text-center text-slate-500 text-sm">
+            <p>&copy; 2026 ClassCharts Improver. Not affiliated with ClassCharts.</p>
         </div>
     </footer>
 
     <script>
         const slider = document.getElementById('review-slider');
         const dotsContainer = document.getElementById('review-dots');
-        let currentIdx = 1;
-        let totalOriginal = 0;
-        let isTransitioning = false;
-        let autoPlayInterval;
-
+        
         async function initReviews() {
             try {
                 const response = await fetch('reviews.json');
-                if (!response.ok) throw new Error('Failed to load');
+                if(!response.ok) throw new Error("Failed");
                 const reviews = await response.json();
                 
-                if (!reviews || reviews.length === 0) throw new Error('No reviews found');
-                
-                totalOriginal = reviews.length;
-                
                 reviews.forEach(review => {
-                    const slide = createReviewSlide(review);
+                    const slide = document.createElement('div');
+                    slide.className = 'review-slide px-4';
+                    slide.innerHTML = `<div class="glass-card p-8 rounded-2xl max-w-lg mx-auto">
+                        <p class="text-lg italic mb-6 text-slate-700">"${review.text}"</p>
+                        <p class="font-bold text-slate-900">${review.name}</p>
+                    </div>`;
                     slider.appendChild(slide);
                 });
 
-                const allSlides = Array.from(slider.children);
-                const firstClone = allSlides[0].cloneNode(true);
-                const lastClone = allSlides[totalOriginal - 1].cloneNode(true);
-                
-                slider.appendChild(firstClone);
-                slider.insertBefore(lastClone, slider.firstChild);
-
-                slider.style.transform = `translateX(-100%)`;
-
-                for (let i = 0; i < totalOriginal; i++) {
+                for (let i = 0; i < reviews.length; i++) {
                     const dot = document.createElement('button');
-                    dot.className = `h-2 w-2 rounded-full transition-all duration-300 ${i === 0 ? 'bg-blue-600 w-4' : 'bg-slate-200'}`;
-                    dot.onclick = () => {
-                        if (isTransitioning) return;
-                        showReview(i + 1);
-                    };
+                    dot.className = `h-2 w-2 rounded-full ${i === 0 ? 'bg-blue-600' : 'bg-slate-200'}`;
                     dotsContainer.appendChild(dot);
                 }
-
-                resetInterval();
-            } catch (error) {
+            } catch (err) {
                 showErrorState();
             }
-        }
-
-        function createReviewSlide(review) {
-            const slide = document.createElement('div');
-            slide.className = 'review-slide px-4';
-            
-            let starsHtml = '';
-            for (let i = 1; i <= 5; i++) {
-                starsHtml += `<i class="${i <= review.stars ? 'fas' : 'far'} fa-star text-amber-400"></i> `;
-            }
-
-            const profileContent = review.photo 
-                ? `<img src="${review.photo}" alt="${review.name}" class="h-12 w-12 rounded-full border-2 border-white shadow-md">`
-                : `<div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold border-2 border-white shadow-md">${review.name.charAt(0)}</div>`;
-
-            slide.innerHTML = `
-                <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative h-full">
-                    <i class="fas fa-quote-left text-blue-100 text-6xl absolute top-6 left-6"></i>
-                    <div class="relative z-10 flex flex-col h-full">
-                        <div class="flex justify-center mb-6 space-x-1">
-                            ${starsHtml}
-                        </div>
-                        <p class="text-xl md:text-2xl font-medium text-slate-800 italic leading-relaxed mb-4">
-                            "${review.text}"
-                        </p>
-                        <div class="mb-10 mt-auto">
-                            <a href="${review.link}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center justify-center transition group">
-                                View full review <i class="fas fa-external-link-alt ml-2 text-[10px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
-                            </a>
-                        </div>
-                        <div class="flex items-center justify-center space-x-3">
-                            ${profileContent}
-                            <div class="text-left">
-                                <p class="font-bold text-slate-900">${review.name}</p>
-                                <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">${review.source || 'VIA CHROME WEB STORE'}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            return slide;
         }
 
         function showErrorState() {
             const container = document.getElementById('review-container');
             container.innerHTML = `
-                <div class="bg-white p-12 rounded-3xl border border-slate-100 shadow-sm max-w-2xl mx-auto">
-                    <div class="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-amber-100">
-                        <i class="fas fa-exclamation-triangle text-amber-500 text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">We're having trouble fetching reviews.</h3>
-                    <p class="text-slate-500 leading-relaxed mb-6">
-                        The reviews are taking a quick nap. While we wake them up, just know that students across the globe trust ClassCharts Improver to fix their school portal every day.
-                    </p>
-                    <a href="https://chromewebstore.google.com/detail/classcharts-improver/kalmdpfngeebamgaeegkieojhbkbghoe" target="_blank" class="inline-flex items-center text-blue-600 font-bold hover:text-blue-800 transition">
-                        Check them on the Chrome Web Store <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                    </a>
+                <div class="glass-card p-8 rounded-2xl max-w-lg mx-auto bg-amber-50 border-amber-100">
+                    <i class="fas fa-exclamation-triangle text-amber-500 text-2xl mb-4"></i>
+                    <p class="text-slate-600">We're having trouble fetching reviews right now. Please check back later!</p>
                 </div>
             `;
-            dotsContainer.style.display = 'none';
         }
 
-        function updateDots(index) {
-            let activeDot = index - 1;
-            if (index === 0) activeDot = totalOriginal - 1;
-            if (index === totalOriginal + 1) activeDot = 0;
-            
-            Array.from(dotsContainer.children).forEach((dot, i) => {
-                if (i === activeDot) {
-                    dot.classList.remove('bg-slate-200');
-                    dot.classList.add('bg-blue-600', 'w-4');
-                } else {
-                    dot.classList.remove('bg-blue-600', 'w-4');
-                    dot.classList.add('bg-slate-200');
-                }
-            });
+        function animateCountup(elementId, target) {
+            const el = document.getElementById(elementId);
+            let count = 0;
+            const step = Math.ceil(target / 50);
+            const interval = setInterval(() => {
+                count += step;
+                if(count >= target) { el.textContent = target; clearInterval(interval); }
+                else el.textContent = count;
+            }, 40);
         }
-
-        function showReview(n, instant = false) {
-            if (isTransitioning && !instant) return;
-            isTransitioning = true;
-            
-            currentIdx = n;
-            slider.style.transition = instant ? 'none' : 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-            slider.style.transform = `translateX(-${currentIdx * 100}%)`;
-            
-            updateDots(currentIdx);
-            resetInterval();
-        }
-
-        slider.addEventListener('transitionend', () => {
-            isTransitioning = false;
-            if (currentIdx === 0) {
-                showReview(totalOriginal, true);
-            } else if (currentIdx === totalOriginal + 1) {
-                showReview(1, true);
-            }
-        });
-
-        function nextReview() {
-            if (isTransitioning || totalOriginal === 0) return;
-            showReview(currentIdx + 1);
-        }
-
-        function prevReview() {
-            if (isTransitioning || totalOriginal === 0) return;
-            showReview(currentIdx - 1);
-        }
-
-        function resetInterval() {
-            clearInterval(autoPlayInterval);
-            if (totalOriginal > 0) {
-                autoPlayInterval = setInterval(nextReview, 6000);
-            }
-        }
-
-        function scrollToSection(sectionId) {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                const headerOffset = 80;
-                const elementPosition = element.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        }
-
-        function toggleModal() {
-            const modal = document.getElementById('compatibility-modal');
-            const isActive = modal.classList.contains('active');
-            if (!isActive) {
-                modal.style.display = 'flex';
-                setTimeout(() => {
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }, 10);
-            } else {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                }, 300);
-            }
-        }
-
-        function toggleFaq(button) {
-            const item = button.parentElement;
-            const isActive = item.classList.contains('active');
-            document.querySelectorAll('.faq-item').forEach(el => {
-                el.classList.remove('active');
-            });
-            if (!isActive) {
-                item.classList.add('active');
-            }
-        }
-
-
-
-        window.onclick = function(event) {
-            if (event.target.id === 'compatibility-modal') toggleModal();
-        }
-
-        // Countup animation for active users
-        function animateCountup(elementId, target, duration = 2000) {
-            const element = document.getElementById(elementId);
-            if (!element) return;
-            
-            const start = 0;
-            const increment = target / (duration / 16);
-            let current = start;
-            
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    element.textContent = target;
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(current);
-                }
-            }, 16);
-        }
-
-        // Initialize countup animation
-        animateCountup('active-users-count', 100, 2000);
         
+        animateCountup('active-users-count', 60);
         initReviews();
     </script>
 </body>
