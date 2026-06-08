@@ -28,6 +28,9 @@
     </div>
 
     <script>
+        const SUPABASE_URL = 'https://izcixahquohigrzghyqv.supabase.co';
+        const ANON_KEY = 'sb_publishable_a7GOW5zpj5YQp-nXJ6KyQA_NGkNyWFh';
+
         const form = document.getElementById('emailForm');
         const messageBox = document.getElementById('messageBox');
         const submitBtn = document.getElementById('submitBtn');
@@ -40,16 +43,21 @@
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
             
             try {
-                const response = await fetch('https://izcixahquohigrzghyqv.supabase.co/functions/v1/send-email-test', {
+                const response = await fetch(`${SUPABASE_URL}/functions/v1/send-email-test`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${ANON_KEY}`,
+                        'apikey': ANON_KEY
+                    },
                     body: JSON.stringify({ email })
                 });
 
                 if (response.ok) {
                     showMessage('Email request sent successfully!', 'bg-green-100 text-green-700');
                 } else {
-                    showMessage('Failed to send email. Please try again.', 'bg-red-100 text-red-700');
+                    const errorData = await response.json();
+                    showMessage('Error: ' + (errorData.error || 'Failed to send.'), 'bg-red-100 text-red-700');
                 }
             } catch (error) {
                 showMessage('Connection error occurred.', 'bg-red-100 text-red-700');
