@@ -3,16 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support Hub | ClassCharts Improver</title>
+    <title>Support Hub | ClassCharts Improver - Help Center & Documentation</title>
+    <meta name="description" content="Get help with ClassCharts Improver. Find answers to common questions, installation guides, troubleshooting tips, and feature documentation.">
+    <meta name="keywords" content="ClassCharts Improver, support, help, documentation, FAQ, troubleshooting, installation guide">
+    <meta name="author" content="James Theakston">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://classchartsimprover.pages.dev/support.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Support Hub | ClassCharts Improver">
+    <meta property="og:description" content="Get help with ClassCharts Improver. Find answers to common questions, installation guides, troubleshooting tips, and feature documentation.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://classchartsimprover.pages.dev/support.html">
+    <meta property="og:image" content="https://classchartsimprover.pages.dev/og-image.png">
+    <meta property="og:site_name" content="ClassCharts Improver">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Support Hub | ClassCharts Improver">
+    <meta name="twitter:description" content="Get help with ClassCharts Improver. Find answers to common questions, installation guides, troubleshooting tips, and feature documentation.">
+    <meta name="twitter:image" content="https://classchartsimprover.pages.dev/og-image.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
         .hero-gradient {
             background: radial-gradient(circle at 50% 50%, #f8fafc 0%, #ffffff 100%);
         }
+        .prose h1 { font-size: 2.25rem; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; }
+        .prose h2 { font-size: 1.875rem; font-weight: 600; margin-top: 1.75rem; margin-bottom: 0.75rem; }
+        .prose h3 { font-size: 1.5rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        .prose p { margin-bottom: 1rem; line-height: 1.75; }
+        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .prose ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose code { background: #f1f5f9; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.875rem; }
+        .prose pre { background: #1e293b; color: #f8fafc; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
+        .prose pre code { background: transparent; color: inherit; padding: 0; }
+        .prose blockquote { border-left: 4px solid #3b82f6; padding-left: 1rem; margin-bottom: 1rem; color: #64748b; }
+        .prose a { color: #3b82f6; text-decoration: underline; }
+        .prose strong { font-weight: 600; }
+        .prose table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .prose th { background: #f1f5f9; padding: 0.75rem 1rem; text-align: left; font-weight: 600; border-bottom: 2px solid #cbd5e1; }
+        .prose td { padding: 0.75rem 1rem; border-bottom: 1px solid #e2e8f0; }
+        .prose tr:last-child td { border-bottom: none; }
+        .prose hr { border: none; border-top: 2px solid #e2e8f0; margin: 2rem 0; }
     </style>
+    
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "ClassCharts Improver Support Hub",
+        "url": "https://classchartsimprover.pages.dev/support.html",
+        "description": "Get help with ClassCharts Improver. Find answers to common questions, installation guides, troubleshooting tips, and feature documentation.",
+        "publisher": {
+            "@type": "Organization",
+            "name": "ClassCharts Improver",
+            "url": "https://classchartsimprover.pages.dev"
+        }
+    }
+    </script>
 </head>
 <body class="bg-white text-slate-900">
 
@@ -34,7 +89,7 @@
         </div>
     </nav>
 
-    <section class="pt-40 pb-20 px-6 hero-gradient">
+    <section class="pt-40 pb-20 px-6 hero-gradient" id="hero-section">
         <div class="max-w-4xl mx-auto text-center">
             <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">How can we help?</h1>
             <p class="text-lg text-slate-600 mb-10">Search our knowledge base for answers to common questions.</p>
@@ -260,9 +315,10 @@
                             <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 flex-shrink-0">
                                 <i class="fas ${article.icon} text-sm"></i>
                             </div>
-                            <div>
+                            <div class="flex-1 text-center">
                                 <h4 class="font-semibold text-slate-900">${article.title}</h4>
                                 <p class="text-slate-600 text-sm">${article.bio || article.content.substring(0, 80)}...</p>
+                                ${article.why_gemini_chose ? `<p class="text-blue-600 text-xs mt-1 italic"><i class="fas fa-robot mr-1"></i>${article.why_gemini_chose}</p>` : ''}
                             </div>
                         </div>
                     `;
@@ -285,9 +341,13 @@
             url.searchParams.set('article', articleId);
             window.history.pushState({}, '', url);
 
-            // Show article view
+            // Hide hero section and all articles, show article view
+            document.getElementById('hero-section').classList.add('hidden');
             allArticles.classList.add('hidden');
             articleView.classList.remove('hidden');
+            
+            // Update page title
+            document.title = `${article.title} | ClassCharts Improver Support`;
             
             const colorClasses = {
                 blue: 'bg-blue-100 text-blue-600',
@@ -301,22 +361,33 @@
             const colorClass = colorClasses[article.color] || colorClasses.blue;
 
             articleView.innerHTML = `
-                <button onclick="closeArticle()" class="mb-6 text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-2">
-                    <i class="fas fa-arrow-left"></i> Back to all articles
-                </button>
-                <div class="bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden">
-                    <div class="p-8 border-b border-slate-100">
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="w-16 h-16 ${colorClass} rounded-2xl flex items-center justify-center">
-                                <i class="fas ${article.icon} text-3xl"></i>
+                <div class="max-w-4xl mx-auto">
+                    <button onclick="closeArticle()" class="mb-8 text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-2">
+                        <i class="fas fa-arrow-left"></i> Back to Support Hub
+                    </button>
+                    <div class="bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden">
+                        <div class="p-8 border-b border-slate-100">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-16 h-16 ${colorClass} rounded-2xl flex items-center justify-center">
+                                    <i class="fas ${article.icon} text-3xl"></i>
+                                </div>
+                                <h1 class="text-3xl font-bold text-slate-900">${article.title}</h1>
                             </div>
-                            <h1 class="text-3xl font-bold text-slate-900">${article.title}</h1>
+                            ${article.bio ? `<p class="text-slate-600 text-lg">${article.bio}</p>` : ''}
                         </div>
-                        ${article.bio ? `<p class="text-slate-600 text-lg">${article.bio}</p>` : ''}
-                    </div>
-                    <div class="p-8">
-                        <div class="prose prose-slate max-w-none">
-                            ${article.content}
+                        <div class="p-8">
+                            <div class="prose prose-slate max-w-none">
+                                ${marked.parse(article.content)}
+                            </div>
+                            ${article.gemini_reasoning ? `
+                                <div class="mt-8 p-6 bg-blue-50 rounded-2xl border border-blue-100">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Google_Gemini_icon_2025.svg/500px-Google_Gemini_icon_2025.svg.png" alt="Gemini" class="h-5 w-5">
+                                        <h3 class="font-semibold text-slate-900">Why Gemini Chose This Article</h3>
+                                    </div>
+                                    <p class="text-slate-600 text-sm">${article.gemini_reasoning}</p>
+                                </div>
+                            ` : ''}
                         </div>
                     </div>
                 </div>
@@ -329,9 +400,13 @@
             url.searchParams.delete('article');
             window.history.pushState({}, '', url);
 
-            // Show all articles
+            // Show hero section and all articles, hide article view
+            document.getElementById('hero-section').classList.remove('hidden');
             articleView.classList.add('hidden');
             allArticles.classList.remove('hidden');
+            
+            // Reset page title
+            document.title = 'Support Hub | ClassCharts Improver - Help Center & Documentation';
         }
 
         function checkArticleParameter() {
