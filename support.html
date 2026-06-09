@@ -40,6 +40,13 @@
             <p class="text-lg text-slate-600 mb-10">Search our knowledge base for answers to common questions.</p>
             
             <div class="relative max-w-2xl mx-auto">
+                <!-- Magnifying glass icon above search -->
+                <div class="flex justify-center mb-4">
+                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-search text-blue-600 text-3xl"></i>
+                    </div>
+                </div>
+                
                 <div class="relative">
                     <input 
                         type="text" 
@@ -76,6 +83,14 @@
                 <h2 class="text-2xl font-bold text-slate-900 mb-6">All Articles</h2>
                 <div id="articles-grid" class="grid md:grid-cols-2 gap-6">
                     <!-- Articles will be loaded here from Supabase -->
+                </div>
+                
+                <div class="mt-12 text-center">
+                    <p class="text-slate-600 mb-4">Still have issues?</p>
+                    <a href="https://github.com/jamestheakston/classchartsimprover/issues/new" target="_blank" class="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl font-semibold hover:bg-black transition">
+                        <i class="fab fa-github"></i>
+                        Open an issue on our GitHub Repository
+                    </a>
                 </div>
             </div>
         </div>
@@ -170,17 +185,17 @@
                 return;
             }
 
-            // Show loading state in tooltip
-            searchTooltip.classList.remove('hidden');
-            tooltipResults.innerHTML = `
-                <div class="p-6 text-center">
-                    <div class="animate-spin w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full mx-auto mb-3"></div>
-                    <p class="text-slate-600 text-sm">Searching with Gemini...</p>
-                </div>
-            `;
-
-            // Debounce search
+            // Debounce search - show loading state after they stop typing
             searchTimeout = setTimeout(() => {
+                // Show loading state in tooltip
+                searchTooltip.classList.remove('hidden');
+                tooltipResults.innerHTML = `
+                    <div class="p-6 text-center">
+                        <div class="animate-spin w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full mx-auto mb-3"></div>
+                        <p class="text-slate-600 text-sm font-medium">Stop typing to search with Gemini</p>
+                        <p class="text-slate-400 text-xs mt-1">You need to stop typing to search</p>
+                    </div>
+                `;
                 performSearch(query);
             }, 500);
         });
