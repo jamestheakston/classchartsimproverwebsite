@@ -294,7 +294,7 @@
                 }
 
                 const data = await response.json();
-                displayTooltipResults(data.results);
+                displayTooltipResults(data.results, data.quick_answer);
             } catch (error) {
                 console.error('Search error:', error);
                 tooltipResults.innerHTML = `
@@ -305,15 +305,44 @@
             }
         }
 
-        function displayTooltipResults(results) {
-            if (results.length === 0) {
-                tooltipResults.innerHTML = `
-                    <div class="p-6 text-center">
-                        <p class="text-slate-600 text-sm">No results found</p>
+        function handleFeedback(type) {
+            console.log(`Feedback: ${type}`);
+            // TODO: Send feedback to backend for analytics
+            alert(`Thank you for your feedback! (${type === 'up' ? '👍' : '👎'})`);
+        }
+
+        function displayTooltipResults(results, quickAnswer = null) {
+            tooltipResults.innerHTML = '';
+            
+            // Show Quick Answer section if available
+            if (quickAnswer) {
+                const quickAnswerSection = document.createElement('div');
+                quickAnswerSection.className = 'p-4 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-indigo-50';
+                quickAnswerSection.innerHTML = `
+                    <div class="flex items-center gap-2 mb-2">
+                        <h3 class="font-semibold text-slate-900">Quick Answer</h3>
+                        <span class="px-2 py-0.5 bg-blue-600 text-white text-xs font-semibold rounded-full">BETA</span>
+                    </div>
+                    <p class="text-slate-700 text-sm mb-3">${quickAnswer}</p>
+                    <div class="flex items-center gap-3">
+                        <button class="text-slate-400 hover:text-green-600 transition" onclick="handleFeedback('up')">
+                            <i class="fas fa-thumbs-up"></i>
+                        </button>
+                        <button class="text-slate-400 hover:text-red-600 transition" onclick="handleFeedback('down')">
+                            <i class="fas fa-thumbs-down"></i>
+                        </button>
+                        <span class="text-slate-400 text-xs">Feedback</span>
                     </div>
                 `;
+                tooltipResults.appendChild(quickAnswerSection);
+            }
+            
+            if (results.length === 0) {
+                const noResults = document.createElement('div');
+                noResults.className = 'p-6 text-center';
+                noResults.innerHTML = '<p class="text-slate-600 text-sm">No results found</p>';
+                tooltipResults.appendChild(noResults);
             } else {
-                tooltipResults.innerHTML = '';
                 results.forEach(article => {
                     const resultItem = document.createElement('div');
                     resultItem.className = 'p-4 hover:bg-slate-50 cursor-pointer border-b border-slate-100 last:border-0 transition';
@@ -386,13 +415,13 @@
                             <div class="prose prose-slate max-w-none">
                                 ${marked.parse(article.content)}
                             </div>
-                            ${article.gemini_reasoning ? `
+                            ${article.why_gemini_chose ? `
                                 <div class="mt-8 p-6 bg-blue-50 rounded-2xl border border-blue-100">
                                     <div class="flex items-center gap-2 mb-3">
                                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Google_Gemini_icon_2025.svg/500px-Google_Gemini_icon_2025.svg.png" alt="Gemini" class="h-5 w-5">
                                         <h3 class="font-semibold text-slate-900">Why Gemini Chose This Article</h3>
                                     </div>
-                                    <p class="text-slate-600 text-sm">${article.gemini_reasoning}</p>
+                                    <p class="text-slate-600 text-sm">${article.why_gemini_chose}</p>
                                 </div>
                             ` : ''}
                         </div>
