@@ -136,9 +136,6 @@
                         <p class="text-amber-700 text-sm mt-0.5">There are currently no matching records inside your <code class="bg-amber-100/50 px-1 rounded">user_settings</code> profile schema.</p>
                     </div>
                 </div>
-                <button id="btn-create-mock" class="bg-amber-600 hover:bg-amber-700 text-white font-medium text-xs px-4 py-2 rounded-xl transition-colors">
-                    Initialize Default Settings Profile
-                </button>
             </div>
 
             <div id="data-preview-layout" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -291,7 +288,6 @@
         const userDisplay = document.getElementById('user-display');
         const noDataAlert = document.getElementById('no-data-alert');
         const dataPreviewLayout = document.getElementById('data-preview-layout');
-        const btnCreateMock = document.getElementById('btn-create-mock');
         const btnDownloadJson = document.getElementById('btn-download-json');
 
         const fieldsToMap = [
@@ -347,7 +343,7 @@
             const { error } = await _supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: window.location.href
+                    redirectTo: 'https://classchartsimprover.pages.dev/datadownload'
                 }
             });
             if (error) {
@@ -361,7 +357,7 @@
             const { error } = await _supabase.auth.signInWithOAuth({
                 provider: 'github',
                 options: {
-                    redirectTo: window.location.href
+                    redirectTo: 'https://classchartsimprover.pages.dev/datadownload'
                 }
             });
             if (error) {
@@ -385,60 +381,6 @@
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
-        });
-
-        btnCreateMock.addEventListener('click', async () => {
-            if (!currentUser) return;
-            setLoading(true);
-
-            const defaultMock = {
-                user_id: currentUser.id,
-                notes: "This is a default initialized note profile. Update this record inside your core user interface directly.",
-                goals: JSON.stringify([
-                    { id: "g1", text: "Welcome to your data archive dashboard." },
-                    { id: "g2", text: "Complete exporting data profile properties." }
-                ]),
-                profile_photo: null,
-                accent_color: "#039BE5",
-                plus_one_icon: "smile.svg",
-                homework_date_hint_enabled: true,
-                homework_redesign_enabled: true,
-                welcome_shown: true,
-                review_shown: false,
-                updated_at: new Date().toISOString(),
-                improved_ui_enabled: true,
-                notes_enabled: true,
-                goals_enabled: true,
-                profile_photo_enabled: false,
-                custom_positive_icon_enabled: true,
-                accent_color_enabled: true,
-                dark_mode_enabled: false,
-                prompt_review_enabled: true,
-                review_interval_days: 30,
-                sync_improved_ui_enabled: true,
-                sync_notes_enabled: true,
-                sync_goals_enabled: true,
-                sync_profile_photo_enabled: true,
-                sync_custom_positive_icon_enabled: true,
-                sync_accent_color_enabled: true,
-                sync_homework_date_hint_enabled: true,
-                sync_homework_redesign_enabled: true,
-                sync_dark_mode_enabled: true,
-                sync_prompt_review_enabled: true,
-                JAMES_AUTH_ID: null,
-                hide_encryption_warning_enabled: false
-            };
-
-            const { error } = await _supabase
-                .from('user_settings')
-                .upsert([defaultMock]);
-
-            if (error) {
-                alert("Failed to initialize default profile settings record: " + error.message);
-                setLoading(false);
-            } else {
-                await fetchAndRenderData();
-            }
         });
 
         function showAuthScreen() {
