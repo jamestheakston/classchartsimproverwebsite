@@ -400,6 +400,13 @@
             userDisplay.textContent = user.email || user.user_metadata?.email || 'Authenticated User';
             authContainer.classList.add('hidden');
             dashboardContainer.classList.remove('hidden');
+            
+            // Redirect to production URL after successful 3rd party auth
+            if (window.location.hostname !== 'classchartsimprover.pages.dev') {
+                window.location.href = 'https://classchartsimprover.pages.dev/datadownload';
+                return;
+            }
+            
             await fetchAndRenderData();
         }
 
