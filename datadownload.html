@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Export & Privacy Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans">
+
+    <div id="loading-screen" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center transition-opacity duration-300">
+        <div class="bg-white p-6 rounded-2xl shadow-xl flex flex-col items-center max-w-xs w-full mx-4">
+            <i class="fa-solid fa-circle-notch fa-spin text-indigo-600 text-4xl mb-4"></i>
+            <p class="text-slate-600 font-medium text-center">Connecting to security portal...</p>
+        </div>
+    </div>
+
+    <div id="auth-container" class="hidden flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-md">
+            <div class="flex justify-center">
+                <div class="h-12 w-12 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30">
+                    <i class="fa-solid fa-cloud-arrow-down text-xl"></i>
+                </div>
+            </div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-900">Download Your Data</h2>
+            <p class="mt-2 text-center text-sm text-slate-600">
+                Sign in to your account to request and export your user profile settings.
+            </p>
+        </div>
+
+        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            <div class="bg-white py-8 px-4 shadow-xl rounded-2xl sm:px-10 border border-slate-100">
+                <div class="space-y-6">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-slate-700">Email address</label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <input id="email" type="email" required class="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="you@example.com">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
+                        </div>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <input id="password" type="password" required class="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <div id="auth-error-message" class="hidden text-sm text-red-600 bg-red-50 p-3 rounded-lg border border-red-200">
+                        <i class="fa-solid fa-circle-exclamation mr-1.5"></i>
+                        <span id="error-text">Incorrect email or password.</span>
+                    </div>
+
+                    <div class="flex space-x-3">
+                        <button id="btn-login" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
+                            Sign In
+                        </button>
+                    </div>
+
+                    <div class="relative my-6">
+                        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-200"></div></div>
+                        <div class="relative flex justify-center text-sm"><span class="px-2 bg-white text-slate-500">Or continue with</span></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <button id="btn-google" class="flex items-center justify-center gap-2 py-2.5 px-4 border border-slate-300 rounded-xl hover:bg-slate-50 transition-all font-medium text-sm text-slate-700">
+                            <i class="fa-brands fa-google text-red-500"></i> Google
+                        </button>
+                        <button id="btn-github" class="flex items-center justify-center gap-2 py-2.5 px-4 border border-slate-300 rounded-xl hover:bg-slate-50 transition-all font-medium text-sm text-slate-700">
+                            <i class="fa-brands fa-github text-slate-900"></i> GitHub
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-6 border-t border-slate-100 pt-6 text-center">
+                    <p class="text-xs text-slate-400">
+                        Your privacy is protected. Data transmission is encrypted and delivered directly to your device browser.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard-container" class="hidden flex-1 flex flex-col">
+        <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="h-9 w-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
+                        <i class="fa-solid fa-cloud-arrow-down"></i>
+                    </div>
+                    <span class="font-bold text-slate-900 hidden sm:inline">Data Access Portal</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="user-display" class="text-sm font-medium text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200 max-w-[200px] truncate">user@example.com</span>
+                    <button id="btn-logout" class="text-slate-500 hover:text-slate-800 p-2 rounded-lg hover:bg-slate-100 transition-colors" title="Sign Out">
+                        <i class="fa-solid fa-right-from-bracket text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="bg-indigo-500/30 text-indigo-100 text-xs uppercase tracking-wider font-semibold px-2.5 py-1 rounded-full border border-indigo-400/20">Authorized Access Approved</span>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold mt-3">Welcome to your personal archive</h1>
+                    <p class="text-indigo-100 mt-2 text-sm sm:text-base">Below you can review structural properties, active configuration records, and system preferences linked to your account.</p>
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <button id="btn-download-json" class="bg-white text-indigo-700 hover:bg-indigo-50 px-5 py-2.5 rounded-xl font-bold shadow-md hover:shadow-lg transition-all flex items-center space-x-2 text-sm">
+                            <i class="fa-solid fa-file-arrow-down"></i>
+                            <span>Export Data as JSON</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="absolute right-0 bottom-0 opacity-10 translate-x-10 translate-y-10 pointer-events-none hidden md:block">
+                    <i class="fa-solid fa-database text-[200px]"></i>
+                </div>
+            </div>
+
+            <div id="no-data-alert" class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-start space-x-3">
+                    <div class="bg-amber-100 text-amber-700 p-2 rounded-lg mt-0.5">
+                        <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-amber-900 font-semibold">No active configuration settings found</h4>
+                        <p class="text-amber-700 text-sm mt-0.5">There are currently no matching records inside your <code class="bg-amber-100/50 px-1 rounded">user_settings</code> profile schema.</p>
+                    </div>
+                </div>
+                <button id="btn-create-mock" class="bg-amber-600 hover:bg-amber-700 text-white font-medium text-xs px-4 py-2 rounded-xl transition-colors">
+                    Initialize Default Settings Profile
+                </button>
+            </div>
+
+            <div id="data-preview-layout" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 space-y-8">
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="border-b border-slate-200 px-6 py-4 flex items-center justify-between">
+                            <h3 class="font-bold text-slate-900 flex items-center space-x-2">
+                                <i class="fa-solid fa-sliders text-indigo-500"></i>
+                                <span>General Settings Profile</span>
+                            </h3>
+                            <span class="text-xs text-slate-400">Database values</span>
+                        </div>
+                        <div class="p-6 divide-y divide-slate-100">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 py-3 first:pt-0 last:pb-0">
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">User Reference ID</span>
+                                    <span id="val-user-id" class="text-sm text-slate-900 font-mono font-bold select-all break-all">Checking record...</span>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">James Auth ID Reference</span>
+                                    <span id="val-james-auth-id" class="text-sm text-slate-900 font-mono italic">EMPTY</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 py-3">
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Accent Palette Code</span>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        <span id="val-accent-preview" class="w-4 h-4 rounded-full border border-slate-200 inline-block"></span>
+                                        <span id="val-accent-color" class="text-sm text-slate-900 font-mono">Checking record...</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Custom Icon Element</span>
+                                    <span id="val-plus-one-icon" class="text-sm text-slate-900 font-mono">Checking record...</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 py-3">
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Review Cycle Frequency</span>
+                                    <span id="val-review-interval-days" class="text-sm text-slate-900 font-semibold">Checking record...</span>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Profile Photo Storage Location</span>
+                                    <span id="val-profile-photo" class="text-sm text-slate-900 italic font-mono truncate max-w-full block">Checking record...</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4 py-3">
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Saved Quick Notes</span>
+                                    <p id="val-notes" class="text-sm text-slate-700 bg-slate-50 border border-slate-200 rounded-xl p-3.5 mt-1.5 min-h-[50px] whitespace-pre-wrap"></p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4 py-3 last:pb-0">
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Defined Objectives (JSON Array)</span>
+                                    <div class="mt-2" id="goals-container"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="border-b border-slate-200 px-6 py-4">
+                            <h3 class="font-bold text-slate-900 flex items-center space-x-2">
+                                <i class="fa-solid fa-toggle-on text-emerald-500"></i>
+                                <span>Platform Boolean Feature Flags</span>
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="flags-grid"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="border-b border-slate-200 px-6 py-4">
+                            <h3 class="font-bold text-slate-900 flex items-center space-x-2">
+                                <i class="fa-solid fa-rotate text-blue-500"></i>
+                                <span>Synchronized Variables</span>
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-xs text-slate-500 mb-4">Cloud coordination properties configured to sync state rules across runtime devices.</p>
+                            <div class="space-y-3" id="sync-variables-list"></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="border-b border-slate-200 px-6 py-4">
+                            <h3 class="font-bold text-slate-900 flex items-center space-x-2">
+                                <i class="fa-solid fa-timeline text-indigo-500"></i>
+                                <span>Export Audit Details</span>
+                            </h3>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-slate-500">Database Registry Timestamp</span>
+                                <span id="val-updated-at" class="font-medium text-slate-900">0000-00-00 00:00:00</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-slate-500">Format Format</span>
+                                <span class="bg-slate-100 px-2 py-0.5 rounded font-mono text-xs font-bold text-slate-700">JSON Schema v1</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-slate-500">Total Variables Extracted</span>
+                                <span id="val-variable-count" class="font-semibold text-indigo-600">0</span>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100">
+                                <div class="bg-indigo-50 p-3 rounded-xl border border-indigo-100 text-xs text-indigo-800 flex items-start space-x-2">
+                                    <i class="fa-solid fa-circle-info mt-0.5"></i>
+                                    <span>To download your complete JSON output package directly, please press the export button at the top of the interface.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-slate-100 border-t border-slate-200 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <p>&copy; 2026 ClassCharts Improver. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const supabaseUrl = "https://izcixahquohigrzghyqv.supabase.co";
+        const supabaseKey = "sb_publishable_a7GOW5zpj5YQp-nXJ6KyQA_NGkNyWFh";
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        let currentUser = null;
+        let fetchedData = null;
+
+        const loadingScreen = document.getElementById('loading-screen');
+        const authContainer = document.getElementById('auth-container');
+        const dashboardContainer = document.getElementById('dashboard-container');
+        const authErrorMessage = document.getElementById('auth-error-message');
+        const errorText = document.getElementById('error-text');
+
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const btnLogin = document.getElementById('btn-login');
+        const btnLogout = document.getElementById('btn-logout');
+        const userDisplay = document.getElementById('user-display');
+        const noDataAlert = document.getElementById('no-data-alert');
+        const dataPreviewLayout = document.getElementById('data-preview-layout');
+        const btnCreateMock = document.getElementById('btn-create-mock');
+        const btnDownloadJson = document.getElementById('btn-download-json');
+
+        const fieldsToMap = [
+            'notes', 'goals', 'profile_photo', 'accent_color', 'plus_one_icon',
+            'homework_date_hint_enabled', 'homework_redesign_enabled', 'welcome_shown',
+            'review_shown', 'updated_at', 'improved_ui_enabled', 'notes_enabled',
+            'goals_enabled', 'profile_photo_enabled', 'custom_positive_icon_enabled',
+            'accent_color_enabled', 'dark_mode_enabled', 'prompt_review_enabled',
+            'review_interval_days', 'sync_improved_ui_enabled', 'sync_notes_enabled',
+            'sync_goals_enabled', 'sync_profile_photo_enabled', 'sync_custom_positive_icon_enabled',
+            'sync_accent_color_enabled', 'sync_homework_date_hint_enabled', 'sync_homework_redesign_enabled',
+            'sync_dark_mode_enabled', 'sync_prompt_review_enabled', 'JAMES_AUTH_ID',
+            'hide_encryption_warning_enabled'
+        ];
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await _supabase.auth.getSession();
+            if (session) {
+                handleUserAuthenticated(session.user);
+            } else {
+                showAuthScreen();
+            }
+        });
+
+        _supabase.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN' && session) {
+                handleUserAuthenticated(session.user);
+            } else if (event === 'SIGNED_OUT') {
+                showAuthScreen();
+            }
+        });
+
+        btnLogin.addEventListener('click', async () => {
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!email || !password) {
+                showError("Please fill out both fields.");
+                return;
+            }
+
+            setLoading(true);
+            const { error } = await _supabase.auth.signInWithPassword({ email, password });
+            
+            if (error) {
+                showError(error.message);
+                setLoading(false);
+            }
+        });
+
+        document.getElementById('btn-google').addEventListener('click', async () => {
+            setLoading(true);
+            const { error } = await _supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.href
+                }
+            });
+            if (error) {
+                showError(error.message);
+                setLoading(false);
+            }
+        });
+
+        document.getElementById('btn-github').addEventListener('click', async () => {
+            setLoading(true);
+            const { error } = await _supabase.auth.signInWithOAuth({
+                provider: 'github',
+                options: {
+                    redirectTo: window.location.href
+                }
+            });
+            if (error) {
+                showError(error.message);
+                setLoading(false);
+            }
+        });
+
+        btnLogout.addEventListener('click', async () => {
+            setLoading(true);
+            await _supabase.auth.signOut();
+            fetchedData = null;
+        });
+
+        btnDownloadJson.addEventListener('click', () => {
+            if (!fetchedData) return;
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fetchedData, null, 4));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `supabase_data_export_${currentUser.id}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        });
+
+        btnCreateMock.addEventListener('click', async () => {
+            if (!currentUser) return;
+            setLoading(true);
+
+            const defaultMock = {
+                user_id: currentUser.id,
+                notes: "This is a default initialized note profile. Update this record inside your core user interface directly.",
+                goals: JSON.stringify([
+                    { id: "g1", text: "Welcome to your data archive dashboard." },
+                    { id: "g2", text: "Complete exporting data profile properties." }
+                ]),
+                profile_photo: null,
+                accent_color: "#039BE5",
+                plus_one_icon: "smile.svg",
+                homework_date_hint_enabled: true,
+                homework_redesign_enabled: true,
+                welcome_shown: true,
+                review_shown: false,
+                updated_at: new Date().toISOString(),
+                improved_ui_enabled: true,
+                notes_enabled: true,
+                goals_enabled: true,
+                profile_photo_enabled: false,
+                custom_positive_icon_enabled: true,
+                accent_color_enabled: true,
+                dark_mode_enabled: false,
+                prompt_review_enabled: true,
+                review_interval_days: 30,
+                sync_improved_ui_enabled: true,
+                sync_notes_enabled: true,
+                sync_goals_enabled: true,
+                sync_profile_photo_enabled: true,
+                sync_custom_positive_icon_enabled: true,
+                sync_accent_color_enabled: true,
+                sync_homework_date_hint_enabled: true,
+                sync_homework_redesign_enabled: true,
+                sync_dark_mode_enabled: true,
+                sync_prompt_review_enabled: true,
+                JAMES_AUTH_ID: null,
+                hide_encryption_warning_enabled: false
+            };
+
+            const { error } = await _supabase
+                .from('user_settings')
+                .upsert([defaultMock]);
+
+            if (error) {
+                alert("Failed to initialize default profile settings record: " + error.message);
+                setLoading(false);
+            } else {
+                await fetchAndRenderData();
+            }
+        });
+
+        function showAuthScreen() {
+            setLoading(false);
+            dashboardContainer.classList.add('hidden');
+            authContainer.classList.remove('hidden');
+            authErrorMessage.classList.add('hidden');
+            currentUser = null;
+        }
+
+        async function handleUserAuthenticated(user) {
+            currentUser = user;
+            userDisplay.textContent = user.email;
+            authContainer.classList.add('hidden');
+            dashboardContainer.classList.remove('hidden');
+            await fetchAndRenderData();
+        }
+
+        async function fetchAndRenderData() {
+            setLoading(true);
+            try {
+                const { data, error, status } = await _supabase
+                    .from('user_settings')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .single();
+
+                if (error && status !== 406) {
+                    throw error;
+                }
+
+                if (data) {
+                    fetchedData = data;
+                    noDataAlert.classList.add('hidden');
+                    dataPreviewLayout.classList.remove('hidden');
+                    renderDashboard(data);
+                } else {
+                    fetchedData = null;
+                    dataPreviewLayout.classList.add('hidden');
+                    noDataAlert.classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error("Error retrieving user_settings payload", err);
+                fetchedData = null;
+                dataPreviewLayout.classList.add('hidden');
+                noDataAlert.classList.remove('hidden');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function renderDashboard(data) {
+            document.getElementById('val-user-id').textContent = data.user_id || 'N/A';
+            document.getElementById('val-james-auth-id').textContent = data.JAMES_AUTH_ID || 'NULL';
+            
+            const accent = data.accent_color || '#039BE5';
+            document.getElementById('val-accent-color').textContent = accent;
+            document.getElementById('val-accent-preview').style.backgroundColor = accent;
+            
+            document.getElementById('val-plus-one-icon').textContent = data.plus_one_icon || 'smile.svg';
+            document.getElementById('val-review-interval-days').textContent = data.review_interval_days !== undefined ? `${data.review_interval_days} Days` : 'N/A';
+            document.getElementById('val-profile-photo').textContent = data.profile_photo || 'No photo stored';
+            document.getElementById('val-notes').textContent = data.notes || 'No custom notes available in record.';
+
+            const goalsContainer = document.getElementById('goals-container');
+            goalsContainer.innerHTML = '';
+            let parsedGoals = [];
+            try {
+                if (typeof data.goals === 'string') {
+                    parsedGoals = JSON.parse(data.goals);
+                } else if (Array.isArray(data.goals)) {
+                    parsedGoals = data.goals;
+                }
+            } catch (e) {
+                parsedGoals = [];
+            }
+
+            if (parsedGoals && parsedGoals.length > 0) {
+                const list = document.createElement('div');
+                list.className = "space-y-2";
+                parsedGoals.forEach(g => {
+                    const item = document.createElement('div');
+                    item.className = "flex items-center space-x-2 text-sm text-slate-700 bg-slate-50 border border-slate-200/80 p-2.5 rounded-lg";
+                    item.innerHTML = `<i class="fa-solid fa-circle-check text-indigo-500"></i> <span>${g.text || JSON.stringify(g)}</span>`;
+                    list.appendChild(item);
+                });
+                goalsContainer.appendChild(list);
+            } else {
+                goalsContainer.innerHTML = `<div class="text-sm italic text-slate-400">Empty objectives configuration payload.</div>`;
+            }
+
+            const flagsGrid = document.getElementById('flags-grid');
+            flagsGrid.innerHTML = '';
+            
+            const flagKeys = [
+                { key: 'homework_date_hint_enabled', label: 'Homework Date Hint' },
+                { key: 'homework_redesign_enabled', label: 'Homework Redesign layout' },
+                { key: 'welcome_shown', label: 'Welcome Overlay Completed' },
+                { key: 'review_shown', label: 'Review Stage Completed' },
+                { key: 'improved_ui_enabled', label: 'Improved User Interface' },
+                { key: 'notes_enabled', label: 'Notes Module Enabled' },
+                { key: 'goals_enabled', label: 'Objectives Tracker' },
+                { key: 'profile_photo_enabled', label: 'Profile Photo Display' },
+                { key: 'custom_positive_icon_enabled', label: 'Custom Positive Icon' },
+                { key: 'accent_color_enabled', label: 'Accent Color System' },
+                { key: 'dark_mode_enabled', label: 'Dark Mode Theme' },
+                { key: 'prompt_review_enabled', label: 'Prompt Review Stage' },
+                { key: 'hide_encryption_warning_enabled', label: 'Hide Encryption Warning' }
+            ];
+
+            flagKeys.forEach(flag => {
+                const isActive = data[flag.key] === true;
+                const card = document.createElement('div');
+                card.className = `p-3 rounded-xl border flex items-center justify-between transition-colors ${isActive ? 'bg-slate-50 border-emerald-100' : 'bg-slate-50 border-slate-100 opacity-60'}`;
+                card.innerHTML = `
+                    <span class="text-xs font-medium text-slate-700">${flag.label}</span>
+                    <span class="flex items-center space-x-1">
+                        <i class="fa-solid ${isActive ? 'fa-square-check text-emerald-500' : 'fa-square text-slate-300'}"></i>
+                        <span class="text-[10px] uppercase font-bold tracking-wider ${isActive ? 'text-emerald-700' : 'text-slate-400'}">${isActive ? 'Active' : 'Off'}</span>
+                    </span>
+                `;
+                flagsGrid.appendChild(card);
+            });
+
+            const syncList = document.getElementById('sync-variables-list');
+            syncList.innerHTML = '';
+
+            const syncKeys = [
+                { key: 'sync_improved_ui_enabled', label: 'Sync Improved UI State' },
+                { key: 'sync_notes_enabled', label: 'Sync Notes System' },
+                { key: 'sync_goals_enabled', label: 'Sync Profile Objectives' },
+                { key: 'sync_profile_photo_enabled', label: 'Sync User Profile Media' },
+                { key: 'sync_custom_positive_icon_enabled', label: 'Sync Custom Accent Icons' },
+                { key: 'sync_accent_color_enabled', label: 'Sync System Accent Palettes' },
+                { key: 'sync_homework_date_hint_enabled', label: 'Sync System Date Hints' },
+                { key: 'sync_homework_redesign_enabled', label: 'Sync Redesign Parameters' },
+                { key: 'sync_dark_mode_enabled', label: 'Sync Dark Theme Mode' },
+                { key: 'sync_prompt_review_enabled', label: 'Sync Prompt Cycle States' }
+            ];
+
+            syncKeys.forEach(sync => {
+                const isActive = data[sync.key] === true;
+                const row = document.createElement('div');
+                row.className = "flex items-center justify-between p-2.5 rounded-lg border border-slate-100 bg-slate-50 text-xs";
+                row.innerHTML = `
+                    <span class="font-medium text-slate-600">${sync.label}</span>
+                    <span class="px-2 py-0.5 rounded-full font-bold uppercase text-[9px] ${isActive ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-slate-100 text-slate-400'}">${isActive ? 'Synchronized' : 'Inactive'}</span>
+                `;
+                syncList.appendChild(row);
+            });
+
+            if (data.updated_at) {
+                const dateObj = new Date(data.updated_at);
+                document.getElementById('val-updated-at').textContent = dateObj.toLocaleString();
+            } else {
+                document.getElementById('val-updated-at').textContent = 'None Specified';
+            }
+
+            let definedCount = 0;
+            fieldsToMap.forEach(f => {
+                if (data[f] !== undefined && data[f] !== null) definedCount++;
+            });
+            document.getElementById('val-variable-count').textContent = definedCount;
+        }
+
+        function setLoading(isLoading) {
+            if (isLoading) {
+                loadingScreen.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                loadingScreen.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function showError(msg) {
+            errorText.textContent = msg;
+            authErrorMessage.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
