@@ -340,10 +340,10 @@
 
         document.getElementById('btn-google').addEventListener('click', async () => {
             setLoading(true);
-            const { error } = await _supabase.auth.signInWithOAuth({
+            const { data, error } = await _supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: window.location.href,
+                    redirectTo: 'https://classchartsimprover.pages.dev/datadownload.html',
                     queryParams: {
                         access_type: 'offline',
                         prompt: 'consent'
@@ -358,10 +358,10 @@
 
         document.getElementById('btn-github').addEventListener('click', async () => {
             setLoading(true);
-            const { error } = await _supabase.auth.signInWithOAuth({
+            const { data, error } = await _supabase.auth.signInWithOAuth({
                 provider: 'github',
                 options: {
-                    redirectTo: window.location.href
+                    redirectTo: 'https://classchartsimprover.pages.dev/datadownload.html'
                 }
             });
             if (error) {
