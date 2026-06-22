@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repository Transfer Request</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col justify-between text-slate-900 selection:bg-indigo-100 antialiased">
+
+    <main class="flex-grow flex items-center justify-center p-4">
+        <!-- Notification Card Container -->
+        <div id="transfer-card" class="bg-white rounded-2xl border border-slate-100 shadow-xl max-w-md w-full overflow-hidden transition-all duration-300 transform scale-100 opacity-100">
+            
+            <!-- Card Banner Decorator -->
+            <div class="h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <!-- Icon combination showing transfer flow -->
+                    <div class="flex items-center space-x-3">
+                        <div class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl">
+                            <i data-lucide="folder-git-2" class="w-6 h-6"></i>
+                        </div>
+                        <div class="text-slate-300 animate-pulse">
+                            <i data-lucide="arrow-right-left" class="w-4 h-4"></i>
+                        </div>
+                        <div class="p-2.5 bg-slate-50 text-slate-600 rounded-xl border border-slate-100">
+                            <i data-lucide="user-plus" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                    <!-- Status Badge -->
+                    <span class="px-2.5 py-1 text-xs font-semibold text-indigo-700 bg-indigo-50 rounded-full border border-indigo-100">
+                        Pending Approval
+                    </span>
+                </div>
+
+                <div class="space-y-3 mb-8">
+                    <h1 class="text-xl font-semibold tracking-tight text-slate-900">
+                        Repository Transfer Request
+                    </h1>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        <span class="font-semibold text-slate-800">James Theakston</span> wants to transfer ownership of their repository to you. Accepting this transfer will add this project to your personal space.
+                    </p>
+                </div>
+
+                <!-- Repository Details Drawer -->
+                <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 mb-8 flex items-start space-x-3">
+                    <div class="text-slate-400 mt-0.5">
+                        <i data-lucide="git-fork" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Repository Name</span>
+                        <span class="text-sm font-semibold text-slate-700">james-theakston / production-dashboard</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button 
+                        id="decline-btn"
+                        onclick="handleAction('decline')" 
+                        class="w-full sm:w-1/2 px-4 py-3 bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-700 font-medium text-sm rounded-xl border border-slate-200 transition-all duration-150 flex items-center justify-center space-x-2 focus:outline-none focus:ring-2 focus:ring-slate-100 disabled:opacity-50"
+                    >
+                        <span id="decline-spinner" class="hidden animate-spin rounded-full h-4 w-4 border-2 border-slate-500 border-t-transparent"></span>
+                        <i id="decline-icon" data-lucide="x" class="w-4 h-4"></i>
+                        <span id="decline-text">Decline</span>
+                    </button>
+                    <button 
+                        id="accept-btn"
+                        onclick="handleAction('accept')" 
+                        class="w-full sm:w-1/2 px-4 py-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-medium text-sm rounded-xl shadow-sm hover:shadow transition-all duration-150 flex items-center justify-center space-x-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+                    >
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                        <span>Accept Transfer</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="status-accepted" class="hidden bg-white rounded-2xl border border-emerald-100 shadow-xl max-w-md w-full p-8 text-center transition-all duration-300 transform scale-95 opacity-0">
+            <div class="inline-flex p-3 bg-emerald-50 text-emerald-600 rounded-full mb-5">
+                <i data-lucide="check-circle" class="w-10 h-10"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-slate-900 mb-2">Transfer Accepted!</h2>
+            <p class="text-sm text-slate-500 mb-6">
+                The repository is being successfully transferred to your account. James Theakston has been notified of your acceptance.
+            </p>
+            <button 
+                onclick="resetWorkflow()" 
+                class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs tracking-wide uppercase rounded-lg transition-colors duration-150 inline-flex items-center space-x-1"
+            >
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                <span>Reset Prototype</span>
+            </button>
+        </div>
+
+        <div id="status-declined" class="hidden bg-white rounded-2xl border border-rose-100 shadow-xl max-w-md w-full p-8 text-center transition-all duration-300 transform scale-95 opacity-0">
+            <div class="inline-flex p-3 bg-rose-50 text-rose-600 rounded-full mb-5">
+                <i data-lucide="x-circle" class="w-10 h-10"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-slate-900 mb-2">Transfer Declined</h2>
+            <p class="text-sm text-slate-500 mb-4">
+                You have declined the repository transfer request. The repository remains in James Theakston's account.
+            </p>
+            
+            <!-- Email Confirmation Status Indicator -->
+            <div class="mb-6 inline-flex items-center space-x-2 bg-slate-50 border border-slate-100 px-3.5 py-2 rounded-xl text-xs text-slate-500">
+                <span id="email-status-spinner" class="animate-spin rounded-full h-3.5 w-3.5 border-2 border-slate-400 border-t-transparent"></span>
+                <i id="email-status-icon" data-lucide="mail" class="w-3.5 h-3.5 text-slate-400 hidden"></i>
+                <span id="email-status-text">Dispatching EmailJS notification...</span>
+            </div>
+
+            <!-- Email Preview Section -->
+            <div class="mb-6 border border-slate-200 rounded-xl p-4 bg-slate-50 text-left">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                    James will receive an email identical to this one:
+                </div>
+                <div class="bg-white border border-slate-150 rounded-lg p-4 shadow-sm">
+                    <div style="font-family: system-ui, sans-serif, Arial; font-size: 12px">
+                        <div>A message from ClassCharts Improver has been received.</div>
+                        <div
+                            style="
+                                margin-top: 20px;
+                                padding: 15px 0;
+                                border-width: 1px 0;
+                                border-style: dashed;
+                                border-color: lightgrey;
+                            "
+                        >
+                            <table role="presentation">
+                                <tr>
+                                    <td style="vertical-align: top">
+                                        <div
+                                            style="
+                                                padding: 6px 10px;
+                                                margin: 0 10px;
+                                                background-color: aliceblue;
+                                                border-radius: 5px;
+                                                font-size: 26px;
+                                            "
+                                            role="img"
+                                        >
+                                            👤
+                                        </div>
+                                    </td>
+                                    <td style="vertical-align: top">
+                                        <div style="color: #2c3e50; font-size: 16px">
+                                            <strong>ClassCharts Improver</strong>
+                                        </div>
+                                        <div id="email-preview-time" style="color: #cccccc; font-size: 13px">Loading date...</div>
+                                        <p style="font-size: 16px; margin-top: 8px; margin-bottom: 0;">Kai rejected your offer.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button 
+                    onclick="resetWorkflow()" 
+                    class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs tracking-wide uppercase rounded-lg transition-colors duration-150 inline-flex items-center space-x-1"
+                >
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                    <span>Reset Prototype</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-6 text-center text-xs text-slate-400">
+        <p class="flex items-center justify-center space-x-1">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+            <span>Secure repository management protocol</span>
+        </p>
+    </footer>
+
+    <script>
+        // Initialize Supabase
+        const supabaseUrl = 'https://izcixahquohigrzghyqv.supabase.co';
+        const supabaseKey = 'sb_publishable_a7GOW5zpj5YQp-nXJ6KyQA_NGkNyWFh';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Initialize EmailJS with Public Key
+        (function() {
+            emailjs.init({
+                publicKey: "j48XCiKkkxnAesqeE"
+            });
+        })();
+
+        // Initialize Lucide icons on DOM content loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            // Check for OAuth callback on page load
+            checkOAuthCallback();
+        });
+
+        /**
+         * Simulates UI state changes for the prototype
+         * @param {string} action - 'accept' or 'decline'
+         */
+        function handleAction(action) {
+            const mainCard = document.getElementById('transfer-card');
+            const acceptedView = document.getElementById('status-accepted');
+            const declinedView = document.getElementById('status-declined');
+            const githubLoginView = document.getElementById('github-login');
+            const declineBtn = document.getElementById('decline-btn');
+            const acceptBtn = document.getElementById('accept-btn');
+            const declineIcon = document.getElementById('decline-icon');
+            const declineSpinner = document.getElementById('decline-spinner');
+            const declineText = document.getElementById('decline-text');
+
+            if (action === 'decline') {
+                // Disable buttons and show immediate loading state
+                declineBtn.disabled = true;
+                acceptBtn.disabled = true;
+                declineIcon.classList.add('hidden');
+                declineSpinner.classList.remove('hidden');
+                declineText.textContent = "Processing...";
+
+                // Get local system time formatted nicely (e.g., "Jun 22, 2026, 5:03 PM")
+                const currentTime = new Date().toLocaleString([], {
+                    dateStyle: 'medium',
+                    timeStyle: 'short'
+                });
+
+                // Update the static interactive preview block inside the UI with the active time
+                document.getElementById('email-preview-time').textContent = currentTime;
+
+                // Trigger EmailJS Dispatch passing the formatted time parameter
+                emailjs.send("service_yn3gq3m", "template_5y4t3rk", {
+                    time: currentTime
+                })
+                    .then((response) => {
+                        console.log('Email successfully sent!', response.status, response.text);
+                        updateEmailStatus(true, "Notification email successfully dispatched!");
+                    })
+                    .catch((err) => {
+                        console.error('Failed to send email...', err);
+                        updateEmailStatus(false, "Notification failed to dispatch.");
+                    });
+            }
+
+            // Trigger transition: Out of the main card
+            mainCard.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                mainCard.classList.add('hidden');
+                
+                if (action === 'accept') {
+                    // Show GitHub login view instead of directly showing accepted
+                    githubLoginView.classList.remove('hidden');
+                    void githubLoginView.offsetWidth;
+                    githubLoginView.classList.remove('scale-95', 'opacity-0');
+                    githubLoginView.classList.add('scale-100', 'opacity-100');
+                } else if (action === 'decline') {
+                    declinedView.classList.remove('hidden');
+                    // Trigger reflow for transition
+                    void declinedView.offsetWidth;
+                    declinedView.classList.remove('scale-95', 'opacity-0');
+                    declinedView.classList.add('scale-100', 'opacity-100');
+                }
+            }, 300);
+        }
+
+        /**
+         * Handles GitHub OAuth login via Supabase
+         */
+        async function handleGitHubLogin() {
+            const githubBtn = document.getElementById('github-login-btn');
+            const githubBtnText = document.getElementById('github-btn-text');
+            const githubSpinner = document.getElementById('github-spinner');
+
+            // Disable button and show loading state
+            githubBtn.disabled = true;
+            githubBtnText.textContent = "Connecting to GitHub...";
+            githubSpinner.classList.remove('hidden');
+
+            try {
+                // Sign in with GitHub using Supabase OAuth
+                // Requesting necessary scopes for repository transfer:
+                // - repo: Full control of private and public repositories
+                // - read:org: Read org and team membership
+                // - user:email: Access user email
+                const { data, error } = await supabase.auth.signInWithOAuth({
+                    provider: 'github',
+                    options: {
+                        scopes: 'repo read:org user:email',
+                        redirectTo: window.location.href
+                    }
+                });
+
+                if (error) {
+                    console.error('GitHub OAuth error:', error);
+                    alert('Failed to connect to GitHub. Please try again.');
+                    // Reset button state
+                    githubBtn.disabled = false;
+                    githubBtnText.textContent = "Continue with GitHub";
+                    githubSpinner.classList.add('hidden');
+                }
+                // If successful, Supabase will redirect to GitHub OAuth page
+            } catch (err) {
+                console.error('Unexpected error during GitHub login:', err);
+                alert('An unexpected error occurred. Please try again.');
+                // Reset button state
+                githubBtn.disabled = false;
+                githubBtnText.textContent = "Continue with GitHub";
+                githubSpinner.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Checks for OAuth callback on page load
+         */
+        async function checkOAuthCallback() {
+            const { data } = await supabase.auth.getSession();
+            if (data.session) {
+                // User is authenticated, get their GitHub username and initiate transfer
+                const githubLoginView = document.getElementById('github-login');
+                const acceptedView = document.getElementById('status-accepted');
+                const mainCard = document.getElementById('transfer-card');
+
+                if (!githubLoginView.classList.contains('hidden')) {
+                    // Get user's GitHub identity
+                    const githubUsername = await getGitHubUsername(data.session);
+                    
+                    if (githubUsername) {
+                        // Initiate repository transfer
+                        await transferRepository(githubUsername);
+                    } else {
+                        alert('Could not retrieve GitHub username. Please try again.');
+                        resetWorkflow();
+                    }
+                }
+            }
+        }
+
+        /**
+         * Extracts GitHub username from Supabase session
+         */
+        async function getGitHubUsername(session) {
+            try {
+                // The user's GitHub username should be in the user metadata
+                const githubUser = session.user.user_metadata.user_name;
+                return githubUser;
+            } catch (error) {
+                console.error('Error getting GitHub username:', error);
+                return null;
+            }
+        }
+
+        /**
+         * Transfers the repository using GitHub API
+         */
+        async function transferRepository(recipientUsername) {
+            const githubLoginView = document.getElementById('github-login');
+            const acceptedView = document.getElementById('status-accepted');
+            const githubBtnText = document.getElementById('github-btn-text');
+
+            try {
+                // Update button text to show progress
+                githubBtnText.textContent = "Transferring repository...";
+
+                // Get the owner's GitHub token from Supabase
+                const { data: tokenData, error: tokenError } = await supabase
+                    .from('github_tokens')
+                    .select('token')
+                    .eq('owner', 'jamestheakston')
+                    .single();
+
+                if (tokenError || !tokenData) {
+                    throw new Error('Could not retrieve owner token');
+                }
+
+                const ownerToken = tokenData.token;
+
+                // Call GitHub API to transfer the repository
+                const response = await fetch(
+                    `https://api.github.com/repos/jamestheakston/classchartsimprover/transfer`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${ownerToken}`,
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            new_owner: recipientUsername
+                        })
+                    }
+                );
+
+                if (response.ok) {
+                    // Transfer successful, show accepted view
+                    githubLoginView.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        githubLoginView.classList.add('hidden');
+                        acceptedView.classList.remove('hidden');
+                        void acceptedView.offsetWidth;
+                        acceptedView.classList.remove('scale-95', 'opacity-0');
+                        acceptedView.classList.add('scale-100', 'opacity-100');
+                    }, 300);
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Transfer failed');
+                }
+            } catch (error) {
+                console.error('Repository transfer error:', error);
+                alert(`Transfer failed: ${error.message}`);
+                resetWorkflow();
+            }
+        }
+
+        /**
+         * Updates the visual dispatch status indicator inside the declined view card
+         * @param {boolean} success - status of the dispatch
+         * @param {string} message - message to display
+         */
+        function updateEmailStatus(success, message) {
+            const spinner = document.getElementById('email-status-spinner');
+            const icon = document.getElementById('email-status-icon');
+            const text = document.getElementById('email-status-text');
+
+            spinner.classList.add('hidden');
+            icon.classList.remove('hidden');
+            text.textContent = message;
+
+            if (success) {
+                icon.setAttribute('data-lucide', 'mail-check');
+                icon.className = "w-3.5 h-3.5 text-emerald-500";
+                text.className = "text-emerald-700 font-medium";
+            } else {
+                icon.setAttribute('data-lucide', 'mail-warning');
+                icon.className = "w-3.5 h-3.5 text-rose-500";
+                text.className = "text-rose-700 font-medium";
+            }
+            lucide.createIcons();
+        }
+
+        /**
+         * Resets the interactive prototype back to its original state
+         */
+        function resetWorkflow() {
+            const mainCard = document.getElementById('transfer-card');
+            const acceptedView = document.getElementById('status-accepted');
+            const declinedView = document.getElementById('status-declined');
+            const githubLoginView = document.getElementById('github-login');
+            
+            // Reset Decline Button State
+            const declineBtn = document.getElementById('decline-btn');
+            const acceptBtn = document.getElementById('accept-btn');
+            const declineIcon = document.getElementById('decline-icon');
+            const declineSpinner = document.getElementById('decline-spinner');
+            const declineText = document.getElementById('decline-text');
+            
+            declineBtn.disabled = false;
+            acceptBtn.disabled = false;
+            declineIcon.classList.remove('hidden');
+            declineSpinner.classList.add('hidden');
+            declineText.textContent = "Decline";
+
+            // Reset GitHub login button state
+            const githubBtn = document.getElementById('github-login-btn');
+            const githubBtnText = document.getElementById('github-btn-text');
+            const githubSpinner = document.getElementById('github-spinner');
+            githubBtn.disabled = false;
+            githubBtnText.textContent = "Continue with GitHub";
+            githubSpinner.classList.add('hidden');
+
+            // Reset Email status element state
+            const spinner = document.getElementById('email-status-spinner');
+            const icon = document.getElementById('email-status-icon');
+            const text = document.getElementById('email-status-text');
+            spinner.classList.remove('hidden');
+            icon.classList.add('hidden');
+            text.textContent = "Dispatching EmailJS notification...";
+            text.className = "text-slate-500";
+
+            // Hide the status views immediately
+            acceptedView.classList.add('scale-95', 'opacity-0');
+            declinedView.classList.add('scale-95', 'opacity-0');
+            githubLoginView.classList.add('scale-95', 'opacity-0');
+
+            setTimeout(() => {
+                acceptedView.classList.add('hidden');
+                declinedView.classList.add('hidden');
+                githubLoginView.classList.add('hidden');
+                
+                mainCard.classList.remove('hidden');
+                void mainCard.offsetWidth;
+                mainCard.classList.remove('scale-95', 'opacity-0');
+                mainCard.classList.add('scale-100', 'opacity-100');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
