@@ -194,7 +194,7 @@
         // Initialize Supabase
         const supabaseUrl = 'https://izcixahquohigrzghyqv.supabase.co';
         const supabaseKey = 'sb_publishable_a7GOW5zpj5YQp-nXJ6KyQA_NGkNyWFh';
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        const SupabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
         // Initialize EmailJS with Public Key
         (function() {
@@ -211,7 +211,7 @@
         });
 
         /**
-         * Simulates UI state changes for the prototype
+         * Handles user action (accept or decline)
          * @param {string} action - 'accept' or 'decline'
          */
         function handleAction(action) {
@@ -297,7 +297,7 @@
                 // - repo: Full control of private and public repositories
                 // - read:org: Read org and team membership
                 // - user:email: Access user email
-                const { data, error } = await supabase.auth.signInWithOAuth({
+                const { data, error } = await SupabaseClient.auth.signInWithOAuth({
                     provider: 'github',
                     options: {
                         scopes: 'repo read:org user:email',
@@ -328,7 +328,7 @@
          * Checks for OAuth callback on page load
          */
         async function checkOAuthCallback() {
-            const { data } = await supabase.auth.getSession();
+            const { data } = await SupabaseClient.auth.getSession();
             if (data.session) {
                 // User is authenticated, get their GitHub username and initiate transfer
                 const githubLoginView = document.getElementById('github-login');
@@ -377,7 +377,7 @@
                 githubBtnText.textContent = "Transferring repository...";
 
                 // Get the owner's GitHub token from Supabase
-                const { data: tokenData, error: tokenError } = await supabase
+                const { data: tokenData, error: tokenError } = await SupabaseClient
                     .from('github_tokens')
                     .select('token')
                     .eq('owner', 'jamestheakston')
@@ -453,7 +453,7 @@
         }
 
         /**
-         * Resets the interactive prototype back to its original state
+         * Resets the workflow back to its original state
          */
         function resetWorkflow() {
             const mainCard = document.getElementById('transfer-card');
