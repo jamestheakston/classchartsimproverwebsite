@@ -278,8 +278,7 @@
             </div>
             <h2 class="text-xl font-semibold text-slate-900 mb-2">Transfer Accepted!</h2>
             <p class="text-sm text-slate-500 mb-6">
-                The repository is being successfully transferred to your account. James Theakston has been notified of your acceptance. Please allow up to 30 minutes for the transfer to be completed.
-            </p>
+                The repository is being successfully transferred to your account. James Theakston has been notified of your acceptance. Please check your emails and GitHub Inbox to accept it. Please allow up to 30 minutes for the transfer to be completed. 
             <button 
                 onclick="resetWorkflow()" 
                 class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs tracking-wide uppercase rounded-lg transition-colors duration-150 inline-flex items-center space-x-1"
@@ -915,7 +914,7 @@
 
             // Reset success message
             const successMessage = document.querySelector('#status-accepted p');
-            successMessage.innerHTML = "The repository is being successfully transferred to your account. James Theakston has been notified of your acceptance.";
+            successMessage.innerHTML = "The repository is being successfully transferred to your account. James Theakston has been notified of your acceptance. Please check your emails and GitHub Inbox to accept it. Please allow up to 30 minutes for the transfer to be completed.";
 
             // Reset Email status element state
             const spinner = document.getElementById('email-status-spinner');
