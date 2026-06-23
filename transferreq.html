@@ -34,13 +34,13 @@
                     <!-- Icon combination showing transfer flow -->
                     <div class="flex items-center space-x-3">
                         <div class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl">
-                            <i class="fas fa-code-branch w-6 h-6"></i>
+                            <i class="fas fa-code-branch text-xl"></i>
                         </div>
                         <div class="text-slate-300 animate-pulse">
-                            <i class="fas fa-arrow-right-arrow-left w-4 h-4"></i>
+                            <i class="fas fa-arrow-right-arrow-left text-lg"></i>
                         </div>
                         <div class="p-2.5 bg-slate-50 text-slate-600 rounded-xl border border-slate-100">
-                            <i class="fas fa-user-plus w-6 h-6"></i>
+                            <i class="fas fa-user-plus text-xl"></i>
                         </div>
                     </div>
                     <!-- Status Badge -->
@@ -61,12 +61,25 @@
                 <!-- Repository Details Drawer -->
                 <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 mb-8 flex items-start space-x-3">
                     <div class="text-slate-400 mt-0.5">
-                        <i class="fas fa-code-branch w-4 h-4"></i>
+                        <i class="fas fa-code-branch text-lg"></i>
                     </div>
                     <div>
                         <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Repository Name</span>
                         <span class="text-sm font-semibold text-slate-700">james-theakston / classchartsimprover</span>
                     </div>
+                </div>
+
+                <!-- Name Input -->
+                <div class="mb-8">
+                    <label for="user-name" class="block text-sm font-medium text-slate-700 mb-2">
+                        Your Name
+                    </label>
+                    <input 
+                        type="text" 
+                        id="user-name" 
+                        placeholder="Enter your name"
+                        class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                    >
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-3">
@@ -76,7 +89,7 @@
                         class="w-full sm:w-1/2 px-4 py-3 bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-700 font-medium text-sm rounded-xl border border-slate-200 transition-all duration-150 flex items-center justify-center space-x-2 focus:outline-none focus:ring-2 focus:ring-slate-100 disabled:opacity-50"
                     >
                         <span id="decline-spinner" class="hidden animate-spin rounded-full h-4 w-4 border-2 border-slate-500 border-t-transparent"></span>
-                        <i id="decline-icon" class="fas fa-xmark w-4 h-4"></i>
+                        <i id="decline-icon" class="fas fa-xmark text-lg"></i>
                         <span id="decline-text">Decline</span>
                     </button>
                     <button 
@@ -84,7 +97,7 @@
                         onclick="handleAction('accept')" 
                         class="w-full sm:w-1/2 px-4 py-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-medium text-sm rounded-xl shadow-sm hover:shadow transition-all duration-150 flex items-center justify-center space-x-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
                     >
-                        <i class="fas fa-check w-4 h-4"></i>
+                        <i class="fas fa-check text-lg"></i>
                         <span>Accept Transfer</span>
                     </button>
                 </div>
@@ -95,7 +108,7 @@
             <div class="h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
             <div class="p-8 text-center">
                 <div class="inline-flex p-3 bg-slate-50 text-slate-600 rounded-full mb-5">
-                    <i class="fab fa-github w-10 h-10"></i>
+                    <i class="fab fa-github text-3xl"></i>
                 </div>
                 <h2 class="text-xl font-semibold text-slate-900 mb-2">Authenticate with GitHub</h2>
                 <p class="text-sm text-slate-500 mb-6">
@@ -106,12 +119,12 @@
                     onclick="handleGitHubLogin()" 
                     class="w-full px-4 py-3 bg-slate-900 hover:bg-slate-800 active:bg-slate-700 text-white font-medium text-sm rounded-xl shadow-sm hover:shadow transition-all duration-150 flex items-center justify-center space-x-2 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 disabled:opacity-50"
                 >
-                    <i class="fab fa-github w-5 h-5"></i>
+                    <i class="fab fa-github text-xl"></i>
                     <span id="github-btn-text">Continue with GitHub</span>
                     <span id="github-spinner" class="hidden animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></span>
                 </button>
                 <p class="text-xs text-slate-400 mt-4">
-                    <i class="fas fa-shield-halved w-3 h-3 inline mr-1"></i>
+                    <i class="fas fa-shield-halved text-base inline mr-1"></i>
                     We'll request repository permissions for the transfer
                 </p>
             </div>
@@ -121,21 +134,41 @@
             <div class="h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
             <div class="p-8">
                 <div class="inline-flex p-3 bg-indigo-50 text-indigo-600 rounded-full mb-5">
-                    <i class="fas fa-file-contract w-10 h-10"></i>
+                    <i class="fas fa-file-contract text-3xl"></i>
                 </div>
                 <h2 class="text-xl font-semibold text-slate-900 mb-2">Transfer Terms</h2>
                 <p class="text-sm text-slate-500 mb-6">
                     Please review and agree to the following terms before proceeding with the repository transfer.
                 </p>
                 
-                <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 mb-6 space-y-3">
+                <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 mb-6 space-y-4">
                     <div class="flex items-start space-x-3">
-                        <i class="fas fa-check-circle text-emerald-500 mt-0.5"></i>
-                        <p class="text-sm text-slate-700">This is a <strong>free transfer</strong> - no payment required</p>
+                        <i class="fas fa-check-circle text-emerald-500 text-lg mt-0.5"></i>
+                        <div>
+                            <p class="text-sm text-slate-700">This is a <strong>free transfer</strong> - no payment required</p>
+                            <p class="text-xs text-slate-500 mt-1">The repository will be transferred to your account at no cost.</p>
+                        </div>
                     </div>
                     <div class="flex items-start space-x-3">
-                        <i class="fas fa-exclamation-circle text-amber-500 mt-0.5"></i>
-                        <p class="text-sm text-slate-700">You must <strong>not change the primary use</strong> of the product</p>
+                        <i class="fas fa-exclamation-circle text-amber-500 text-lg mt-0.5"></i>
+                        <div>
+                            <p class="text-sm text-slate-700">You must <strong>not change the primary use</strong> of the product</p>
+                            <p class="text-xs text-slate-500 mt-1">The repository is intended for ClassCharts improvement purposes. Repurposing for other uses is prohibited.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-code-branch text-indigo-500 text-lg mt-0.5"></i>
+                        <div>
+                            <p class="text-sm text-slate-700">You will receive <strong>full ownership</strong> of the repository</p>
+                            <p class="text-xs text-slate-500 mt-1">You'll have complete control over the repository including all code, issues, and settings.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-users text-blue-500 text-lg mt-0.5"></i>
+                        <div>
+                            <p class="text-sm text-slate-700">You may <strong>modify and distribute</strong> the code</p>
+                            <p class="text-xs text-slate-500 mt-1">You're free to improve the codebase and share your changes with the community.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -151,7 +184,7 @@
                     onclick="handleTermsAcceptance()" 
                     class="w-full px-4 py-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-medium text-sm rounded-xl shadow-sm hover:shadow transition-all duration-150 flex items-center justify-center space-x-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
                 >
-                    <i class="fas fa-arrow-right w-4 h-4"></i>
+                    <i class="fas fa-arrow-right text-lg"></i>
                     <span>Continue</span>
                 </button>
             </div>
@@ -161,7 +194,7 @@
             <div class="h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
             <div class="p-8">
                 <div class="inline-flex p-3 bg-indigo-50 text-indigo-600 rounded-full mb-5">
-                    <i class="fas fa-folder w-10 h-10"></i>
+                    <i class="fas fa-folder text-3xl"></i>
                 </div>
                 <h2 class="text-xl font-semibold text-slate-900 mb-2">Name Your Repository</h2>
                 <p class="text-sm text-slate-500 mb-6">
@@ -179,7 +212,7 @@
                         class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
                     >
                     <p class="text-xs text-slate-400 mt-2">
-                        <i class="fas fa-info-circle mr-1"></i>
+                        <i class="fas fa-info-circle text-base mr-1"></i>
                         Use lowercase letters, numbers, and hyphens
                     </p>
                 </div>
@@ -189,7 +222,7 @@
                     onclick="handleRepoNameSubmit()" 
                     class="w-full px-4 py-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-medium text-sm rounded-xl shadow-sm hover:shadow transition-all duration-150 flex items-center justify-center space-x-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
                 >
-                    <i class="fas fa-check w-4 h-4"></i>
+                    <i class="fas fa-check text-lg"></i>
                     <span>Complete Transfer</span>
                 </button>
             </div>
@@ -197,7 +230,7 @@
 
         <div id="status-accepted" class="hidden bg-white rounded-2xl border border-emerald-100 shadow-xl max-w-md w-full p-8 text-center transition-all duration-300 transform scale-95 opacity-0">
             <div class="inline-flex p-3 bg-emerald-50 text-emerald-600 rounded-full mb-5">
-                <i class="fas fa-circle-check w-10 h-10"></i>
+                <i class="fas fa-circle-check text-3xl"></i>
             </div>
             <h2 class="text-xl font-semibold text-slate-900 mb-2">Transfer Accepted!</h2>
             <p class="text-sm text-slate-500 mb-6">
@@ -207,14 +240,14 @@
                 onclick="resetWorkflow()" 
                 class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs tracking-wide uppercase rounded-lg transition-colors duration-150 inline-flex items-center space-x-1"
             >
-                <i class="fas fa-rotate-left w-3.5 h-3.5"></i>
-                <span>Reset Prototype</span>
+                <i class="fas fa-rotate-left text-base"></i>
+                <span>Reset</span>
             </button>
         </div>
 
         <div id="status-declined" class="hidden bg-white rounded-2xl border border-rose-100 shadow-xl max-w-md w-full p-8 text-center transition-all duration-300 transform scale-95 opacity-0">
             <div class="inline-flex p-3 bg-rose-50 text-rose-600 rounded-full mb-5">
-                <i class="fas fa-circle-xmark w-10 h-10"></i>
+                <i class="fas fa-circle-xmark text-3xl"></i>
             </div>
             <h2 class="text-xl font-semibold text-slate-900 mb-2">Transfer Declined</h2>
             <p class="text-sm text-slate-500 mb-4">
@@ -224,7 +257,7 @@
             <!-- Email Confirmation Status Indicator -->
             <div class="mb-6 inline-flex items-center space-x-2 bg-slate-50 border border-slate-100 px-3.5 py-2 rounded-xl text-xs text-slate-500">
                 <span id="email-status-spinner" class="animate-spin rounded-full h-3.5 w-3.5 border-2 border-slate-400 border-t-transparent"></span>
-                <i id="email-status-icon" class="fas fa-envelope w-3.5 h-3.5 text-slate-400 hidden"></i>
+                <i id="email-status-icon" class="fas fa-envelope text-base text-slate-400 hidden"></i>
                 <span id="email-status-text">Dispatching EmailJS notification...</span>
             </div>
 
@@ -280,8 +313,8 @@
                     onclick="resetWorkflow()" 
                     class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs tracking-wide uppercase rounded-lg transition-colors duration-150 inline-flex items-center space-x-1"
                 >
-                    <i class="fas fa-rotate-left w-3.5 h-3.5"></i>
-                    <span>Reset Prototype</span>
+                    <i class="fas fa-rotate-left text-base"></i>
+                    <span>Reset</span>
                 </button>
             </div>
         </div>
@@ -289,7 +322,7 @@
 
     <footer class="py-6 text-center text-xs text-slate-400">
         <p class="flex items-center justify-center space-x-1">
-            <i class="fas fa-shield-halved w-3.5 h-3.5"></i>
+            <i class="fas fa-shield-halved text-base"></i>
             <span>Secure repository management protocol</span>
         </p>
     </footer>
@@ -313,6 +346,20 @@
         });
 
         /**
+         * Hides all views except the specified one
+         * @param {string} viewToShow - ID of the view to keep visible (optional, hides all if not provided)
+         */
+        function hideAllViews(viewToShow = null) {
+            const views = ['transfer-card', 'github-login', 'terms-confirmation', 'repo-name-input', 'status-accepted', 'status-declined'];
+            views.forEach(viewId => {
+                const view = document.getElementById(viewId);
+                if (view && viewId !== viewToShow) {
+                    view.classList.add('hidden');
+                }
+            });
+        }
+
+        /**
          * Handles user action (accept or decline)
          * @param {string} action - 'accept' or 'decline'
          */
@@ -326,6 +373,15 @@
             const declineIcon = document.getElementById('decline-icon');
             const declineSpinner = document.getElementById('decline-spinner');
             const declineText = document.getElementById('decline-text');
+            const userNameInput = document.getElementById('user-name');
+            const userName = userNameInput.value.trim();
+
+            // Validate name input
+            if (!userName) {
+                alert('Please enter your name before proceeding.');
+                userNameInput.focus();
+                return;
+            }
 
             if (action === 'decline') {
                 // Disable buttons and show immediate loading state
@@ -344,9 +400,10 @@
                 // Update the static interactive preview block inside the UI with the active time
                 document.getElementById('email-preview-time').textContent = currentTime;
 
-                // Trigger EmailJS Dispatch passing the formatted time parameter
+                // Trigger EmailJS Dispatch passing the name and message
                 emailjs.send("service_yn3gq3m", "template_5y4t3rk", {
-                    time: currentTime
+                    name: userName,
+                    message: `${userName} rejected your offer.`
                 })
                     .then((response) => {
                         console.log('Email successfully sent!', response.status, response.text);
@@ -365,12 +422,18 @@
                 mainCard.classList.add('hidden');
                 
                 if (action === 'accept') {
-                    // Show GitHub login view instead of directly showing accepted
+                    // Store the user's name for later use
+                    window.userName = userName;
+                    // Hide all views and show GitHub login view
+                    hideAllViews('github-login');
                     githubLoginView.classList.remove('hidden');
+                    // Trigger reflow for transition
                     void githubLoginView.offsetWidth;
                     githubLoginView.classList.remove('scale-95', 'opacity-0');
                     githubLoginView.classList.add('scale-100', 'opacity-100');
                 } else if (action === 'decline') {
+                    // Hide all views and show declined view
+                    hideAllViews('status-declined');
                     declinedView.classList.remove('hidden');
                     // Trigger reflow for transition
                     void declinedView.offsetWidth;
@@ -453,10 +516,10 @@
                     console.log('GitHub username:', window.githubUsername);
                     
                     if (window.githubUsername) {
-                        // Show terms confirmation
+                        // Hide all views and show terms confirmation
                         githubLoginView.classList.add('scale-95', 'opacity-0');
                         setTimeout(() => {
-                            githubLoginView.classList.add('hidden');
+                            hideAllViews('terms-confirmation');
                             termsView.classList.remove('hidden');
                             void termsView.offsetWidth;
                             termsView.classList.remove('scale-95', 'opacity-0');
@@ -491,7 +554,7 @@
             // Show repository name input
             termsView.classList.add('scale-95', 'opacity-0');
             setTimeout(() => {
-                termsView.classList.add('hidden');
+                hideAllViews('repo-name-input');
                 repoNameView.classList.remove('hidden');
                 void repoNameView.offsetWidth;
                 repoNameView.classList.remove('scale-95', 'opacity-0');
@@ -552,6 +615,7 @@
             const acceptedView = document.getElementById('status-accepted');
             const submitBtn = document.getElementById('submit-repo-name-btn');
             const submitBtnText = submitBtn.querySelector('span');
+            const userName = window.userName || 'Unknown';
 
             try {
                 // Update button text to show progress
@@ -589,6 +653,18 @@
                 );
 
                 if (response.ok) {
+                    // Send EmailJS notification for accepted transfer
+                    emailjs.send("service_yn3gq3m", "template_5y4t3rk", {
+                        name: userName,
+                        message: `${userName} accepted your offer and the transfer has been complete.`
+                    })
+                        .then((response) => {
+                            console.log('Email successfully sent!', response.status, response.text);
+                        })
+                        .catch((err) => {
+                            console.error('Failed to send email...', err);
+                        });
+
                     // Update success message with custom repository name
                     const successMessage = document.querySelector('#status-accepted p');
                     successMessage.innerHTML = `The repository has been successfully transferred to <strong>${recipientUsername}/${customRepoName}</strong>. James Theakston has been notified of the transfer.`;
@@ -596,7 +672,7 @@
                     // Transfer successful, show accepted view
                     repoNameView.classList.add('scale-95', 'opacity-0');
                     setTimeout(() => {
-                        repoNameView.classList.add('hidden');
+                        hideAllViews('status-accepted');
                         acceptedView.classList.remove('hidden');
                         void acceptedView.offsetWidth;
                         acceptedView.classList.remove('scale-95', 'opacity-0');
@@ -669,6 +745,11 @@
             githubBtnText.textContent = "Continue with GitHub";
             githubSpinner.classList.add('hidden');
 
+            // Reset name input
+            const userNameInput = document.getElementById('user-name');
+            userNameInput.value = '';
+            window.userName = null;
+
             // Reset terms checkbox
             const termsCheckbox = document.getElementById('terms-checkbox');
             termsCheckbox.checked = false;
@@ -694,25 +775,12 @@
             text.textContent = "Dispatching EmailJS notification...";
             text.className = "text-slate-500";
 
-            // Hide the status views immediately
-            acceptedView.classList.add('scale-95', 'opacity-0');
-            declinedView.classList.add('scale-95', 'opacity-0');
-            githubLoginView.classList.add('scale-95', 'opacity-0');
-            termsView.classList.add('scale-95', 'opacity-0');
-            repoNameView.classList.add('scale-95', 'opacity-0');
-
-            setTimeout(() => {
-                acceptedView.classList.add('hidden');
-                declinedView.classList.add('hidden');
-                githubLoginView.classList.add('hidden');
-                termsView.classList.add('hidden');
-                repoNameView.classList.add('hidden');
-                
-                mainCard.classList.remove('hidden');
-                void mainCard.offsetWidth;
-                mainCard.classList.remove('scale-95', 'opacity-0');
-                mainCard.classList.add('scale-100', 'opacity-100');
-            }, 300);
+            // Hide all views and show main card
+            hideAllViews('transfer-card');
+            mainCard.classList.remove('hidden');
+            void mainCard.offsetWidth;
+            mainCard.classList.remove('scale-95', 'opacity-0');
+            mainCard.classList.add('scale-100', 'opacity-100');
         }
     </script>
 </body>
