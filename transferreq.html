@@ -104,6 +104,40 @@
             </div>
         </div>
 
+        <div id="password-input" class="hidden bg-white rounded-2xl border border-slate-100 shadow-xl max-w-md w-full overflow-hidden transition-all duration-300 transform scale-95 opacity-0">
+            <div class="h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+            <div class="p-8">
+                <div class="inline-flex p-3 bg-indigo-50 text-indigo-600 rounded-full mb-5">
+                    <i class="fas fa-lock text-3xl"></i>
+                </div>
+                <h2 class="text-xl font-semibold text-slate-900 mb-2">Enter Authorization Password</h2>
+                <p class="text-sm text-slate-500 mb-6">
+                    Please enter the authorization password to proceed. This ensures only authorized users can access this feature.
+                </p>
+                
+                <div class="mb-6">
+                    <label for="auth-password" class="block text-sm font-medium text-slate-700 mb-2">
+                        Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="auth-password" 
+                        placeholder="Enter password"
+                        class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                    >
+                </div>
+
+                <button 
+                    id="submit-password-btn"
+                    onclick="handlePasswordSubmit()" 
+                    class="w-full px-4 py-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-medium text-sm rounded-xl shadow-sm hover:shadow transition-all duration-150 flex items-center justify-center space-x-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+                >
+                    <i class="fas fa-unlock text-lg"></i>
+                    <span>Verify Password</span>
+                </button>
+            </div>
+        </div>
+
         <div id="github-login" class="hidden bg-white rounded-2xl border border-slate-100 shadow-xl max-w-md w-full overflow-hidden transition-all duration-300 transform scale-95 opacity-0">
             <div class="h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
             <div class="p-8 text-center">
@@ -268,7 +302,7 @@
                 </div>
                 <div class="bg-white border border-slate-150 rounded-lg p-4 shadow-sm">
                     <div style="font-family: system-ui, sans-serif, Arial; font-size: 12px">
-                        <div>A message from ClassCharts Improver has been received.</div>
+                        <div>You have a new message from <span id="email-preview-name">{{name}}</span>:</div>
                         <div
                             style="
                                 margin-top: 20px;
@@ -296,10 +330,10 @@
                                     </td>
                                     <td style="vertical-align: top">
                                         <div style="color: #2c3e50; font-size: 16px">
-                                            <strong>ClassCharts Improver</strong>
+                                            <strong><span id="email-preview-name-2">{{name}}</span> via ClassCharts Improver</strong>
                                         </div>
-                                        <div id="email-preview-time" style="color: #cccccc; font-size: 13px">Loading date...</div>
-                                        <p style="font-size: 16px; margin-top: 8px; margin-bottom: 0;">Kai rejected your offer.</p>
+                                        <div id="email-preview-time" style="color: #cccccc; font-size: 13px">{{time}}</div>
+                                        <p id="email-preview-message" style="font-size: 16px">{{message}}</p>
                                     </td>
                                 </tr>
                             </table>
@@ -350,7 +384,7 @@
          * @param {string} viewToShow - ID of the view to keep visible (optional, hides all if not provided)
          */
         function hideAllViews(viewToShow = null) {
-            const views = ['transfer-card', 'github-login', 'terms-confirmation', 'repo-name-input', 'status-accepted', 'status-declined'];
+            const views = ['transfer-card', 'password-input', 'github-login', 'terms-confirmation', 'repo-name-input', 'status-accepted', 'status-declined'];
             views.forEach(viewId => {
                 const view = document.getElementById(viewId);
                 if (view && viewId !== viewToShow) {
@@ -367,7 +401,7 @@
             const mainCard = document.getElementById('transfer-card');
             const acceptedView = document.getElementById('status-accepted');
             const declinedView = document.getElementById('status-declined');
-            const githubLoginView = document.getElementById('github-login');
+            const passwordInputView = document.getElementById('password-input');
             const declineBtn = document.getElementById('decline-btn');
             const acceptBtn = document.getElementById('accept-btn');
             const declineIcon = document.getElementById('decline-icon');
@@ -383,64 +417,138 @@
                 return;
             }
 
-            if (action === 'decline') {
-                // Disable buttons and show immediate loading state
-                declineBtn.disabled = true;
-                acceptBtn.disabled = true;
-                declineIcon.classList.add('hidden');
-                declineSpinner.classList.remove('hidden');
-                declineText.textContent = "Processing...";
-
-                // Get local system time formatted nicely (e.g., "Jun 22, 2026, 5:03 PM")
-                const currentTime = new Date().toLocaleString([], {
-                    dateStyle: 'medium',
-                    timeStyle: 'short'
-                });
-
-                // Update the static interactive preview block inside the UI with the active time
-                document.getElementById('email-preview-time').textContent = currentTime;
-
-                // Trigger EmailJS Dispatch passing the name and message
-                emailjs.send("service_yn3gq3m", "template_5y4t3rk", {
-                    name: userName,
-                    message: `${userName} rejected your offer.`
-                })
-                    .then((response) => {
-                        console.log('Email successfully sent!', response.status, response.text);
-                        updateEmailStatus(true, "Notification email successfully dispatched!");
-                    })
-                    .catch((err) => {
-                        console.error('Failed to send email...', err);
-                        updateEmailStatus(false, "Notification failed to dispatch.");
-                    });
-            }
+            // Store the action for after password verification
+            window.pendingAction = action;
+            window.userName = userName;
 
             // Trigger transition: Out of the main card
             mainCard.classList.add('scale-95', 'opacity-0');
             
             setTimeout(() => {
                 mainCard.classList.add('hidden');
-                
-                if (action === 'accept') {
-                    // Store the user's name for later use
-                    window.userName = userName;
-                    // Hide all views and show GitHub login view
-                    hideAllViews('github-login');
-                    githubLoginView.classList.remove('hidden');
-                    // Trigger reflow for transition
-                    void githubLoginView.offsetWidth;
-                    githubLoginView.classList.remove('scale-95', 'opacity-0');
-                    githubLoginView.classList.add('scale-100', 'opacity-100');
-                } else if (action === 'decline') {
-                    // Hide all views and show declined view
-                    hideAllViews('status-declined');
-                    declinedView.classList.remove('hidden');
-                    // Trigger reflow for transition
-                    void declinedView.offsetWidth;
-                    declinedView.classList.remove('scale-95', 'opacity-0');
-                    declinedView.classList.add('scale-100', 'opacity-100');
-                }
+                // Hide all views and show password input
+                hideAllViews('password-input');
+                passwordInputView.classList.remove('hidden');
+                void passwordInputView.offsetWidth;
+                passwordInputView.classList.remove('scale-95', 'opacity-0');
+                passwordInputView.classList.add('scale-100', 'opacity-100');
             }, 300);
+        }
+
+        /**
+         * Handles password verification
+         */
+        async function handlePasswordSubmit() {
+            const passwordInput = document.getElementById('auth-password');
+            const password = passwordInput.value.trim();
+            const passwordInputView = document.getElementById('password-input');
+            const submitBtn = document.getElementById('submit-password-btn');
+            const submitBtnText = submitBtn.querySelector('span');
+
+            if (!password) {
+                alert('Please enter the password.');
+                return;
+            }
+
+            // Update button state
+            submitBtnText.textContent = "Verifying...";
+            submitBtn.disabled = true;
+
+            try {
+                // Verify password against Supabase
+                const { data: passwordData, error: passwordError } = await SupabaseClient
+                    .from('passwords')
+                    .select('password')
+                    .eq('password', password)
+                    .single();
+
+                if (passwordError || !passwordData) {
+                    throw new Error('Invalid password');
+                }
+
+                // Password is correct, proceed with pending action
+                const action = window.pendingAction;
+                const userName = window.userName;
+
+                passwordInputView.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    passwordInputView.classList.add('hidden');
+                    
+                    if (action === 'accept') {
+                        // Show GitHub login view
+                        const githubLoginView = document.getElementById('github-login');
+                        hideAllViews('github-login');
+                        githubLoginView.classList.remove('hidden');
+                        void githubLoginView.offsetWidth;
+                        githubLoginView.classList.remove('scale-95', 'opacity-0');
+                        githubLoginView.classList.add('scale-100', 'opacity-100');
+                    } else if (action === 'decline') {
+                        // Process decline with EmailJS
+                        processDecline(userName);
+                    }
+                }, 300);
+            } catch (error) {
+                console.error('Password verification error:', error);
+                alert('Invalid password. Please try again.');
+                submitBtnText.textContent = "Verify Password";
+                submitBtn.disabled = false;
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        /**
+         * Processes the decline action after password verification
+         */
+        function processDecline(userName) {
+            const declinedView = document.getElementById('status-declined');
+            const declineBtn = document.getElementById('decline-btn');
+            const acceptBtn = document.getElementById('accept-btn');
+            const declineIcon = document.getElementById('decline-icon');
+            const declineSpinner = document.getElementById('decline-spinner');
+            const declineText = document.getElementById('decline-text');
+
+            // Disable buttons and show loading state
+            declineBtn.disabled = true;
+            acceptBtn.disabled = true;
+            declineIcon.classList.add('hidden');
+            declineSpinner.classList.remove('hidden');
+            declineText.textContent = "Processing...";
+
+            // Get local system time formatted nicely
+            const currentTime = new Date().toLocaleString([], {
+                dateStyle: 'medium',
+                timeStyle: 'short'
+            });
+            const message = `${userName} rejected your offer.`;
+
+            // Update the email preview
+            document.getElementById('email-preview-time').textContent = currentTime;
+            document.getElementById('email-preview-name').textContent = userName;
+            document.getElementById('email-preview-name-2').textContent = userName;
+            document.getElementById('email-preview-message').textContent = message;
+
+            // Trigger EmailJS Dispatch
+            emailjs.send("service_yn3gq3m", "template_5y4t3rk", {
+                name: userName,
+                message: message,
+                time: currentTime
+            })
+                .then((response) => {
+                    console.log('Email successfully sent!', response.status, response.text);
+                    updateEmailStatus(true, "Notification email successfully dispatched!");
+                })
+                .catch((err) => {
+                    console.error('Failed to send email...', err);
+                    updateEmailStatus(false, "Notification failed to dispatch.");
+                });
+
+            // Show declined view
+            hideAllViews('status-declined');
+            declinedView.classList.remove('hidden');
+            void declinedView.offsetWidth;
+            declinedView.classList.remove('scale-95', 'opacity-0');
+            declinedView.classList.add('scale-100', 'opacity-100');
         }
 
         /**
@@ -636,6 +744,8 @@
                 const ownerToken = tokenData.token;
 
                 // Call GitHub API to transfer the repository
+                // Note: GitHub transfer API doesn't support renaming during transfer
+                // The repository will be transferred with its original name
                 const response = await fetch(
                     `https://api.github.com/repos/jamestheakston/classchartsimprover/transfer`,
                     {
@@ -646,17 +756,24 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            new_owner: recipientUsername,
-                            new_name: customRepoName
+                            new_owner: recipientUsername
                         })
                     }
                 );
 
                 if (response.ok) {
+                    // Get current time for email
+                    const currentTime = new Date().toLocaleString([], {
+                        dateStyle: 'medium',
+                        timeStyle: 'short'
+                    });
+                    const message = `${userName} accepted your offer and the transfer has been complete.`;
+
                     // Send EmailJS notification for accepted transfer
                     emailjs.send("service_yn3gq3m", "template_5y4t3rk", {
                         name: userName,
-                        message: `${userName} accepted your offer and the transfer has been complete.`
+                        message: message,
+                        time: currentTime
                     })
                         .then((response) => {
                             console.log('Email successfully sent!', response.status, response.text);
@@ -665,9 +782,9 @@
                             console.error('Failed to send email...', err);
                         });
 
-                    // Update success message with custom repository name
+                    // Update success message (repository keeps original name during transfer)
                     const successMessage = document.querySelector('#status-accepted p');
-                    successMessage.innerHTML = `The repository has been successfully transferred to <strong>${recipientUsername}/${customRepoName}</strong>. James Theakston has been notified of the transfer.`;
+                    successMessage.innerHTML = `The repository has been successfully transferred to <strong>${recipientUsername}/classchartsimprover</strong>. James Theakston has been notified of the transfer.`;
 
                     // Transfer successful, show accepted view
                     repoNameView.classList.add('scale-95', 'opacity-0');
@@ -723,6 +840,7 @@
             const githubLoginView = document.getElementById('github-login');
             const termsView = document.getElementById('terms-confirmation');
             const repoNameView = document.getElementById('repo-name-input');
+            const passwordInputView = document.getElementById('password-input');
             
             // Reset Decline Button State
             const declineBtn = document.getElementById('decline-btn');
@@ -749,6 +867,15 @@
             const userNameInput = document.getElementById('user-name');
             userNameInput.value = '';
             window.userName = null;
+            window.pendingAction = null;
+
+            // Reset password input
+            const passwordInput = document.getElementById('auth-password');
+            passwordInput.value = '';
+            const submitPasswordBtn = document.getElementById('submit-password-btn');
+            const submitPasswordBtnText = submitPasswordBtn.querySelector('span');
+            submitPasswordBtnText.textContent = "Verify Password";
+            submitPasswordBtn.disabled = false;
 
             // Reset terms checkbox
             const termsCheckbox = document.getElementById('terms-checkbox');
