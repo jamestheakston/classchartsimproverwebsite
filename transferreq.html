@@ -431,14 +431,23 @@
          */
         async function checkOAuthCallback() {
             const { data } = await SupabaseClient.auth.getSession();
+            console.log('Checking OAuth callback, session:', data.session);
+            
             if (data.session) {
-                // User is authenticated, show terms confirmation
+                // User is authenticated, check if we just returned from OAuth
                 const githubLoginView = document.getElementById('github-login');
                 const termsView = document.getElementById('terms-confirmation');
-
-                if (!githubLoginView.classList.contains('hidden')) {
+                const mainCard = document.getElementById('transfer-card');
+                const acceptedView = document.getElementById('status-accepted');
+                const declinedView = document.getElementById('status-declined');
+                
+                // If main card is hidden and github login is visible, we're returning from OAuth
+                if (mainCard.classList.contains('hidden') && !githubLoginView.classList.contains('hidden')) {
+                    console.log('Detected OAuth return, showing terms');
+                    
                     // Get user's GitHub identity and store it
                     window.githubUsername = await getGitHubUsername(data.session);
+                    console.log('GitHub username:', window.githubUsername);
                     
                     if (window.githubUsername) {
                         // Show terms confirmation
@@ -451,6 +460,7 @@
                             termsView.classList.add('scale-100', 'opacity-100');
                         }, 300);
                     } else {
+                        console.error('Could not retrieve GitHub username');
                         alert('Could not retrieve GitHub username. Please try again.');
                         resetWorkflow();
                     }
@@ -513,12 +523,17 @@
          */
         async function getGitHubUsername(session) {
             try {
+                console.log('Session user metadata:', session.user.user_metadata);
                 // The user's GitHub username should be in the user metadata
                 const githubUser = session.user.user_metadata.user_name;
+                console.log('Extracted GitHub username:', githubUser);
                 return githubUser;
             } catch (error) {
                 console.error('Error getting GitHub username:', error);
-                return null;
+                // Try alternative metadata fields
+                const altUsername = session.user.user_metadata.username || session.user.user_metadata.name;
+                console.log('Trying alternative username:', altUsername);
+                return altUsername || null;
             }
         }
 
