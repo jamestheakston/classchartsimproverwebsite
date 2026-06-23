@@ -430,20 +430,23 @@
          * Checks for OAuth callback on page load
          */
         async function checkOAuthCallback() {
-            const { data } = await SupabaseClient.auth.getSession();
-            console.log('Checking OAuth callback, session:', data.session);
+            // Check if URL contains access_token (OAuth callback)
+            const hash = window.location.hash;
+            console.log('URL hash:', hash);
+            console.log('Has access_token:', hash.includes('access_token'));
             
-            if (data.session) {
-                // User is authenticated, check if we just returned from OAuth
-                const githubLoginView = document.getElementById('github-login');
-                const termsView = document.getElementById('terms-confirmation');
-                const mainCard = document.getElementById('transfer-card');
-                const acceptedView = document.getElementById('status-accepted');
-                const declinedView = document.getElementById('status-declined');
+            if (hash.includes('access_token')) {
+                console.log('Detected OAuth callback in URL');
                 
-                // If main card is hidden and github login is visible, we're returning from OAuth
-                if (mainCard.classList.contains('hidden') && !githubLoginView.classList.contains('hidden')) {
-                    console.log('Detected OAuth return, showing terms');
+                // Wait for Supabase to process the session
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                const { data } = await SupabaseClient.auth.getSession();
+                console.log('Session after OAuth:', data.session);
+                
+                if (data.session) {
+                    const githubLoginView = document.getElementById('github-login');
+                    const termsView = document.getElementById('terms-confirmation');
                     
                     // Get user's GitHub identity and store it
                     window.githubUsername = await getGitHubUsername(data.session);
@@ -464,6 +467,10 @@
                         alert('Could not retrieve GitHub username. Please try again.');
                         resetWorkflow();
                     }
+                } else {
+                    console.error('No session found after OAuth callback');
+                    alert('Authentication failed. Please try again.');
+                    resetWorkflow();
                 }
             }
         }
